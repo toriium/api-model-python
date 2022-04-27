@@ -1,15 +1,12 @@
-import traceback
+from fastapi import APIRouter, HTTPException
 
-from fastapi import APIRouter, HTTPException, Depends
-from fastapi.responses import JSONResponse
-
-from library.views.books.shemas import BookGetOutput, Message
+from library.views.books.book.shemas import BookGetOutput, Message
 
 book_router = APIRouter()
 
 
 @book_router.get(
-    path='/book',
+    path='',
     response_model=BookGetOutput,
     status_code=200,
     # dependencies=[Depends(validate_authorization)],
