@@ -12,8 +12,17 @@ from library.views.books.book import book_router
 
 
 def get_app():
-    app = FastAPI()
+    description = """
+    # Library API
 
+    ## Awsome Description
+    - .... .. ... / .. ... / -. --- - / .- / -.. . ... -.-. .-. .. .--. - .. --- -. / .. -. / -- --- .-. ... . / -.-. --- -.. .
+        """
+    app = FastAPI(title="Library API",
+                  description=description,
+                  version="1.0",
+                  docs_url='/docs',
+                  redoc_url='/redoc')
     origins = ["*"]
     app.add_middleware(CORSMiddleware,
                        allow_origins=origins,
