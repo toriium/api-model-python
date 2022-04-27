@@ -25,8 +25,10 @@ def get_app():
     return app
 
 
-# create_database()
-# populate_db()
+def create_db():
+    # create_database()
+    # populate_db()
+    ...
 
 
 if __name__ == '__main__':
