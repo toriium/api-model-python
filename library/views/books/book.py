@@ -26,8 +26,8 @@ book_router = APIRouter()
 @book_router.get(
     '/book/'
 )
-def consult_by_customer_document(customer_document: str):
+def book():
     try:
-        return {'dddddd'}
+        return 'ola'
     except Exception as error:
         raise HTTPException(500, detail={"message": "Error ocured in the middle of process"})
