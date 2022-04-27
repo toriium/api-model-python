@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, validator, B
 from datetime import datetime
 
 
@@ -7,7 +7,7 @@ class Message(BaseModel):
 
 
 class BookGetOutput(BaseModel):
-    companyDocument: str = Field(..., example="companyDocument example") # you can validade the data
+    companyDocument: str = Field(..., example="companyDocument example", description='this is a description') # you can validade the data
     companyName: str
     customerDocument: str
     value: float
