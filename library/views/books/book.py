@@ -8,26 +8,18 @@ from library.views.books.shemas import BookGetOutput, Message
 book_router = APIRouter()
 
 
-# @consult_router.get(
-#     '/book/{customer_document}',
-#     response_model=BookGetOutput,
-#     responses={404: {"model": Message},
-#                500: {"model": Message}},
-#     # dependencies=[Depends(validate_authorization)],
-#     description='Endpoint to get customer with bad credit, searching by customer_document')
-# def consult_by_customer_document(customer_document: str):
-#     try:
-#        return {'dddddd'}
-#     except Exception as error:
-#         # add_log(traceback.format_exc())
-#         raise HTTPException(500, detail={"message": "Error ocured in the middle of process"})
-
-
 @book_router.get(
-    '/book/'
-)
-def book():
+    '/book',
+    tags=["book"],
+    response_model=BookGetOutput,
+    responses={404: {"model": Message},
+               500: {"model": Message}},
+    # dependencies=[Depends(validate_authorization)],
+    description='Endpoint to get customer with bad credit, searching by customer_document')
+def consult_by_customer_document():
     try:
-        return 'ola'
+        return 'this is a response'
+        # return JSONResponse(status_code=404, content={"message": "Customer does't have bad credit"})
     except Exception as error:
+        # add_log(traceback.format_exc())
         raise HTTPException(500, detail={"message": "Error ocured in the middle of process"})
