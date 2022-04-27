@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator, B
+from pydantic import BaseModel, Field, validator
 from datetime import datetime
 
 
