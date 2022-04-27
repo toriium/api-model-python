@@ -9,12 +9,13 @@ book_router = APIRouter()
 
 
 @book_router.get(
-    '/book',
-    tags=["book"],
+    path='/book',
     response_model=BookGetOutput,
+    status_code=200,
+    # dependencies=[Depends(validate_authorization)],
     responses={404: {"model": Message},
                500: {"model": Message}},
-    # dependencies=[Depends(validate_authorization)],
+    tags=["books"],
     description='Endpoint to get customer with bad credit, searching by customer_document')
 def consult_by_customer_document():
     try:
