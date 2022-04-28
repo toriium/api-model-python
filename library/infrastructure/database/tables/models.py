@@ -25,8 +25,8 @@ class Invalid(Base, SerializerMixin):
         return str(self.to_dict())
 
 
-class Authorized(Base, SerializerMixin):
-    __tablename__ = 'authorized'
+class AuthenticatedUsers(Base, SerializerMixin):
+    __tablename__ = 'authenticated_users'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(Text(), nullable=False)
