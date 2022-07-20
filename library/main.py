@@ -42,4 +42,13 @@ def create_db():
 
 if __name__ == '__main__':
     app = get_app()
-    uvicorn.run(app, host="0.0.0.0", port=8080)
+    uvicorn.run(
+        app=app,
+        host="0.0.0.0",
+        port=8080,
+        debug=False,
+        log_level='info',
+        access_log=True,
+        workers=2,
+        timeout_keep_alive=100
+    )
