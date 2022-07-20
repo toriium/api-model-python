@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
-from library.views.books.book.shemas import BookGetOutput, Message
+from library.views.book.shemas import BookGetOutput, Message
 
 book_router = APIRouter()
 
