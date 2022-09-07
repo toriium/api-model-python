@@ -1,8 +1,8 @@
 import traceback
 from time import sleep
 
-from application.database.connection import engine
-from application.database.models import Base
+from src.infrastructure.database.connection import engine
+from src.infrastructure.database.base import Base
 
 
 def create_database():

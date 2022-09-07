@@ -8,7 +8,7 @@ import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from library.views.book.book import book_router
+from src.views.book.book import book_router
 
 
 def get_app():

@@ -6,7 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 from sqlalchemy_serializer import SerializerMixin
 
-Base = declarative_base()
+from src.infrastructure.database.base import Base
 
 
 class Invalid(Base, SerializerMixin):

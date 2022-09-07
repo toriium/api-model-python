@@ -2,8 +2,7 @@ from contextlib import contextmanager
 
 from sqlalchemy.orm import Session
 
-from application.database.connection import SessionLocal
-from application.database.models import Invalid
+from src.infrastructure.database.connection import SessionLocal
 
 
 @contextmanager
