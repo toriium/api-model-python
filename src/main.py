@@ -1,47 +1,22 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
+from src.infrastructure.database.init_db import init_database
+from src.fastapi_app import get_fastapi_app
 import uvicorn
 
-from fastapi import FastAPI
-from starlette.middleware.cors import CORSMiddleware
 
-from src.views.book.book import book_router
-
-
-def get_app():
-    description = """
-    # Library API
-
-    ## Awsome Description
-    - .... .. ... / .. ... / -. --- - / .- / -.. . ... -.-. .-. .. .--. - .. --- -. / .. -. / -- --- .-. ... . / -.-. --- -.. .
-        """
-    app = FastAPI(title="Library API",
-                  description=description,
-                  version="1.0",
-                  docs_url='/docs',
-                  redoc_url='/redoc')
-    origins = ["*"]
-    app.add_middleware(CORSMiddleware,
-                       allow_origins=origins,
-                       allow_credentials=True,
-                       allow_methods=["*"],
-                       allow_headers=["*"], )
-
-    app.include_router(book_router)
-    return app
+# sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 def create_db():
-    # create_database()
+    init_database()
     # populate_db()
     ...
 
 
 if __name__ == '__main__':
-    app = get_app()
+    app = get_fastapi_app()
     uvicorn.run(
         app=app,
         host="0.0.0.0",

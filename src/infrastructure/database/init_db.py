@@ -5,7 +5,7 @@ from src.infrastructure.database.connection import engine
 from src.infrastructure.database.base import Base
 
 
-def create_database():
+def init_database():
     for _ in range(10):
         sleep(10)
         try:
@@ -18,4 +18,4 @@ def create_database():
 
 
 if __name__ == '__main__':
-    create_database()
+    init_database()
