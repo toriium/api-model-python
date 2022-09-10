@@ -1,13 +1,14 @@
 from fastapi import APIRouter, HTTPException
 
-from src.views.book.shemas import BookGetOutput, Message
+from src.presentation.schemas.book_schema import GetBookOutput
+from src.presentation.schemas.message_schema import Message
 
 book_router = APIRouter()
 
 
 @book_router.get(
     path='',
-    response_model=BookGetOutput,
+    response_model=GetBookOutput,
     status_code=200,
     # dependencies=[Depends(validate_authorization)],
     responses={404: {"model": Message},

@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from starlette.responses import JSONResponse
 
-from src.schemas.book_schema import GetBookOutput
-from src.schemas.message_schema import Message
+from src.presentation.schemas.book_schema import GetBookOutput
+from src.presentation.schemas.message_schema import Message
 
 from src.application.book.book_service import BookService
 

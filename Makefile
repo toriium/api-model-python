@@ -10,14 +10,14 @@ down: ## Remove the docker images and containers
 	docker-compose down
 
 run: ## Build and run the application
-	docker-compose -f docker-compose.yml up --build -d
+	docker-compose --env-file ./env.env -f docker-compose.yml up --build -d
 
 run_dev: ## Build and run the application in dev mode
 	docker-compose -f docker-compose.dev.yml up --build -d
 	poetry run python ./application/main.py
 
 run_local: ## Build and run the application in local mode !!you need run the application by yorself!!
-	docker-compose -f docker-compose.dev.yml up --build -d
+	docker-compose --env-file ./env.env -f docker-compose.dev.yml up --build -d
 
 restart: down run ## Rebuild all application
 

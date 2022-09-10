@@ -1,17 +1,5 @@
 version: '3'
 services:
-
-  fastapi_service:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: fastapi_image
-    container_name: container_fastapi
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mysql_server
-
   mysql_server:
     image: mysql
     container_name: container_mysql

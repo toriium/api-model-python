@@ -16,6 +16,7 @@ def create_db():
 
 
 if __name__ == '__main__':
+    init_database()
     app = get_fastapi_app()
     uvicorn.run(
         app=app,
@@ -24,6 +25,6 @@ if __name__ == '__main__':
         debug=False,
         log_level='info',
         access_log=True,
-        workers=2,
+        workers=1,
         timeout_keep_alive=100
     )

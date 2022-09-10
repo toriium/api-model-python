@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from src.endpoints.book.book import book_router
+from src.presentation.endpoints.book.book import book_router
 
 
 def create_fastapi_app() -> FastAPI:
