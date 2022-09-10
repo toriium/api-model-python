@@ -16,8 +16,8 @@ engine = create_engine(url, echo=False)
 SessionLocal = sessionmaker(
     bind=engine,
     class_=Session,
-    autoflush=True,
+    autoflush=True,  # Takes updated object data from database
     autocommit=False,
-    expire_on_commit=True,
+    expire_on_commit=True,  # Remove object instance info
     info=None,
 )
