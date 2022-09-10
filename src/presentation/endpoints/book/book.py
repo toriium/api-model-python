@@ -10,7 +10,7 @@ book_router = APIRouter()
 
 
 @book_router.get(
-    path='/book',
+    path='/book/{book_id}',
     response_model=GetBookOutput,
     status_code=200,
     # dependencies=[Depends(validate_authorization)],

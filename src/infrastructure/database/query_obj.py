@@ -34,7 +34,8 @@ def select_first_obj(obj, kw_filters: dict):
     """
     with create_session() as session:
         query_result = session.query(obj).filter_by(**kw_filters).first()
-        return query_result
+
+    return query_result if query_result else None
 
 
 def select_all_obj(obj, kw_filters: dict):
@@ -46,10 +47,11 @@ def select_all_obj(obj, kw_filters: dict):
     """
     with create_session() as session:
         query_result = session.query(obj).filter_by(**kw_filters).all()
-        return query_result
+
+    return query_result if query_result else None
 
 
-def insert_obj(obj) -> None:
+def insert_obj(obj):
     """
     Way - 1
     obj_user = User(name='nietzsche', age=55)
@@ -66,8 +68,10 @@ def insert_obj(obj) -> None:
         session.flush()
         session.commit()
 
+    return obj
 
-def insert_all_obj(objs: list) -> None:
+
+def insert_all_obj(objs: list):
     """
     Way - 1
     obj_user1 = User(name='zenao', age=55)
@@ -79,8 +83,10 @@ def insert_all_obj(objs: list) -> None:
         session.flush()
         session.commit()
 
+    return objs
 
-def update_obj(obj, kw_filters: dict, obj_update) -> None:
+
+def update_obj(obj, kw_filters: dict, obj_update):
     """
     Way - 1
     update_obj(obj=User, kw_filters={"id": 1}, obj_update={User.name: 'zabuza', User.age: 50})
@@ -96,6 +102,8 @@ def update_obj(obj, kw_filters: dict, obj_update) -> None:
         session.flush()
         session.commit()
         session.close()
+
+    return obj_update
 
 
 def delete_obj(obj, kw_filters: dict) -> None:
