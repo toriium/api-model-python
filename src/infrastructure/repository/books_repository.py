@@ -1,7 +1,7 @@
 from typing import Union
 
 from src.infrastructure.database.tables.books import Books
-from src.infrastructure.database.query_obj import select_first_obj, select_all_obj
+from src.infrastructure.database.query_obj import select_first_obj, select_all_obj, insert_obj
 
 from src.domain.book import Book
 
@@ -52,4 +52,24 @@ class BooksRepository:
             return books
         else:
             return None
+
+    @staticmethod
+    def insert_book(book: Book):
+        new_book = Books()
+        new_book.isbn = book.isbn
+        new_book.name = book.name
+        new_book.author = book.author
+        new_book.publisher = book.publisher
+        new_book.release_date = book.release_date
+        new_book.pages = book.pages
+        new_book.description = book.description
+
+        query_result = insert_obj(obj=new_book)
+
+        if query_result:
+            return Book(**query_result.to_dict())
+        else:
+            return None
+
+
 
