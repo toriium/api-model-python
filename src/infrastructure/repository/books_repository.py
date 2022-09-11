@@ -1,5 +1,6 @@
 from typing import Union
 
+from src.infrastructure.errors.sql_error import SQLError
 from src.infrastructure.database.tables.books import Books
 from src.infrastructure.database.query_obj import select_first_obj, select_all_obj, insert_obj
 
@@ -54,7 +55,7 @@ class BooksRepository:
             return None
 
     @staticmethod
-    def insert_book(book: Book) -> Union[Book, None]:
+    def insert_book(book: Book) -> tuple[Union[dict, None], Union[SQLError, None]]:
         new_book = Books()
         new_book.isbn = book.isbn
         new_book.name = book.name
@@ -64,12 +65,12 @@ class BooksRepository:
         new_book.pages = book.pages
         new_book.description = book.description
 
-        query_result = insert_obj(obj=new_book)
+        query_result, error = insert_obj(obj=new_book)
+        if error:
+            if error == SQLError.duplicate_entry:
+                return None, SQLError.duplicate_entry
 
         if query_result:
-            return Book(**query_result.to_dict())
+            return query_result.to_dict(), None
         else:
-            return None
-
-
-
+            return None, None
