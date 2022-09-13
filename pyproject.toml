@@ -6,13 +6,13 @@ authors = ["Jorge Vasconcelos <jorge.r.p.v@hotmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-fastapi = "^0.75.2"
-uvicorn = "^0.17.6"
-rich = "^12.2.0"
-python-dotenv = "^0.20.0"
-SQLAlchemy = "^1.4.35"
-SQLAlchemy-serializer = "^1.4.1"
-mysql-connector-python = "^8.0.28"
+fastapi = "*"
+uvicorn = "*"
+rich = "*"
+python-dotenv = "*"
+SQLAlchemy = "*"
+SQLAlchemy-serializer = "*"
+mysql-connector-python = "*"
 
 [tool.poetry.dev-dependencies]
 
