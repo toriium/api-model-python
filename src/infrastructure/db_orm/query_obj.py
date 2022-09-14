@@ -5,7 +5,7 @@ from contextlib import contextmanager
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from src.infrastructure.database.connection import SessionLocal
+from src.infrastructure.db_orm.connection import SessionLocal
 from src.infrastructure.errors.sql_error import SQLError
 
 

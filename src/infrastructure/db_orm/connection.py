@@ -6,12 +6,6 @@ from src.settings import DatabaseEnv
 url = f"mysql+mysqlconnector://{DatabaseEnv.DB_USER}:{DatabaseEnv.DB_PASSWORD}@{DatabaseEnv.DB_HOST}:{DatabaseEnv.DB_PORT}/{DatabaseEnv.DB_NAME}"
 engine = create_engine(url, echo=False)
 
-# SessionLocal = sessionmaker(
-#     autocommit=False,
-#     autoflush=False,
-#     expire_on_commit=False,
-#     bind=engine
-# )
 
 SessionLocal = sessionmaker(
     bind=engine,

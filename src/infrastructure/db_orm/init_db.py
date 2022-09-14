@@ -1,8 +1,8 @@
 import traceback
 from time import sleep
 
-from src.infrastructure.database.connection import engine
-from src.infrastructure.database.base import Base
+from src.infrastructure.db_orm.connection import engine
+from src.infrastructure.db_orm.base import Base
 
 
 def init_database():
