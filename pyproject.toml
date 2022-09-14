@@ -13,6 +13,7 @@ python-dotenv = "*"
 SQLAlchemy = "*"
 SQLAlchemy-serializer = "*"
 mysql-connector-python = "*"
+python-multipart = "*"
 
 [tool.poetry.dev-dependencies]
 
