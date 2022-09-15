@@ -11,7 +11,3 @@ class Book(BaseModel):
     release_date: date
     pages: int
     description: str
-
-    @validator("release_date")
-    def transform_date(cls, data: date):
-        return data.isoformat()

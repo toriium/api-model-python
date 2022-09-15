@@ -43,12 +43,12 @@ def get_book(book_id: int):
 )
 def create_book(payload: POSTBookInput):
     try:
-        result, error = BookService.insert_book(data=payload)
+        book, error = BookService.insert_book(data=payload)
         if error:
             if error == ApplicationError.duplicate_entry:
                 return JSONResponse(status_code=400, content={"message": "This book alredy exist in our base"})
 
-        return POSTBookOutput(**result.dict())
+        return POSTBookOutput(**book.dict())
 
     except Exception as error:
         raise HTTPException(500, detail={"message": "Error ocured in the middle of process"})

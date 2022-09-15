@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel
 from datetime import date
 
 
@@ -12,10 +12,6 @@ class GETBookOutput(BaseModel):
     pages: int
     description: str
 
-    @validator("release_date")
-    def transform_date(cls, data: date):
-        return data.isoformat()
-
 
 class POSTBookInput(BaseModel):
     isbn: str
@@ -26,10 +22,6 @@ class POSTBookInput(BaseModel):
     pages: int
     description: str
 
-    @validator("release_date")
-    def transform_date(cls, data: date):
-        return data.isoformat()
-
 
 class POSTBookOutput(BaseModel):
     isbn: str
@@ -39,7 +31,3 @@ class POSTBookOutput(BaseModel):
     release_date: date
     pages: int
     description: str
-
-    @validator("release_date")
-    def transform_date(cls, data: date):
-        return data.isoformat()
