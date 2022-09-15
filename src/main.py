@@ -1,7 +1,7 @@
 import os
 import sys
 
-from src.infrastructure.database.init_db import init_database
+from src.infrastructure.db_orm.init_db import init_database
 from src.fastapi_app import get_fastapi_app
 import uvicorn
 
