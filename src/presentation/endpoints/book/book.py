@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from starlette.responses import JSONResponse
 
-from src.application.errors.application_error import ApplicationError
+from src.application.book.book_error import BookError
 from src.presentation.schemas.book_schema import GETBookOutput, POSTBookInput, POSTBookOutput
 from src.presentation.schemas.message_schema import Message
 
@@ -45,7 +45,7 @@ def create_book(payload: POSTBookInput):
     try:
         book, error = BookService.insert_book(data=payload)
         if error:
-            if error == ApplicationError.duplicate_entry:
+            if error == BookError.duplicate_entry:
                 return JSONResponse(status_code=400, content={"message": "This book alredy exist in our base"})
 
         return POSTBookOutput(**book.dict())

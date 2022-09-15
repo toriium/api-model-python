@@ -1,5 +1,5 @@
 from enum import Enum, auto
 
 
-class ApplicationError(Enum):
+class BookError(Enum):
     duplicate_entry = auto()
