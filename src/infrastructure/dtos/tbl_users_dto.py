@@ -12,3 +12,10 @@ class TblUsersDTO(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class CreateUserDTO(BaseModel):
+    username: str
+    name: str
+    password: str
+    creation_date: date

@@ -21,5 +21,4 @@ class BookService:
             if error == SQLError.duplicate_entry:
                 return None, BookError.duplicate_entry
 
-        if result:
-            return Book(**result), None
+        return Book(**result), None
