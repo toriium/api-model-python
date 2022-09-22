@@ -1,11 +1,12 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from starlette.responses import JSONResponse
 
 from src.application.book.book_error import BookError
+from src.application.book.book_service import BookService
+from src.presentation.endpoints.token.token import token_validation
 from src.presentation.schemas.book_schema import GETBookOutput, POSTBookInput, POSTBookOutput
 from src.presentation.schemas.message_schema import Message
 
-from src.application.book.book_service import BookService
 
 book_router = APIRouter()
 
@@ -14,7 +15,7 @@ book_router = APIRouter()
     path='/book/{book_id}',
     response_model=GETBookOutput,
     status_code=200,
-    # dependencies=[Depends(validate_authorization)],
+    dependencies=[Depends(token_validation)],
     responses={404: {"model": Message},
                500: {"model": Message}},
     tags=["book"],

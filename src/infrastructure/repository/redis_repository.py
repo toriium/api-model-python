@@ -20,3 +20,12 @@ class RedisRepository:
         with get_client() as client:
             value = client.get(name=key_name)
             return value
+
+    @staticmethod
+    def key_exists(key_name: str) -> bool:
+        with get_client() as client:
+            exists = client.exists(key_name)
+            if exists:
+                return True
+            else:
+                return False

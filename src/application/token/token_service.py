@@ -1,18 +1,21 @@
-from typing import Union
+import uuid
+from src.infrastructure.repository.redis_repository import RedisRepository
 
-from src.application.token.token_error import TokenError
-from src.infrastructure.repository.books_repository import BooksRepository
-from src.infrastructure.errors.sql_error import SQLError
+
+class CacheTime:
+    ONE_HOUR = 60 * 60
 
 
 class TokenService:
-    ...
-    # @staticmethod
-    # def valid_credentials(username: str, password: str) -> ...:
-    #     return BooksRepository.find_book_by_id(book_id=book_id)
-    #
-    # @staticmethod
-    # def create_new_valid_token(username: str, password: str) -> ...:
-    #     return BooksRepository.find_book_by_id(book_id=book_id)
+    @staticmethod
+    def token_is_valid(token: str) -> bool:
+        return RedisRepository.key_exists(key_name=token)
 
+    @staticmethod
+    def create_token() -> str:
+        new_token = f"token-{uuid.uuid4()}"
+        expiration = CacheTime.ONE_HOUR
 
+        RedisRepository.set(key_name=new_token, key_value='', expiration=expiration)
+
+        return new_token
