@@ -15,6 +15,7 @@ SQLAlchemy-serializer = "*"
 mysql-connector-python = "*"
 python-multipart = "*"
 pycryptodome = "^3.15.0"
+redis = "^4.3.4"
 
 [tool.poetry.dev-dependencies]
 
