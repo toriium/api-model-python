@@ -10,3 +10,20 @@ services:
       MYSQL_DATABASE: ${DB_NAME}
     ports:
       - "3306:3306"
+
+  redis_server:
+    image: redis
+    container_name: container_redis
+    ports:
+      - "6379:6379"
+
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+
+    restart: always
+    environment:
+      - REDIS_HOSTS=redis_server
+    ports:
+      - "8081:8081"
