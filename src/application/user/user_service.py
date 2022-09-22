@@ -42,7 +42,10 @@ class UserService:
                 return False, None
 
         if not found_user:
-            return False, None
+            return False, UserError.user_not_found
 
-        if found_user.password == received_user.password:
+        decrypted_password = CryptService.decrypt(found_user.password)
+        if decrypted_password == received_user.password:
             return True, None
+        else:
+            return False, UserError.incorrect_password

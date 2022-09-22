@@ -3,10 +3,37 @@ from starlette.responses import JSONResponse
 
 from src.application.user.user_error import UserError
 from src.application.user.user_service import UserService
-from src.presentation.schemas.user_schema import POSTUserInput, POSTUserOutput
+from src.presentation.schemas.user_schema import POSTUserInput, POSTUserOutput, GETUserInput
 from src.presentation.schemas.message_schema import Message
 
 user_router = APIRouter()
+
+
+@user_router.get(
+    path='/user',
+    response_model=Message,
+    status_code=200,
+    # dependencies=[Depends(validate_authorization)],
+    responses={404: {"model": Message},
+               400: {"model": Message},
+               500: {"model": Message}},
+    tags=["user"],
+    description='Endpoint to validate your User'
+)
+def validate_user(payload: GETUserInput):
+    try:
+        user, error = UserService.user_is_valid(username=payload.username, password=payload.password)
+        if error:
+            if error == UserError.user_not_found:
+                return JSONResponse(status_code=404, content={"message": "This user does't exist in our base"})
+            if error == UserError.incorrect_password:
+                return JSONResponse(status_code=400, content={"message": "Incorrect password"})
+
+        return JSONResponse(status_code=200, content={"message": "This user is valid"})
+
+    except Exception as error:
+        print(error)
+        raise HTTPException(500, detail={"message": "Error ocured in the middle of process"})
 
 
 @user_router.post(
