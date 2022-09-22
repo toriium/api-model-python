@@ -11,7 +11,8 @@ def init_database():
             Base.metadata.drop_all(bind=engine)
             Base.metadata.create_all(bind=engine)
             break
-        except:
+        except Exception as error:
+            print(error)
             sleep(2)
 
 

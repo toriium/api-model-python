@@ -17,7 +17,7 @@ book_router = APIRouter()
     # dependencies=[Depends(validate_authorization)],
     responses={404: {"model": Message},
                500: {"model": Message}},
-    tags=["books"],
+    tags=["book"],
     description='Endpoint to get Book'
 )
 def get_book(book_id: int):

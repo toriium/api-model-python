@@ -16,10 +16,10 @@ user_router = APIRouter()
     # dependencies=[Depends(validate_authorization)],
     responses={404: {"model": Message},
                500: {"model": Message}},
-    tags=["book"],
+    tags=["user"],
     description='Endpoint to create a User'
 )
-def create_book(payload: POSTUserInput):
+def create_user(payload: POSTUserInput):
     try:
         user, error = UserService.create_user(payload)
         if error:
@@ -29,4 +29,5 @@ def create_book(payload: POSTUserInput):
         return POSTUserOutput(**user.dict())
 
     except Exception as error:
+        print(error)
         raise HTTPException(500, detail={"message": "Error ocured in the middle of process"})
