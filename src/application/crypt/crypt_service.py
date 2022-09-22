@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
@@ -7,8 +8,9 @@ from base64 import b64encode
 
 
 class CryptService:
-    PUBLIC_KEY_PATH = f'{os.getcwd()}/keys/public_key.pem'
-    PRIVATE_KEY_PATH = f'{os.getcwd()}/keys/private_key.pem'
+    __current_path = os.path.dirname(__file__)
+    PUBLIC_KEY_PATH = Path(f'{__current_path}/keys/public_key.pem')
+    PRIVATE_KEY_PATH = Path(f'{__current_path}/keys/private_key.pem')
 
     @classmethod
     def encrypt(cls, value: str) -> str:
