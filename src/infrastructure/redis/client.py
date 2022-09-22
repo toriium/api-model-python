@@ -10,7 +10,7 @@ def get_client() -> Redis:
         client = redis.Redis(
             host='localhost',
             port=6379,
-            db=1,
+            db=0,
             password=None
         )
         yield client
