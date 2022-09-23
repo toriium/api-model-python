@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from starlette.responses import JSONResponse
 
 from src.application.user.user_error import UserError
@@ -13,7 +13,7 @@ user_router = APIRouter()
     path='/user',
     response_model=Message,
     status_code=200,
-    # dependencies=[Depends(validate_authorization)],
+    dependencies=[],
     responses={404: {"model": Message},
                400: {"model": Message},
                500: {"model": Message}},
@@ -40,7 +40,7 @@ def validate_user(payload: GETUserInput):
     path='/user',
     response_model=POSTUserInput,
     status_code=200,
-    # dependencies=[Depends(validate_authorization)],
+    dependencies=[],
     responses={404: {"model": Message},
                500: {"model": Message}},
     tags=["user"],

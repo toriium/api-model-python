@@ -36,7 +36,7 @@ def get_book(book_id: int):
     path='/book',
     response_model=POSTBookOutput,
     status_code=200,
-    # dependencies=[Depends(validate_authorization)],
+    dependencies=[Depends(token_validation)],
     responses={404: {"model": Message},
                500: {"model": Message}},
     tags=["book"],
