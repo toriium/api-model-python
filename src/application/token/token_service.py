@@ -19,3 +19,12 @@ class TokenService:
         RedisRepository.set(key_name=new_token, key_value='', expiration=expiration)
 
         return new_token
+
+    @staticmethod
+    def delete_token(token: str) -> None:
+        RedisRepository.delete(key_name=token)
+
+    @staticmethod
+    def update_token_expiration(token: str) -> None:
+        expiration = CacheTime.ONE_HOUR
+        RedisRepository.expire(key_name=token, time=expiration)
