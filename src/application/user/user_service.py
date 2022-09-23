@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from typing import Union
 
 from src.application.user.user_error import UserError
@@ -19,7 +19,7 @@ class UserService:
             username=received_user.username,
             name=received_user.name,
             password=encrypted_password,
-            creation_date=date.today()
+            creation_date=datetime.today()
         )
 
         result, error = UsersRepository.insert_user(user=new_user)

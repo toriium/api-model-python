@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 
 from pydantic import BaseModel
 
@@ -8,7 +8,7 @@ class TblUsersDTO(BaseModel):
     username: str
     name: str
     password: str
-    creation_date: date
+    creation_date: datetime
 
     class Config:
         orm_mode = True
@@ -18,4 +18,4 @@ class CreateUserDTO(BaseModel):
     username: str
     name: str
     password: str
-    creation_date: date
+    creation_date: datetime

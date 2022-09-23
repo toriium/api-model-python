@@ -12,7 +12,7 @@ class TblUsers(Base, SerializerMixin):
     username = Column(String(500), nullable=False, unique=True)
     name = Column(Text(), nullable=False)
     password = Column(Text(), nullable=False)
-    creation_date = Column(Date(), nullable=False)
+    creation_date = Column(TIMESTAMP(), nullable=False, server_default=func.now())
 
     def __repr__(self):
         return str(self.to_dict())

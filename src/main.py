@@ -7,16 +7,17 @@ import uvicorn
 
 
 # sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from src.infrastructure.db_orm.populate_db import populate_db
 
 
 def create_db():
     init_database()
-    # populate_db()
+    populate_db()
     ...
 
 
 if __name__ == '__main__':
-    init_database()
+    create_db()
     app = get_fastapi_app()
     uvicorn.run(
         app=app,
