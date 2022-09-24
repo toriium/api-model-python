@@ -8,6 +8,9 @@ from src.infrastructure.redis.client import get_client
 
 
 class RedisRepository:
+    # -------------------------------------------------------------- #
+    #                               GENERAL
+    # -------------------------------------------------------------- #
     @staticmethod
     def set(key_name: str, key_value: str, expiration: int) -> None:
         """Set the string value of a key"""
@@ -28,6 +31,25 @@ class RedisRepository:
 
             return response, None
 
+    @staticmethod
+    def delete(key_name: str) -> None:
+        """Delete a key"""
+        with get_client() as client:
+            client.delete(key_name)
+
+    @staticmethod
+    def exists(key_name: str) -> bool:
+        """Veryfi if a key exists"""
+        with get_client() as client:
+            exists = client.exists(key_name)
+            if exists:
+                return True
+            else:
+                return False
+
+    # -------------------------------------------------------------- #
+    #                               TTL
+    # -------------------------------------------------------------- #
     @staticmethod
     def expire(key_name: str, time: int | timedelta) -> None:
         """Changes ttl of a key"""
@@ -53,12 +75,47 @@ class RedisRepository:
             else:
                 return ttl, None
 
+    # -------------------------------------------------------------- #
+    #                               HASH
+    # -------------------------------------------------------------- #
     @staticmethod
-    def delete(key_name: str) -> None:
-        """Delete a key"""
+    def hset(hash_name: str, key_name: str, key_value: str) -> None:
+        """Set the string value of a hash field"""
         with get_client() as client:
-            client.delete(key_name)
+            client.hset(
+                name=hash_name,
+                key=key_name,
+                value=key_value)
 
+    @staticmethod
+    def hget(hash_name: str, key_name: str) -> tuple[Union[str, None], Union[RedisError, None]]:
+        """Get the value of a hash field"""
+        with get_client() as client:
+            response = client.hget(name=hash_name, key=key_name)
+            if response is None:
+                return None, RedisError.nonexistent_key
+
+            return response, None
+
+    @staticmethod
+    def hdel(hash_name: str, key_name: str) -> None:
+        """Delete one or more filds in a hash"""
+        with get_client() as client:
+            client.hdel(hash_name, key_name)
+
+    @staticmethod
+    def hexists(hash_name: str, key_name: str) -> bool:
+        """Determine if a hash field exists"""
+        with get_client() as client:
+            exists = client.hexists(name=hash_name, key=key_name)
+            if exists:
+                return True
+            else:
+                return False
+
+    # -------------------------------------------------------------- #
+    #                               FLUSH
+    # -------------------------------------------------------------- #
     @staticmethod
     def flushdb() -> None:
         """Delete all the keys of the currently selected DB"""
@@ -70,13 +127,3 @@ class RedisRepository:
         """Delete all the keys of all the existing databases, not just the currently selected one"""
         with get_client() as client:
             client.flushall()
-
-    @staticmethod
-    def key_exists(key_name: str) -> bool:
-        """Veryfi if a key exists"""
-        with get_client() as client:
-            exists = client.exists(key_name)
-            if exists:
-                return True
-            else:
-                return False
