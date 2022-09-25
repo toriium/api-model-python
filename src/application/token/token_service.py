@@ -9,7 +9,7 @@ class CacheTime:
 class TokenService:
     @staticmethod
     def token_is_valid(token: str) -> bool:
-        return RedisRepository.key_exists(key_name=token)
+        return RedisRepository.exists(key_name=token)
 
     @staticmethod
     def create_token() -> str:
