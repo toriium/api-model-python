@@ -1,9 +1,9 @@
-from datetime import date, datetime
+from datetime import date
 
 from pydantic import BaseModel
 
 
-class TblBooksDTO(BaseModel):
+class BookDataDTO(BaseModel):
     id: int
     isbn: str
     name: str
