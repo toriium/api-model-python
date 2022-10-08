@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from datetime import date
 
 
-class GETBookOutput(BaseModel):
+class FindBookOutput(BaseModel):
     id: int
     isbn: str
     name: str
@@ -13,7 +13,7 @@ class GETBookOutput(BaseModel):
     description: str
 
 
-class POSTBookInput(BaseModel):
+class CreateBookInput(BaseModel):
     isbn: str
     name: str
     author: str
@@ -23,7 +23,7 @@ class POSTBookInput(BaseModel):
     description: str
 
 
-class POSTBookOutput(BaseModel):
+class CreateBookOutput(BaseModel):
     isbn: str
     name: str
     author: str

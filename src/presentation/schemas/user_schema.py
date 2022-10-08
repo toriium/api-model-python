@@ -2,18 +2,18 @@ from pydantic import BaseModel
 from datetime import date
 
 
-class GETUserInput(BaseModel):
+class FindUserInput(BaseModel):
     username: str
     password: str
 
 
-class POSTUserInput(BaseModel):
+class CreateUserInput(BaseModel):
     username: str
     name: str
     password: str
 
 
-class POSTUserOutput(BaseModel):
+class CreateUserOutput(BaseModel):
     username: str
     name: str
     password: str

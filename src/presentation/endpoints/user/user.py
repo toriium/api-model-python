@@ -3,7 +3,7 @@ from starlette.responses import JSONResponse
 
 from src.application.user.user_error import UserError
 from src.application.user.user_service import UserService
-from src.presentation.schemas.user_schema import POSTUserInput, POSTUserOutput, GETUserInput
+from src.presentation.schemas.user_schema import CreateUserInput, CreateUserOutput, FindUserInput
 from src.presentation.schemas.message_schema import Message
 
 user_router = APIRouter()
@@ -20,7 +20,7 @@ user_router = APIRouter()
     tags=["user"],
     description='Endpoint to validate your User'
 )
-def validate_user(payload: GETUserInput):
+def validate_user(payload: FindUserInput):
     try:
         user, error = UserService.user_is_valid(username=payload.username, password=payload.password)
         if error:
@@ -38,7 +38,7 @@ def validate_user(payload: GETUserInput):
 
 @user_router.post(
     path='/user',
-    response_model=POSTUserInput,
+    response_model=CreateUserInput,
     status_code=200,
     dependencies=[],
     responses={404: {"model": Message},
@@ -46,14 +46,14 @@ def validate_user(payload: GETUserInput):
     tags=["user"],
     description='Endpoint to create a User'
 )
-def create_user(payload: POSTUserInput):
+def create_user(payload: CreateUserInput):
     try:
         user, error = UserService.create_user(payload)
         if error:
             if error == UserError.duplicate_entry:
                 return JSONResponse(status_code=400, content={"message": "This user alredy exist in our base"})
 
-        return POSTUserOutput(**user.dict())
+        return CreateUserOutput(**user.dict())
 
     except Exception as error:
         print(error)

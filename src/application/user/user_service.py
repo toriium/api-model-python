@@ -7,12 +7,12 @@ from src.domain.user import User
 from src.infrastructure.dtos.tbl_users_dto import CreateUserDTO
 from src.infrastructure.repository.users_repository import UsersRepository
 from src.infrastructure.errors.sql_error import SQLError
-from src.presentation.schemas.user_schema import POSTUserInput
+from src.presentation.schemas.user_schema import CreateUserInput
 
 
 class UserService:
     @staticmethod
-    def create_user(received_user: POSTUserInput) -> tuple[Union[User, None], Union[UserError, None]]:
+    def create_user(received_user: CreateUserInput) -> tuple[Union[User, None], Union[UserError, None]]:
         encrypted_password = CryptService.encrypt(value=received_user.password)
 
         new_user = CreateUserDTO(

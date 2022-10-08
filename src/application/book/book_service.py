@@ -4,7 +4,7 @@ from src.application.book.book_error import BookError
 from src.domain.book import Book
 from src.infrastructure.repository.books_repository import BooksRepository
 from src.infrastructure.errors.sql_error import SQLError
-from src.presentation.schemas.book_schema import POSTBookInput
+from src.presentation.schemas.book_schema import CreateBookInput
 
 
 class BookService:
@@ -14,7 +14,7 @@ class BookService:
         return Book(**found_book.dict())
 
     @staticmethod
-    def insert_book(data: POSTBookInput) -> tuple[Union[Book, None], Union[BookError, None]]:
+    def insert_book(data: CreateBookInput) -> tuple[Union[Book, None], Union[BookError, None]]:
         new_book = Book(**data.dict())
 
         new_book, error = BooksRepository.insert_book(book=new_book)
