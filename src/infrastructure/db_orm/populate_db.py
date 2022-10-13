@@ -1,12 +1,20 @@
-from src.infrastructure.db_orm.query_obj import insert_obj
-from src.infrastructure.db_orm.tables.tbl_users import TblUsers
+from src.infrastructure.db_orm.query_obj import create_session
 from src.application.crypt.crypt_service import CryptService
 
 
-def populate_db():
-    obj_user = TblUsers()
-    obj_user.username = 'john.doe'
-    obj_user.name = "john doe"
-    obj_user.password = CryptService.encrypt('123')
+def add_tbl_users() -> list:
+    commands = [
+        f"""insert into tbl_users (username, name, password) 
+            values ('john.doe', 'john doe', '{CryptService.encrypt('123')}');""",
+    ]
+    return commands
 
-    insert_obj(obj=obj_user)
+
+def populate_db():
+    with create_session() as session:
+        commands = []
+        commands.extend(add_tbl_users())
+
+        for command in commands:
+            session.execute(command)
+        session.commit()

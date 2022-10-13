@@ -1,6 +1,6 @@
 from typing import Union
 
-from src.infrastructure.dtos.tbl_users_dto import TblUsersDTO, CreateUserDTO
+from src.infrastructure.dtos.users_dto import UserDTO, CreateUserDTO
 from src.infrastructure.db_orm.tables.tbl_users import TblUsers
 from src.infrastructure.errors.sql_error import SQLError
 from src.infrastructure.db_orm.query_obj import select_first_obj, insert_obj
@@ -8,15 +8,15 @@ from src.infrastructure.db_orm.query_obj import select_first_obj, insert_obj
 
 class UsersRepository:
     @staticmethod
-    def find_user_by_username(username: str) -> tuple[Union[TblUsersDTO, None], Union[SQLError, None]]:
+    def find_user_by_username(username: str) -> tuple[Union[UserDTO, None], Union[SQLError, None]]:
         query_result = select_first_obj(obj_table=TblUsers, filter_by={"username": username})
         if query_result:
-            return TblUsersDTO.from_orm(query_result), None
+            return UserDTO.from_orm(query_result), None
         else:
             return None, None
 
     @staticmethod
-    def insert_user(user: CreateUserDTO) -> tuple[Union[TblUsersDTO, None], Union[SQLError, None]]:
+    def insert_user(user: CreateUserDTO) -> tuple[Union[UserDTO, None], Union[SQLError, None]]:
         user_obj = TblUsers()
         user_obj.username = user.username
         user_obj.name = user.name
@@ -29,6 +29,6 @@ class UsersRepository:
                 return None, SQLError.duplicate_entry
 
         if query_result:
-            return TblUsersDTO.from_orm(query_result), None
+            return UserDTO.from_orm(query_result), None
         else:
             return None, None

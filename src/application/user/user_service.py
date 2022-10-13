@@ -4,7 +4,7 @@ from typing import Union
 from src.application.user.user_error import UserError
 from src.application.crypt.crypt_service import CryptService
 from src.domain.user import User
-from src.infrastructure.dtos.tbl_users_dto import CreateUserDTO
+from src.infrastructure.dtos.users_dto import CreateUserDTO
 from src.infrastructure.repository.users_repository import UsersRepository
 from src.infrastructure.errors.sql_error import SQLError
 from src.presentation.schemas.user_schema import CreateUserInput

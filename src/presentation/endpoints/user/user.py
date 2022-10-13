@@ -46,7 +46,7 @@ def validate_user(payload: FindUserInput):
     tags=["user"],
     description='Endpoint to create a User'
 )
-def create_user(payload: CreateUserInput):
+async def create_user(payload: CreateUserInput):
     try:
         user, error = UserService.create_user(payload)
         if error:

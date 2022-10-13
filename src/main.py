@@ -9,7 +9,6 @@ from src.infrastructure.db_orm.populate_db import populate_db
 def create_db():
     init_database()
     populate_db()
-    ...
 
 
 if __name__ == '__main__':

@@ -3,7 +3,7 @@ from datetime import date
 from pydantic import BaseModel
 
 
-class BookDataDTO(BaseModel):
+class BookDTO(BaseModel):
     id: int
     isbn: str
     name: str

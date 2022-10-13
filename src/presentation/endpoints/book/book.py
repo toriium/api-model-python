@@ -7,7 +7,6 @@ from src.presentation.endpoints.token.token import token_validation
 from src.presentation.schemas.book_schema import FindBookOutput, CreateBookInput, CreateBookOutput
 from src.presentation.schemas.message_schema import Message
 
-
 book_router = APIRouter()
 
 
@@ -21,15 +20,12 @@ book_router = APIRouter()
     tags=["book"],
     description='Endpoint to get Book'
 )
-def get_book(book_id: int):
-    try:
-        result = BookService.find_book_by_id(book_id=book_id)
-        if result:
-            return FindBookOutput(**result.dict())
-        else:
-            return JSONResponse(status_code=404, content={"message": "Not found book with this id"})
-    except Exception as error:
-        raise HTTPException(500, detail={"message": "Error ocured in the middle of process"})
+async def get_book(book_id: int):
+    result = BookService.find_book_by_id(book_id=book_id)
+    if result:
+        return FindBookOutput(**result.dict())
+    else:
+        return JSONResponse(status_code=404, content={"message": "Not found book with this id"})
 
 
 @book_router.post(
@@ -43,13 +39,9 @@ def get_book(book_id: int):
     description='Endpoint to create a Book'
 )
 def create_book(payload: CreateBookInput):
-    try:
-        book, error = BookService.insert_book(data=payload)
-        if error:
-            if error == BookError.duplicate_entry:
-                return JSONResponse(status_code=400, content={"message": "This book alredy exist in our base"})
+    book, error = BookService.insert_book(data=payload)
+    if error:
+        if error == BookError.duplicate_entry:
+            return JSONResponse(status_code=400, content={"message": "This book alredy exist in our base"})
 
-        return CreateBookOutput(**book.dict())
-
-    except Exception as error:
-        raise HTTPException(500, detail={"message": "Error ocured in the middle of process"})
+    return CreateBookOutput(**book.dict())
