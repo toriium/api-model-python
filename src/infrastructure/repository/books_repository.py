@@ -1,16 +1,18 @@
-from typing import Union
+from typing import Optional
 
 from src.infrastructure.dtos.books_dto import BookDTO
 from src.infrastructure.errors.sql_error import SQLError
 from src.infrastructure.db_orm.tables.tbl_books import TblBooks
 from src.infrastructure.db_orm.query_obj import select_first_obj, insert_obj
-
+from src.infrastructure.redis.cache_expiration import CacheExpiration
+from src.infrastructure.redis.decorators import get_cache_2_return
 from src.domain.book import Book
 
 
 class BooksRepository:
     @staticmethod
-    def find_book_by_id(book_id: int) -> tuple[Union[BookDTO, None], Union[SQLError, None]]:
+    @get_cache_2_return(key="book-id-{book_id}", expiration=CacheExpiration.ONE_HOUR)
+    def find_book_by_id(book_id: int) -> tuple[Optional[BookDTO], Optional[SQLError]]:
         query_result = select_first_obj(obj_table=TblBooks, filter_by={"id": book_id})
         if query_result:
             return BookDTO.from_orm(query_result), None
@@ -18,7 +20,7 @@ class BooksRepository:
             return None, None
 
     @staticmethod
-    def find_book_by_name(name: int) -> tuple[Union[BookDTO, None], Union[SQLError, None]]:
+    def find_book_by_name(name: int) -> tuple[Optional[BookDTO], Optional[SQLError]]:
         query_result = select_first_obj(obj_table=TblBooks, filter_by={"name": name})
         if query_result:
             return BookDTO.from_orm(query_result), None
@@ -26,7 +28,7 @@ class BooksRepository:
             return None, None
 
     @staticmethod
-    def insert_book(book: Book) -> tuple[Union[BookDTO, None], Union[SQLError, None]]:
+    def insert_book(book: Book) -> tuple[Optional[BookDTO], Optional[SQLError]]:
         new_book = TblBooks()
         new_book.isbn = book.isbn
         new_book.name = book.name

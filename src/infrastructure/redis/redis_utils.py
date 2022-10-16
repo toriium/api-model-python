@@ -1,18 +1,18 @@
 from __future__ import annotations
 
-from typing import Union
+from typing import Union, Optional
 from datetime import timedelta
 
 from src.infrastructure.errors.redis_error import RedisError
 from src.infrastructure.redis.client import get_client
 
 
-class RedisRepository:
+class RedisUtils:
     # -------------------------------------------------------------- #
     #                               GENERAL
     # -------------------------------------------------------------- #
     @staticmethod
-    def set(key_name: str, key_value: str, expiration: int) -> None:
+    def set(key_name: str, key_value: [str, bytes], expiration: int | timedelta) -> None:
         """Set the string value of a key"""
         with get_client() as client:
             client.set(
@@ -22,7 +22,7 @@ class RedisRepository:
             )
 
     @staticmethod
-    def get(key_name: str) -> tuple[Union[str, None], Union[RedisError, None]]:
+    def get(key_name: str) -> tuple[Optional[str, bytes], Optional[RedisError]]:
         """Get the value of key"""
         with get_client() as client:
             response = client.get(name=key_name)
@@ -64,7 +64,7 @@ class RedisRepository:
             return True if response == 1 else False
 
     @staticmethod
-    def ttl(key_name: str) -> tuple[Union[int, None], Union[RedisError, None]]:
+    def ttl(key_name: str) -> tuple[Optional[int], Optional[RedisError]]:
         """Returns time to live in seconds of a key"""
         with get_client() as client:
             ttl = client.ttl(key_name)
@@ -88,7 +88,7 @@ class RedisRepository:
                 value=key_value)
 
     @staticmethod
-    def hget(hash_name: str, key_name: str) -> tuple[Union[str, None], Union[RedisError, None]]:
+    def hget(hash_name: str, key_name: str) -> tuple[Optional[str], Optional[RedisError]]:
         """Get the value of a hash field"""
         with get_client() as client:
             response = client.hget(name=hash_name, key=key_name)
