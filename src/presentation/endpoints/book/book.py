@@ -21,7 +21,7 @@ book_router = APIRouter()
     description='Endpoint to get Book'
 )
 async def get_book(book_id: int):
-    result = BookService.find_book_by_id(book_id=book_id)
+    result, error = BookService.find_book_by_id(book_id=book_id)
     if result:
         return FindBookOutput(**result.dict())
     else:

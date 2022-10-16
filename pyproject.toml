@@ -15,9 +15,11 @@ SQLAlchemy-serializer = "*"
 mysql-connector-python = "*"
 python-multipart = "*"
 pycryptodome = "^3.15.0"
-redis = "^4.3.4"
+redis = "*"
 
 [tool.poetry.dev-dependencies]
+pytest = "*"
+httpx = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

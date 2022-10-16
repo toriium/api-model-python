@@ -9,13 +9,13 @@ from src.presentation.schemas.book_schema import CreateBookInput
 
 class BookService:
     @staticmethod
-    def find_book_by_id(book_id: int) -> Optional[Book]:
+    def find_book_by_id(book_id: int) -> tuple[Optional[Book], Optional[BookError]]:
         found_book, error = BooksRepository.find_book_by_id(book_id=book_id)
 
         if not found_book:
-            return None
+            return None, None
 
-        return Book(**found_book.dict())
+        return Book(**found_book.dict()), None
 
     @staticmethod
     def insert_book(data: CreateBookInput) -> tuple[Optional[Book], Optional[BookError]]:
