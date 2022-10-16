@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Optional
 
 from src.infrastructure.dtos.users_dto import UserDTO, CreateUserDTO
 from src.infrastructure.db_orm.tables.tbl_users import TblUsers
@@ -8,7 +8,7 @@ from src.infrastructure.db_orm.query_obj import select_first_obj, insert_obj
 
 class UsersRepository:
     @staticmethod
-    def find_user_by_username(username: str) -> tuple[Union[UserDTO, None], Union[SQLError, None]]:
+    def find_user_by_username(username: str) -> tuple[Optional[UserDTO], Optional[SQLError]]:
         query_result = select_first_obj(obj_table=TblUsers, filter_by={"username": username})
         if query_result:
             return UserDTO.from_orm(query_result), None
@@ -16,7 +16,7 @@ class UsersRepository:
             return None, None
 
     @staticmethod
-    def insert_user(user: CreateUserDTO) -> tuple[Union[UserDTO, None], Union[SQLError, None]]:
+    def insert_user(user: CreateUserDTO) -> tuple[Optional[UserDTO], Optional[SQLError]]:
         user_obj = TblUsers()
         user_obj.username = user.username
         user_obj.name = user.name

@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Union
+from typing import Optional
 
 from src.application.user.user_error import UserError
 from src.application.crypt.crypt_service import CryptService
@@ -12,7 +12,7 @@ from src.presentation.schemas.user_schema import CreateUserInput
 
 class UserService:
     @staticmethod
-    def create_user(received_user: CreateUserInput) -> tuple[Union[User, None], Union[UserError, None]]:
+    def create_user(received_user: CreateUserInput) -> tuple[Optional[User], Optional[UserError]]:
         encrypted_password = CryptService.encrypt(value=received_user.password)
 
         new_user = CreateUserDTO(
@@ -33,7 +33,7 @@ class UserService:
         return created_user, None
 
     @staticmethod
-    def user_is_valid(username: str, password: str) -> tuple[bool, Union[UserError, None]]:
+    def user_is_valid(username: str, password: str) -> tuple[bool, Optional[UserError]]:
         received_user = User(username=username, password=password)
 
         found_user, error = UsersRepository.find_user_by_username(username=received_user.username)
