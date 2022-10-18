@@ -1,4 +1,4 @@
-from typing import Any, Union
+from typing import Any, Optional
 from copy import copy
 from contextlib import contextmanager
 
@@ -55,7 +55,7 @@ def select_all_obj(obj_table, filter_by: dict):
     return query_result if query_result else None
 
 
-def insert_obj(obj) -> tuple[Any, Union[SQLError, None]]:
+def insert_obj(obj) -> tuple[Any, Optional[SQLError]]:
     """
     Way - 1
     obj_user = User(name='nietzsche', age=55)
@@ -119,15 +119,20 @@ def update_obj(obj_table, filter_by: dict, obj_update):
     return updated_obj_data
 
 
-def delete_obj(obj_table, filter_by: dict) -> None:
+def delete_obj(obj_table, filter_by: dict) -> Optional[SQLError]:
     """
     Way - 1
     delete_obj(obj=User, kw_filters={"id": 1})
     """
     with create_session() as session:
-        session.query(obj_table).filter_by(**filter_by).delete()
+        qtd_rows = session.query(obj_table).filter_by(**filter_by).delete()
         session.flush()
         session.commit()
+
+    if qtd_rows >= 1:
+        return None
+    else:
+        return SQLError.not_found
 
 
 if __name__ == '__main__':

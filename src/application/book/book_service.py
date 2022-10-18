@@ -27,3 +27,9 @@ class BookService:
                 return None, BookError.duplicate_entry
 
         return Book(**new_book.dict()), None
+
+    @staticmethod
+    def delete_book(book_id) -> Optional[BookError]:
+        error = BooksRepository.delete_book(book_id=book_id)
+        if error == SQLError.not_found:
+            return BookError.not_found

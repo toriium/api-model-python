@@ -18,7 +18,7 @@ book_router = APIRouter()
     responses={404: {"model": Message},
                500: {"model": Message}},
     tags=["book"],
-    description='Endpoint to get Book'
+    description='Get one Book'
 )
 async def get_book(book_id: int):
     result, error = BookService.find_book_by_id(book_id=book_id)
@@ -36,12 +36,31 @@ async def get_book(book_id: int):
     responses={404: {"model": Message},
                500: {"model": Message}},
     tags=["book"],
-    description='Endpoint to create a Book'
+    description='Create a Book'
 )
 def create_book(payload: CreateBookInput):
     book, error = BookService.insert_book(data=payload)
     if error:
         if error == BookError.duplicate_entry:
-            return JSONResponse(status_code=400, content={"message": "This book alredy exist in our base"})
+            return JSONResponse(status_code=400, content={"message": "This book alredy exists in our base"})
 
     return CreateBookOutput(**book.dict())
+
+
+@book_router.delete(
+    path='/book',
+    response_model=bool,
+    status_code=200,
+    dependencies=[Depends(token_validation)],
+    responses={404: {"model": Message},
+               500: {"model": Message}},
+    tags=["book"],
+    description='Delete a Book'
+)
+def delete_book(book_id: int):
+    error = BookService.delete_book(book_id=book_id)
+    if error:
+        if error == BookError.not_found:
+            return JSONResponse(status_code=404, content={"message": "Book not found"})
+
+    return JSONResponse(status_code=200, content={"message": "Book deleted"})

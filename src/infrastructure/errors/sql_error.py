@@ -1,6 +1,7 @@
-from enum import Enum
+from enum import Enum, auto
 
 
 class SQLError(Enum):
-    duplicate_entry = "1062 (23000): Duplicate entry"
+    duplicate_entry = auto()
+    not_found = auto()
 
