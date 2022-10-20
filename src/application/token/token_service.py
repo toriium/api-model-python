@@ -1,5 +1,5 @@
 import uuid
-from src.infrastructure.redis.redis_utils import RedisUtils
+from src.infrastructure.repository.tokens_repository import TokensRepository
 
 
 class CacheTime:
@@ -9,22 +9,22 @@ class CacheTime:
 class TokenService:
     @staticmethod
     def token_is_valid(token: str) -> bool:
-        return RedisUtils.exists(key_name=token)
+        return TokensRepository.token_is_valid(token=token)
 
     @staticmethod
     def create_token() -> str:
         new_token = f"token-{uuid.uuid4()}"
         expiration = CacheTime.ONE_HOUR
 
-        RedisUtils.set(key_name=new_token, key_value='', expiration=expiration)
+        TokensRepository.create_token(new_token=new_token, expiration=expiration)
 
         return new_token
 
     @staticmethod
     def delete_token(token: str) -> None:
-        RedisUtils.delete(key_name=token)
+        TokensRepository.delete_token(token=token)
 
     @staticmethod
     def update_token_expiration(token: str) -> None:
         expiration = CacheTime.ONE_HOUR
-        RedisUtils.expire(key_name=token, time=expiration)
+        TokensRepository.update_token_expiration(token=token, expiration=expiration)
