@@ -4,7 +4,7 @@ from src.application.book.book_error import BookError
 from src.domain.book import Book
 from src.infrastructure.repository.books_repository import BooksRepository
 from src.infrastructure.errors.sql_error import SQLError
-from src.presentation.schemas.book_schema import CreateBookInput
+from src.presentation.schemas.book_schema import CreateBookInput, UpdateBookInput
 
 
 class BookService:
@@ -27,6 +27,16 @@ class BookService:
                 return None, BookError.duplicate_entry
 
         return Book(**new_book.dict()), None
+
+    @staticmethod
+    def update_book(data: UpdateBookInput) -> tuple[Optional[Book], Optional[BookError]]:
+        target_book = Book(**data.dict())
+
+        updated_book, error = BooksRepository.update_book(book=target_book)
+        if error:
+            return None, BookError.not_found
+
+        return Book(**updated_book.dict()), None
 
     @staticmethod
     def delete_book(book_id) -> Optional[BookError]:

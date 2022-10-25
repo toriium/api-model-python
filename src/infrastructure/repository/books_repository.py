@@ -1,9 +1,10 @@
 from typing import Optional
+import copy
 
 from src.infrastructure.dtos.books_dto import BookDTO
 from src.infrastructure.errors.sql_error import SQLError
 from src.infrastructure.db_orm.tables.tbl_books import TblBooks
-from src.infrastructure.db_orm.query_obj import select_first_obj, insert_obj, delete_obj
+from src.infrastructure.db_orm.query_obj import select_first_obj, insert_obj, update_obj, delete_obj
 from src.infrastructure.redis.cache_expiration import CacheExpiration
 from src.infrastructure.redis.decorators import get_cache_2_return
 from src.domain.book import Book
@@ -45,6 +46,19 @@ class BooksRepository:
 
         if query_result:
             return BookDTO.from_orm(query_result), None
+        else:
+            return None, None
+
+    @staticmethod
+    def update_book(book: Book) -> tuple[Optional[BookDTO], Optional[SQLError]]:
+        obj_update = book.dict()
+        query_result, error = update_obj(TblBooks, filter_by={"id": book.id}, obj_update=obj_update)
+        if error:
+            if error == SQLError.not_found:
+                return None, SQLError.not_found
+
+        if query_result:
+            return BookDTO(**book.dict()), None
         else:
             return None, None
 

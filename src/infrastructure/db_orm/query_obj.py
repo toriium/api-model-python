@@ -33,7 +33,7 @@ def create_session() -> Session:
 def select_first_obj(obj_table, filter_by: dict):
     """
     Way - 1
-    var = select_first_obj(obj=User, kw_filters={"id": 1})
+    var = select_first_obj(obj=User, filter_by={"id": 1})
     print(var)
     """
     with create_session() as session:
@@ -45,7 +45,7 @@ def select_first_obj(obj_table, filter_by: dict):
 def select_all_obj(obj_table, filter_by: dict):
     """
     Way - 1
-    vars = select_all_obj(obj=User, kw_filters={"id": 1})
+    vars = select_all_obj(obj=User, filter_by={"id": 1})
     for var in vars:
         print(var)
     """
@@ -99,34 +99,36 @@ def insert_all_obj(objs: list):
     return updated_obj_data
 
 
-def update_obj(obj_table, filter_by: dict, obj_update):
+def update_obj(obj_table, filter_by: dict, obj_update) -> tuple[Any, Optional[SQLError]]:
     """
     Way - 1
-    update_obj(obj=User, kw_filters={"id": 1}, obj_update={User.name: 'zabuza', User.age: 50})
+    update_obj(obj=User, filter_by={"id": 1}, obj_update={User.name: 'zabuza', User.age: 50})
     ----------------------------------------------------
     Way - 2
     update_dict = {}
     update_dict[User.name] = 'aristoteles'
     update_dict[User.age] = 48
-    update_obj(obj=User, kw_filters={"id": 1}, obj_update=update_dict)
+    update_obj(obj=User, filter_by={"id": 1}, obj_update=update_dict)
     """
     with create_session() as session:
-        session.query(obj_table).filter_by(**filter_by).update(obj_update)
+        qtd_rows = session.query(obj_table).filter_by(**filter_by).update(obj_update)
         session.flush()
         updated_obj_data = copy(obj_update)
         session.commit()
 
-    return updated_obj_data
+    if qtd_rows >= 1:
+        return updated_obj_data, None
+    else:
+        return updated_obj_data, SQLError.not_found
 
 
 def delete_obj(obj_table, filter_by: dict) -> Optional[SQLError]:
     """
     Way - 1
-    delete_obj(obj=User, kw_filters={"id": 1})
+    delete_obj(obj=User, filter_by={"id": 1})
     """
     with create_session() as session:
         qtd_rows = session.query(obj_table).filter_by(**filter_by).delete()
-        session.flush()
         session.commit()
 
     if qtd_rows >= 1:

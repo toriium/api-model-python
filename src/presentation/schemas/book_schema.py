@@ -31,3 +31,25 @@ class CreateBookOutput(BaseModel):
     release_date: date
     pages: int
     description: str
+
+
+class UpdateBookInput(BaseModel):
+    id: int
+    isbn: str
+    name: str
+    author: str
+    publisher: str
+    release_date: date
+    pages: int
+    description: str
+
+
+class UpdateBookOutput(BaseModel):
+    id: int
+    isbn: str
+    name: str
+    author: str
+    publisher: str
+    release_date: date
+    pages: int
+    description: str
