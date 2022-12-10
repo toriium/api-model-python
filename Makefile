@@ -24,7 +24,7 @@ restart: down run ## Rebuild all application
 ## @ Tests Commands
 .PHONY: test
 test: ## Run tests
-	pytest -v
+	poetry run pytest -v
 
 ## @ Helper Commands
 .PHONY: requirements help

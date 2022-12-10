@@ -32,7 +32,7 @@ async def get_book(book_id: int):
 @book_router.post(
     path='/book',
     response_model=CreateBookOutput,
-    status_code=200,
+    status_code=201,
     dependencies=[Depends(token_validation)],
     responses={404: {"model": Message},
                500: {"model": Message}},

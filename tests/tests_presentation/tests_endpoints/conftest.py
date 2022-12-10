@@ -1,10 +1,13 @@
+from datetime import date
+
 from pytest import fixture
 
 from src.application.token.token_service import TokenService
 from src.application.user.user_service import UserService
-from src.application.product.product_service import ProductService
+from src.application.book.book_service import BookService
 from src.domain.user import User
-from src.domain.product import Product
+from src.domain.book import Book
+from src.presentation.schemas.book_schema import CreateBookInput
 from src.presentation.schemas.user_schema import CreateUserInput
 
 
@@ -22,17 +25,27 @@ def valid_user() -> User:
 
 @fixture(scope="session")
 def valid_token() -> str:
-    return TokenService.create_token()
+    token = TokenService.create_token()
+    return f'Bearer {token}'
+
+
+@fixture(scope="function")
+def created_book() -> Book:
+    book = CreateBookInput(
+        isbn="978-0140449235",
+        name='Beyond Good and Evil',
+        author='Friedrich Wilhelm Nietzsche',
+        publisher='Penguin Books',
+        release_date=date(year=1886, month=1, day=1),
+        pages=240,
+        description='this is a description'
+    )
+    book, _ = BookService.insert_book(data=book)
+    yield book
+    BookService.delete_book(book_id=book.id)
 
 
 @fixture(scope="session")
-def valid_product() -> Product:
-    produc_id = 1
-    product, error = ProductService.find_product_by_id(product_id=produc_id)
-    return product
-
-
-@fixture(scope="session")
-def unexistent_product_id():
-    produc_id = 5481285
-    return produc_id
+def unexistent_book_id():
+    book_id = 5481285
+    return book_id
