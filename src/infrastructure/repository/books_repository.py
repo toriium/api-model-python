@@ -6,13 +6,13 @@ from src.infrastructure.errors.sql_error import SQLError
 from src.infrastructure.db_orm.tables.tbl_books import TblBooks
 from src.infrastructure.db_orm.query_obj import select_first_obj, insert_obj, update_obj, delete_obj
 from src.infrastructure.redis.cache_expiration import CacheExpiration
-from src.infrastructure.redis.decorators import get_cache_2_return
+from src.infrastructure.redis.decorators import get_cached_2_returns, delete_cached_value, update_cached_2_returns
 from src.domain.book import Book
 
 
 class BooksRepository:
     @staticmethod
-    @get_cache_2_return(key="book-id-{book_id}", expiration=CacheExpiration.ONE_HOUR)
+    @get_cached_2_returns(key="book-id-{book_id}", expiration=CacheExpiration.ONE_HOUR)
     def find_book_by_id(book_id: int) -> tuple[Optional[BookDTO], Optional[SQLError]]:
         query_result = select_first_obj(obj_table=TblBooks, filter_by={"id": book_id})
         if query_result:
@@ -50,6 +50,7 @@ class BooksRepository:
             return None, None
 
     @staticmethod
+    @update_cached_2_returns(key="book-id-{book_id}", expiration=CacheExpiration.ONE_HOUR)
     def update_book(book: Book) -> tuple[Optional[BookDTO], Optional[SQLError]]:
         obj_update = book.dict()
         query_result, error = update_obj(TblBooks, filter_by={"id": book.id}, obj_update=obj_update)
@@ -63,6 +64,7 @@ class BooksRepository:
             return None, None
 
     @staticmethod
+    @delete_cached_value(key="book-id-{book_id}")
     def delete_book(book_id: int) -> Optional[SQLError]:
         error = delete_obj(obj_table=TblBooks, filter_by={"id": book_id})
         return error if error else None
