@@ -1,6 +1,7 @@
 from datetime import date
 
 from pytest import fixture
+from faker import Faker
 
 from src.application.token.token_service import TokenService
 from src.application.user.user_service import UserService
@@ -37,14 +38,16 @@ def valid_headers() -> dict[str]:
 
 @fixture(scope="function")
 def created_book() -> Book:
+    fake = Faker()
+
     book = CreateBookInput(
-        isbn="978-0140449235",
-        name='Beyond Good and Evil',
-        author='Friedrich Wilhelm Nietzsche',
-        publisher='Penguin Books',
-        release_date=date(year=1886, month=1, day=1),
-        pages=240,
-        description='this is a description'
+        isbn=fake.isbn13(),
+        name=fake.name(),
+        author=fake.name(),
+        publisher=fake.company(),
+        release_date=fake.date_object(),
+        pages=fake.random_int(),
+        description=fake.text()
     )
     book, _ = BookService.insert_book(data=book)
     yield book

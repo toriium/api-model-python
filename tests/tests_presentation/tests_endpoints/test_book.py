@@ -10,16 +10,7 @@ def test_get_route_book_with_valid_book_return_book(host: str, valid_headers: di
     headers = valid_headers
     response = httpx.get(url=url, headers=headers)
 
-    expected_response = {
-        "id": 1,
-        "isbn": "978-0140449235",
-        "name": "Beyond Good and Evil",
-        "author": "Friedrich Wilhelm Nietzsche",
-        "publisher": "Penguin Books",
-        "release_date": "1886-01-01",
-        "pages": 240,
-        "description": "this is a description"
-    }
+    expected_response = created_book.dict()
 
     assert response.status_code == 200
     assert response.json() == expected_response

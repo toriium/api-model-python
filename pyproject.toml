@@ -16,6 +16,7 @@ mysql-connector-python = "*"
 python-multipart = "*"
 pycryptodome = "^3.15.0"
 redis = "*"
+Faker = "*"
 
 [tool.poetry.dev-dependencies]
 pytest = "*"

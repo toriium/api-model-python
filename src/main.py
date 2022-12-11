@@ -23,7 +23,6 @@ if __name__ == '__main__':
         app=app,
         host=FastAPIEnv.APP_HOST,
         port=FastAPIEnv.APP_PORT,
-        debug=False,
         log_level='info',
         access_log=True,
         workers=FastAPIEnv.APP_WORKERS,
