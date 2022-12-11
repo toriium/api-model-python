@@ -11,7 +11,7 @@ def verify_kwargs(kwargs):
         raise ValueError("Pass values as kwargs")
 
 
-def get_cached_1_return(key: str, expiration: int = CacheExpiration.ONE_HOUR) -> Type["Response"]:
+def get_cached_value_1_return(key: str, expiration: int = CacheExpiration.ONE_HOUR) -> Type["Response"]:
     def handler_func(function):
         @wraps(function)
         def wrapper(*args, **kwargs):
@@ -37,7 +37,7 @@ def get_cached_1_return(key: str, expiration: int = CacheExpiration.ONE_HOUR) ->
     return handler_func
 
 
-def get_cached_2_returns(key: str, expiration: int = CacheExpiration.ONE_HOUR) -> Type["Response"]:
+def get_cached_value_2_returns(key: str, expiration: int = CacheExpiration.ONE_HOUR) -> Type["Response"]:
     def handler_func(function):
         @wraps(function)
         def wrapper(*args, **kwargs):
@@ -63,7 +63,7 @@ def get_cached_2_returns(key: str, expiration: int = CacheExpiration.ONE_HOUR) -
     return handler_func
 
 
-def update_cached_2_returns(key: str, expiration: int = CacheExpiration.ONE_HOUR) -> Type["Response"]:
+def set_cached_value_2_returns(key: str, expiration: int = CacheExpiration.ONE_HOUR) -> Type["Response"]:
     def handler_func(function):
         @wraps(function)
         def wrapper(*args, **kwargs):
