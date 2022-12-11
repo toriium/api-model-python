@@ -1,3 +1,5 @@
+import json
+
 import pytest
 import httpx
 
@@ -10,7 +12,7 @@ def test_get_route_book_with_valid_book_return_book(host: str, valid_headers: di
     headers = valid_headers
     response = httpx.get(url=url, headers=headers)
 
-    expected_response = created_book.dict()
+    expected_response = json.loads(created_book.json())
 
     assert response.status_code == 200
     assert response.json() == expected_response
@@ -58,7 +60,6 @@ def test_put_route_book_with_valid_data_return_200(host: str, valid_headers: dic
         "release_date": "1886-01-02",
         "pages": 242,
         "description": "this is a description 2"
-
     }
     response = httpx.put(url=url, headers=headers, json=json)
 

@@ -29,7 +29,6 @@ class BooksRepository:
             return None, None
 
     @staticmethod
-    @set_cached_value_2_returns(key="book-id-{book_id}", expiration=CacheExpiration.ONE_HOUR)
     def insert_book(book: Book) -> tuple[Optional[BookDTO], Optional[SQLError]]:
         new_book = TblBooks()
         new_book.isbn = book.isbn
@@ -51,7 +50,6 @@ class BooksRepository:
             return None, None
 
     @staticmethod
-    @set_cached_value_2_returns(key="book-id-{book_id}", expiration=CacheExpiration.ONE_HOUR)
     def update_book(book: Book) -> tuple[Optional[BookDTO], Optional[SQLError]]:
         obj_update = book.dict()
         query_result, error = update_obj(TblBooks, filter_by={"id": book.id}, obj_update=obj_update)
