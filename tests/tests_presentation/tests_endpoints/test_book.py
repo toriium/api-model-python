@@ -2,6 +2,7 @@ import json
 
 import pytest
 import httpx
+from faker import Faker
 
 from src.domain.book import Book
 from src.infrastructure.db_raw.db_utils import DBUtils
@@ -21,28 +22,22 @@ def test_get_route_book_with_valid_book_return_book(host: str, valid_headers: di
 def test_post_route_book_with_valid_data_return_book(host: str, valid_headers: dict):
     url = f'{host}/book'
     headers = valid_headers
-    json = {
-        "isbn": "978-0140449235",
-        "name": "Beyond Good and Evil",
-        "author": "Friedrich Wilhelm Nietzsche",
-        "publisher": "Penguin Books",
-        "release_date": "1886-01-01",
-        "pages": 240,
-        "description": "this is a description"
-    }
-    response = httpx.post(url=url, headers=headers, json=json)
 
-    expected_response = {
-        "isbn": "978-0140449235",
-        "name": "Beyond Good and Evil",
-        "author": "Friedrich Wilhelm Nietzsche",
-        "publisher": "Penguin Books",
-        "release_date": "1886-01-01",
-        "pages": 240,
-        "description": "this is a description"
+    fake = Faker()
+    json_data = {
+        "isbn": fake.isbn13(),
+        "name": fake.name(),
+        "author": fake.name(),
+        "publisher": fake.company(),
+        "release_date": fake.date(),
+        "pages": fake.random_int(),
+        "description": fake.text(),
     }
+    response = httpx.post(url=url, headers=headers, json=json_data)
 
-    DBUtils.execute(query="delete from tbl_books where isbn = '978-0140449235' ")
+    expected_response = json_data
+
+    DBUtils.execute(query=f"delete from tbl_books where isbn = '{json_data['isbn']}' ")
 
     assert response.status_code == 201
     assert response.json() == expected_response
@@ -51,28 +46,21 @@ def test_post_route_book_with_valid_data_return_book(host: str, valid_headers: d
 def test_put_route_book_with_valid_data_return_200(host: str, valid_headers: dict, created_book: Book):
     url = f'{host}/book'
     headers = valid_headers
-    json = {
-        "id": created_book.id,
-        "isbn": "978-0140449235",
-        "name": "Beyond Good and Evil 2",
-        "author": "Friedrich Wilhelm Nietzsche 2",
-        "publisher": "Penguin Books 2",
-        "release_date": "1886-01-02",
-        "pages": 242,
-        "description": "this is a description 2"
-    }
-    response = httpx.put(url=url, headers=headers, json=json)
 
-    expected_response = {
+    fake = Faker()
+    json_data = {
         "id": created_book.id,
-        "isbn": "978-0140449235",
-        "name": "Beyond Good and Evil 2",
-        "author": "Friedrich Wilhelm Nietzsche 2",
-        "publisher": "Penguin Books 2",
-        "release_date": "1886-01-02",
-        "pages": 242,
-        "description": "this is a description 2"
+        "isbn": fake.isbn13(),
+        "name": fake.name(),
+        "author": fake.name(),
+        "publisher": fake.company(),
+        "release_date": fake.date(),
+        "pages": fake.random_int(),
+        "description": fake.text(),
     }
+    response = httpx.put(url=url, headers=headers, json=json_data)
+
+    expected_response = json_data
 
     assert response.status_code == 200
     assert response.json() == expected_response
