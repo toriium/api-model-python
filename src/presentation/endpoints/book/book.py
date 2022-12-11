@@ -69,7 +69,7 @@ async def update_book(payload: UpdateBookInput):
 
 @book_router.delete(
     path='/book',
-    response_model=bool,
+    response_model=Message,
     status_code=200,
     dependencies=[Depends(token_validation)],
     responses={404: {"model": Message},

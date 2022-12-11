@@ -49,3 +49,10 @@ class UserService:
             return True, None
         else:
             return False, UserError.incorrect_password
+
+    @staticmethod
+    def delete_user_by_username(username: str) -> Optional[UserError]:
+        error = UsersRepository.delete_user_by_username(username=username)
+        if error == SQLError.not_found:
+            return UserError.not_found
+        return None

@@ -43,3 +43,4 @@ class BookService:
         error = BooksRepository.delete_book(book_id=book_id)
         if error == SQLError.not_found:
             return BookError.not_found
+        return None
