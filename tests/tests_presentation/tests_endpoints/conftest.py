@@ -29,6 +29,12 @@ def valid_token() -> str:
     return f'Bearer {token}'
 
 
+@fixture(scope="session")
+def valid_headers() -> dict[str]:
+    token = TokenService.create_token()
+    return {"Authorization": f'Bearer {token}'}
+
+
 @fixture(scope="function")
 def created_book() -> Book:
     book = CreateBookInput(

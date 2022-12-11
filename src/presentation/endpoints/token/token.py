@@ -17,7 +17,7 @@ async def token_validation(token: str = Depends(oauth2_scheme)):
     if valid:
         return True
     else:
-        HTTPException(status_code=400, detail="Invalid Token")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Token")
 
 
 @token_router.post("/token")
