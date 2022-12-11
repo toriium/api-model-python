@@ -1,5 +1,3 @@
-from datetime import date
-
 from pytest import fixture
 from faker import Faker
 
@@ -18,16 +16,8 @@ def host() -> str:
 
 
 @fixture(scope="session")
-def valid_user() -> User:
-    user_input = CreateUserInput(username='geraldo01', name='geraldo', password='123')
-    new_user, error = UserService.create_user(received_user=user_input)
-    return new_user
-
-
-@fixture(scope="session")
-def valid_token() -> str:
-    token = TokenService.create_token()
-    return f'Bearer {token}'
+def fake() -> Faker:
+    return Faker()
 
 
 @fixture(scope="session")
@@ -37,9 +27,15 @@ def valid_headers() -> dict[str]:
 
 
 @fixture(scope="function")
-def created_book() -> Book:
-    fake = Faker()
+def created_user(fake) -> User:
+    user_input = CreateUserInput(username=fake.name(), name=fake.name(), password=fake.random_int())
+    new_user, error = UserService.create_user(received_user=user_input)
+    yield new_user
+    UserService.delete_user_by_username(username=user_input.username)
 
+
+@fixture(scope="function")
+def created_book(fake) -> Book:
     book = CreateBookInput(
         isbn=fake.isbn13(),
         name=fake.name(),

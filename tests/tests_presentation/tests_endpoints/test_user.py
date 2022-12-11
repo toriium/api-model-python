@@ -1,8 +1,28 @@
 import pytest
 import httpx
 
+from src.application.user.user_service import UserService
+from src.domain.user import User
 
-def test_post_route_user_with_valid_data_return_200(host: str):
-    user_data = {"username": 'platos', "name": 'platao', "password": '123'}
-    response = httpx.post(url=f'{host}/user', json=user_data)
+
+def test_post_route_user_with_valid_data_return_200(fake, host: str):
+    url = f'{host}/user'
+    json_data = {"username": fake.name(), "name": fake.name(), "password": fake.random_int()}
+
+    response = httpx.post(url=url, json=json_data)
+
+    UserService.delete_user_by_username(username=json_data['username'])
+
     assert response.status_code == 200
+
+
+def test_delete_route_user_with_valid_username_return_200(fake, host: str, created_user: User):
+    url = f'{host}/user'
+    params = {"username": created_user.username}
+
+    response = httpx.delete(url=url, params=params)
+
+    expected_response = {"message": "User deleted"}
+
+    assert response.status_code == 200
+    assert response.json() == expected_response
