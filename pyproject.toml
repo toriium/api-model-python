@@ -17,6 +17,7 @@ python-multipart = "*"
 pycryptodome = "^3.15.0"
 redis = "*"
 Faker = "*"
+alembic = "^1.9.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "*"

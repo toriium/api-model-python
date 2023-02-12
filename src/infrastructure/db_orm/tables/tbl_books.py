@@ -1,8 +1,7 @@
-from sqlalchemy.sql import func
-from sqlalchemy import Column, Integer, String, Float, TIMESTAMP, Text, Boolean, Date
+from sqlalchemy import Column, Integer, String, Text, Date
 from sqlalchemy_serializer import SerializerMixin
 
-from src.infrastructure.db_orm.base import Base
+from src.infrastructure.db_orm.tables.base import Base
 
 
 class TblBooks(Base, SerializerMixin):

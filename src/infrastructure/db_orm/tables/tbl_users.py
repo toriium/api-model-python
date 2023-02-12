@@ -1,8 +1,8 @@
 from sqlalchemy.sql import func
-from sqlalchemy import Column, Integer, String, Float, TIMESTAMP, Text, Boolean, Date
+from sqlalchemy import Column, Integer, String, TIMESTAMP, Text
 from sqlalchemy_serializer import SerializerMixin
 
-from src.infrastructure.db_orm.base import Base
+from src.infrastructure.db_orm.tables.base import Base
 
 
 class TblUsers(Base, SerializerMixin):
