@@ -747,6 +747,32 @@ pygments = ">=2.6.0,<3.0.0"
 jupyter = ["ipywidgets (>=7.5.1,<8.0.0)"]
 
 [[package]]
+name = "ruff"
+version = "0.0.245"
+description = "An extremely fast Python linter, written in Rust."
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "ruff-0.0.245-py3-none-macosx_10_7_x86_64.whl", hash = "sha256:9f3210cd7faa00894c7dbdb5c370e43f43481193bceb96da5e5cded3f4079e64"},
+    {file = "ruff-0.0.245-py3-none-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:776acbadbac4feb9d6f077963a1b339ce6374d5911464587c304a5705bac47e0"},
+    {file = "ruff-0.0.245-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:adc5def9e3a6d998f2c2121011b44fee235c92dbf5417a80f0b40b38a72bd722"},
+    {file = "ruff-0.0.245-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:4f7309411dc185ab21fb0940825fac29fc6d064c200324eec86c40364691382c"},
+    {file = "ruff-0.0.245-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:d0fee8371d8624cb1efd6464a17832ad23761050456fb33e1e4e24ca0dfddbc1"},
+    {file = "ruff-0.0.245-py3-none-manylinux_2_17_ppc64.manylinux2014_ppc64.whl", hash = "sha256:95ac8826f11f027866f5fe8bfaccf2ac4882347b4845e7ff196ad880f5b3e508"},
+    {file = "ruff-0.0.245-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:11a8bf37b51108499bb0660d43786be1a6979057d491115c9c8ec362f98e839a"},
+    {file = "ruff-0.0.245-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:fb4fc2ab7a121309c45e35759f369c14b03a32b5d5b7ffa65335aecc41668de3"},
+    {file = "ruff-0.0.245-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:db68fce0818e24a766a03c2abc57a2445ccd6fd3e83f9cfb26e092bc6aac6162"},
+    {file = "ruff-0.0.245-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:7824ca46abe7b26cba8f4ca3f2124d2315331e4aad546409feec41f929139500"},
+    {file = "ruff-0.0.245-py3-none-musllinux_1_2_armv7l.whl", hash = "sha256:460600ddccb9586f88d24cc6cbef3bf87bb77a1d57aba9ed900f42591e0fa7a7"},
+    {file = "ruff-0.0.245-py3-none-musllinux_1_2_i686.whl", hash = "sha256:6d8c93ba539e9a43191ce86d740b1e7d2a58491902255383ff0e625e95c85d15"},
+    {file = "ruff-0.0.245-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:97b440d6fba04042be810111090429d3f90434f1d642e5d14e4f25e02cbe67ba"},
+    {file = "ruff-0.0.245-py3-none-win32.whl", hash = "sha256:36e11d525a9b282b78892d5d82a9bf0def17dd9c83354a8e01f852cf43cde5ce"},
+    {file = "ruff-0.0.245-py3-none-win_amd64.whl", hash = "sha256:5982a169e3c511f72eddcd9e05206441ded6017e8d90e1cebf6cb9dfbf80311c"},
+    {file = "ruff-0.0.245.tar.gz", hash = "sha256:57e85121b270b3f596391ae3c7c39941619abfc27a6cf372cf0aa525b8ca18e4"},
+]
+
+[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -924,4 +950,4 @@ standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)",
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "61c5fa0f3dbdf6b481a39e7dfa9f03deb5ed86805717683e193a18cd4f19dd7d"
+content-hash = "7fa88229e4e74366a3876ec4274d439824576a72a51bf58be7b743cc2bab3eb9"
