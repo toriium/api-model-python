@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Union, Optional
+from typing import Optional
 from datetime import timedelta
 
 from src.infrastructure.errors.redis_error import RedisError

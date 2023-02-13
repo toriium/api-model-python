@@ -1,4 +1,3 @@
-import pytest
 import httpx
 
 from src.application.user.user_service import UserService

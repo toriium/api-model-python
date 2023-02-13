@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter
 from starlette.responses import JSONResponse
 
 from src.application.user.user_error import UserError
@@ -60,7 +60,7 @@ async def create_user(payload: CreateUserInput):
     tags=["user"],
     description='Delete an User'
 )
-async def create_user(username: str):
+async def delete_user(username: str):
     error = UserService.delete_user_by_username(username=username)
     if error:
         if error == UserError.not_found:

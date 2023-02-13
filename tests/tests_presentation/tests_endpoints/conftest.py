@@ -12,7 +12,7 @@ from src.presentation.schemas.user_schema import CreateUserInput
 
 @fixture
 def host() -> str:
-    return f"http://localhost:8080"
+    return "http://localhost:8080"
 
 
 @fixture(scope="session")

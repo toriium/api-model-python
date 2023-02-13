@@ -1,4 +1,3 @@
-import pytest
 import httpx
 
 from src.domain.user import User

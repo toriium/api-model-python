@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 
 from src.presentation.schemas.book_schema import FindBookOutput
 from src.presentation.schemas.message_schema import Message

@@ -5,8 +5,7 @@ from src.infrastructure.errors.sql_error import SQLError
 from src.infrastructure.db_orm.tables.tbl_books import TblBooks
 from src.infrastructure.db_orm.query_obj import select_first_obj, insert_obj, update_obj, delete_obj
 from src.infrastructure.redis.cache_expiration import CacheExpiration
-from src.infrastructure.redis.decorators import get_cached_value_2_returns, delete_cached_value, \
-    set_cached_value_2_returns
+from src.infrastructure.redis.decorators import get_cached_value_2_returns, delete_cached_value
 from src.domain.book import Book
 
 

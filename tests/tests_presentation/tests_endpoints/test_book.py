@@ -1,6 +1,5 @@
 import json
 
-import pytest
 import httpx
 from faker import Faker
 

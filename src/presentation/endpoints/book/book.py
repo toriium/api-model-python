@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, Depends
 from starlette.responses import JSONResponse
 
 from src.application.book.book_error import BookError
