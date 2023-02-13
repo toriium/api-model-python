@@ -5,16 +5,15 @@ description = ""
 authors = ["Jorge Vasconcelos <jorge.r.p.v@hotmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 fastapi = "*"
 uvicorn = "*"
-rich = "*"
 python-dotenv = "*"
 SQLAlchemy = "*"
 SQLAlchemy-serializer = "*"
 mysql-connector-python = "*"
 python-multipart = "*"
-pycryptodome = "^3.15.0"
+pycryptodome = "*"
 redis = "*"
 Faker = "*"
 alembic = "^1.9.3"
