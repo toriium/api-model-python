@@ -1,11 +1,11 @@
-from pytest import fixture
 from faker import Faker
+from pytest import fixture
 
+from src.application.book.book_service import BookService
 from src.application.token.token_service import TokenService
 from src.application.user.user_service import UserService
-from src.application.book.book_service import BookService
-from src.domain.user import User
 from src.domain.book import Book
+from src.domain.user import User
 from src.presentation.schemas.book_schema import CreateBookInput
 from src.presentation.schemas.user_schema import CreateUserInput
 

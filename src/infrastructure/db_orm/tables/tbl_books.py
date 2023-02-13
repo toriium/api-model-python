@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, Date
+from sqlalchemy import Column, Date, Integer, String, Text
 from sqlalchemy_serializer import SerializerMixin
 
 from src.infrastructure.db_orm.tables.base import Base

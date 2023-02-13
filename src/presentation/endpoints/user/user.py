@@ -3,8 +3,8 @@ from starlette.responses import JSONResponse
 
 from src.application.user.user_error import UserError
 from src.application.user.user_service import UserService
-from src.presentation.schemas.user_schema import CreateUserInput, CreateUserOutput, FindUserInput
 from src.presentation.schemas.message_schema import Message
+from src.presentation.schemas.user_schema import CreateUserInput, CreateUserOutput, FindUserInput
 
 user_router = APIRouter()
 

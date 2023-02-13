@@ -1,6 +1,6 @@
+from contextlib import contextmanager
 from typing import Optional
 
-from contextlib import contextmanager
 import mysql.connector
 from mysql.connector import MySQLConnection
 from mysql.connector.cursor import CursorBase

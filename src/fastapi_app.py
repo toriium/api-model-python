@@ -4,8 +4,8 @@ from starlette.middleware.cors import CORSMiddleware
 from src.presentation.endpoints.book.book import book_router
 from src.presentation.endpoints.books.books import books_router
 from src.presentation.endpoints.health_check.health_check import health_check_router
-from src.presentation.endpoints.user.user import user_router
 from src.presentation.endpoints.token.token import token_router
+from src.presentation.endpoints.user.user import user_router
 
 
 def create_fastapi_app() -> FastAPI:

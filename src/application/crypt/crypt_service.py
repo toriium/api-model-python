@@ -1,10 +1,9 @@
 import os
+from base64 import b64decode, b64encode
 from pathlib import Path
 
-from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
-from base64 import b64decode
-from base64 import b64encode
+from Crypto.PublicKey import RSA
 
 
 class CryptService:

@@ -29,5 +29,5 @@ test: ## Run tests
 requirements: ## Update requirements.txt
 	poetry export --without-hashes -f requirements.txt >requirements.txt
 
-format: ## Format code
+format: ## Run autoformatting and linting
 	poetry run ruff check ./ --fix

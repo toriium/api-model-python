@@ -1,5 +1,5 @@
-from src.infrastructure.db_orm.query_obj import create_session
 from src.application.crypt.crypt_service import CryptService
+from src.infrastructure.db_orm.query_obj import create_session
 
 
 def add_tbl_users() -> list:

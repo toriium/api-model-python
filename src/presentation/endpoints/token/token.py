@@ -1,5 +1,5 @@
 
-from fastapi import Depends, HTTPException, status, APIRouter
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from src.application.token.token_service import TokenService

@@ -2,8 +2,8 @@ import pickle
 from functools import wraps
 from typing import Type
 
-from src.infrastructure.redis.redis_utils import RedisUtils
 from src.infrastructure.redis.cache_expiration import CacheExpiration
+from src.infrastructure.redis.redis_utils import RedisUtils
 
 
 def verify_kwargs(kwargs):

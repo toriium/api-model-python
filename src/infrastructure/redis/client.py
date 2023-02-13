@@ -1,7 +1,7 @@
 from contextlib import contextmanager
 
-from redis.client import Redis
 import redis
+from redis.client import Redis
 
 from src.settings import RedisEnv
 

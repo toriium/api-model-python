@@ -2,8 +2,8 @@ from typing import Optional
 
 from src.application.book.book_error import BookError
 from src.domain.book import Book
-from src.infrastructure.repository.books_repository import BooksRepository
 from src.infrastructure.errors.sql_error import SQLError
+from src.infrastructure.repository.books_repository import BooksRepository
 from src.presentation.schemas.book_schema import CreateBookInput, UpdateBookInput
 
 
