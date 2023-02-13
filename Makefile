@@ -22,14 +22,12 @@ run_local: ## Build and run the application in local mode !!you need run the app
 restart: down run ## Rebuild all application
 
 ## @ Tests Commands
-.PHONY: test
 test: ## Run tests
 	poetry run pytest -v
 
-## @ Helper Commands
-.PHONY: requirements help
+## @ Utils Commands
 requirements: ## Update requirements.txt
-	poetry export --without-hashes -f requirements.txt > requirements.txt
+	poetry export --without-hashes -f requirements.txt >requirements.txt
 
-help: ## Show this help.
-	python help.py
+format: ## Format code
+	poetry run ruff check ./ --fix
