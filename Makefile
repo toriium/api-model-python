@@ -21,6 +21,13 @@ run_local: ## Build and run the application in local mode !!you need run the app
 
 restart: down run ## Rebuild all application
 
+## @ Migration Commands
+upgrade:
+	poetry run alembic upgrade head
+
+revision:
+	poetry run alembic revision --autogenerate
+
 ## @ Tests Commands
 test: ## Run tests
 	poetry run pytest -v
