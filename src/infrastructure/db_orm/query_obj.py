@@ -1,6 +1,6 @@
 from contextlib import contextmanager
 from copy import copy
-from typing import Any, Optional
+from typing import Any
 
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -52,7 +52,7 @@ def select_all_obj(obj_table, filter_by: dict):
     return query_result if query_result else None
 
 
-def insert_obj(obj) -> tuple[Any, Optional[SQLError]]:
+def insert_obj(obj) -> tuple[Any, SQLError | None]:
     """Way - 1
     obj_user = User(name='nietzsche', age=55)
     insert_obj(obj=obj_user)
@@ -94,7 +94,7 @@ def insert_all_obj(objs: list):
     return updated_obj_data
 
 
-def update_obj(obj_table, filter_by: dict, obj_update) -> tuple[Any, Optional[SQLError]]:
+def update_obj(obj_table, filter_by: dict, obj_update) -> tuple[Any, SQLError | None]:
     """Way - 1
     update_obj(obj=User, filter_by={"id": 1}, obj_update={User.name: 'zabuza', User.age: 50})
     ----------------------------------------------------
@@ -116,7 +116,7 @@ def update_obj(obj_table, filter_by: dict, obj_update) -> tuple[Any, Optional[SQ
         return updated_obj_data, SQLError.not_found
 
 
-def delete_obj(obj_table, filter_by: dict) -> Optional[SQLError]:
+def delete_obj(obj_table, filter_by: dict) -> SQLError | None:
     """Way - 1
     delete_obj(obj=User, filter_by={"id": 1}).
     """

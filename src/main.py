@@ -6,7 +6,6 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 import uvicorn
 
 from src.fastapi_app import get_fastapi_app
-from src.infrastructure.db_orm.init_db import init_database
 from src.infrastructure.db_orm.populate_db import populate_db
 from src.settings import FastAPIEnv
 from src.tracing import start_instrumentation

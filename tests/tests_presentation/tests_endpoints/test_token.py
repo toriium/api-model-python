@@ -1,5 +1,6 @@
 import httpx
 from fastapi import status
+
 from src.domain.user import User
 
 

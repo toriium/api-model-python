@@ -1,5 +1,4 @@
 from contextlib import contextmanager
-from typing import Optional
 
 import mysql.connector
 from mysql.connector import MySQLConnection
@@ -49,7 +48,7 @@ class DBUtils:
                 connection.commit()
 
     @staticmethod
-    def consult_all(query: str, params: list = None) -> Optional[list[dict]]:
+    def consult_all(query: str, params: list = None) -> list[dict] | None:
         with get_connection() as connection:
             with get_cursor(connection) as cursor:
                 cursor.execute(query, params)
@@ -57,7 +56,7 @@ class DBUtils:
                 return result if result else None
 
     @staticmethod
-    def consult_one(query: str, params: list = None) -> Optional[dict]:
+    def consult_one(query: str, params: list = None) -> dict | None:
         with get_connection() as connection:
             with get_cursor(connection) as cursor:
                 cursor.execute(query, params)

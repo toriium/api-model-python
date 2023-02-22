@@ -1,6 +1,5 @@
 import pickle
 from functools import wraps
-from typing import Type
 
 from src.infrastructure.redis.cache_expiration import CacheExpiration
 from src.infrastructure.redis.redis_utils import RedisUtils
@@ -11,7 +10,7 @@ def verify_kwargs(kwargs):
         raise ValueError("Pass values as kwargs")
 
 
-def get_cached_value_1_return(key: str, expiration: int = CacheExpiration.ONE_HOUR) -> Type["Response"]:
+def get_cached_value_1_return(key: str, expiration: int = CacheExpiration.ONE_HOUR) -> type["Response"]:
     def handler_func(function):
         @wraps(function)
         def wrapper(*args, **kwargs):
@@ -37,7 +36,7 @@ def get_cached_value_1_return(key: str, expiration: int = CacheExpiration.ONE_HO
     return handler_func
 
 
-def get_cached_value_2_returns(key: str, expiration: int = CacheExpiration.ONE_HOUR) -> Type["Response"]:
+def get_cached_value_2_returns(key: str, expiration: int = CacheExpiration.ONE_HOUR) -> type["Response"]:
     def handler_func(function):
         @wraps(function)
         def wrapper(*args, **kwargs):
@@ -63,7 +62,7 @@ def get_cached_value_2_returns(key: str, expiration: int = CacheExpiration.ONE_H
     return handler_func
 
 
-def set_cached_value_2_returns(key: str, expiration: int = CacheExpiration.ONE_HOUR) -> Type["Response"]:
+def set_cached_value_2_returns(key: str, expiration: int = CacheExpiration.ONE_HOUR) -> type["Response"]:
     def handler_func(function):
         @wraps(function)
         def wrapper(*args, **kwargs):
@@ -85,7 +84,7 @@ def set_cached_value_2_returns(key: str, expiration: int = CacheExpiration.ONE_H
     return handler_func
 
 
-def delete_cached_value(key: str) -> Type["Response"]:
+def delete_cached_value(key: str) -> type["Response"]:
     def handler_func(function):
         @wraps(function)
         def wrapper(*args, **kwargs):

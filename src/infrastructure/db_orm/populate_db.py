@@ -4,7 +4,6 @@ from src.application.crypt.crypt_service import CryptService
 from src.infrastructure.db_orm.query_obj import create_session
 
 
-
 def add_tbl_users() -> list:
     commands = [
         text(text=f"""insert into tbl_users (username, name, password) values ('john.doe', 'john doe', '{CryptService.encrypt('123')}');"""),

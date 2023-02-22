@@ -1,4 +1,3 @@
-from typing import Optional
 
 from src.application.book.book_error import BookError
 from src.domain.book import Book
@@ -9,7 +8,7 @@ from src.presentation.schemas.book_schema import CreateBookInput, UpdateBookInpu
 
 class BookService:
     @staticmethod
-    def find_book_by_id(book_id: int) -> tuple[Optional[Book], Optional[BookError]]:
+    def find_book_by_id(book_id: int) -> tuple[Book | None, BookError | None]:
         found_book, error = BooksRepository.find_book_by_id(book_id=book_id)
 
         if not found_book:
@@ -18,7 +17,7 @@ class BookService:
         return Book(**found_book.dict()), None
 
     @staticmethod
-    def insert_book(data: CreateBookInput) -> tuple[Optional[Book], Optional[BookError]]:
+    def insert_book(data: CreateBookInput) -> tuple[Book | None, BookError | None]:
         new_book = Book(**data.dict())
 
         new_book, error = BooksRepository.insert_book(book=new_book)
@@ -29,7 +28,7 @@ class BookService:
         return Book(**new_book.dict()), None
 
     @staticmethod
-    def update_book(data: UpdateBookInput) -> tuple[Optional[Book], Optional[BookError]]:
+    def update_book(data: UpdateBookInput) -> tuple[Book | None, BookError | None]:
         target_book = Book(**data.dict())
 
         updated_book, error = BooksRepository.update_book(book=target_book)
@@ -39,7 +38,7 @@ class BookService:
         return Book(**updated_book.dict()), None
 
     @staticmethod
-    def delete_book(book_id) -> Optional[BookError]:
+    def delete_book(book_id) -> BookError | None:
         error = BooksRepository.delete_book(book_id=book_id)
         if error == SQLError.not_found:
             return BookError.not_found

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from datetime import timedelta
-from typing import Optional
 
 from src.infrastructure.errors.redis_error import RedisError
 from src.infrastructure.redis.client import get_client
@@ -22,7 +21,7 @@ class RedisUtils:
             )
 
     @staticmethod
-    def get(key_name: str) -> tuple[Optional[str, bytes], Optional[RedisError]]:
+    def get(key_name: str) -> tuple[(str, bytes) | None, RedisError | None]:
         """Get the value of key."""
         with get_client() as client:
             response = client.get(name=key_name)
@@ -52,7 +51,7 @@ class RedisUtils:
     # -------------------------------------------------------------- #
     @staticmethod
     def expire(key_name: str, time: int | timedelta) -> None:
-        """Changes ttl of a key."""
+        """Change ttl of a key."""
         with get_client() as client:
             client.expire(name=key_name, time=time)
 
@@ -64,7 +63,7 @@ class RedisUtils:
             return True if response == 1 else False
 
     @staticmethod
-    def ttl(key_name: str) -> tuple[Optional[int], Optional[RedisError]]:
+    def ttl(key_name: str) -> tuple[int | None, RedisError | None]:
         """Returns time to live in seconds of a key."""
         with get_client() as client:
             ttl = client.ttl(key_name)
@@ -88,7 +87,7 @@ class RedisUtils:
                 value=key_value)
 
     @staticmethod
-    def hget(hash_name: str, key_name: str) -> tuple[Optional[str], Optional[RedisError]]:
+    def hget(hash_name: str, key_name: str) -> tuple[str | None, RedisError | None]:
         """Get the value of a hash field."""
         with get_client() as client:
             response = client.hget(name=hash_name, key=key_name)
@@ -108,10 +107,7 @@ class RedisUtils:
         """Determine if a hash field exists."""
         with get_client() as client:
             exists = client.hexists(name=hash_name, key=key_name)
-            if exists:
-                return True
-            else:
-                return False
+            return exists
 
     # -------------------------------------------------------------- #
     #                               FLUSH

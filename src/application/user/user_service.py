@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Optional
 
 from src.application.crypt.crypt_service import CryptService
 from src.application.user.user_error import UserError
@@ -12,7 +11,7 @@ from src.presentation.schemas.user_schema import CreateUserInput
 
 class UserService:
     @staticmethod
-    def create_user(received_user: CreateUserInput) -> tuple[Optional[User], Optional[UserError]]:
+    def create_user(received_user: CreateUserInput) -> tuple[User | None, UserError | None]:
         encrypted_password = CryptService.encrypt(value=received_user.password)
 
         new_user = CreateUserDTO(
@@ -33,7 +32,7 @@ class UserService:
         return created_user, None
 
     @staticmethod
-    def user_is_valid(username: str, password: str) -> tuple[bool, Optional[UserError]]:
+    def user_is_valid(username: str, password: str) -> tuple[bool, UserError | None]:
         received_user = User(username=username, password=password)
 
         found_user, error = UsersRepository.find_user_by_username(username=received_user.username)
@@ -51,7 +50,7 @@ class UserService:
             return False, UserError.incorrect_password
 
     @staticmethod
-    def delete_user_by_username(username: str) -> Optional[UserError]:
+    def delete_user_by_username(username: str) -> UserError | None:
         error = UsersRepository.delete_user_by_username(username=username)
         if error == SQLError.not_found:
             return UserError.not_found
