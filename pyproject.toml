@@ -15,7 +15,10 @@ mysql-connector-python = "*"
 python-multipart = "*"
 pycryptodome = "*"
 redis = "*"
-alembic = "^1.9.3"
+alembic = "*"
+opentelemetry-instrumentation-fastapi = "*"
+opentelemetry-sdk = "*"
+opentelemetry-exporter-otlp-proto-grpc = "*"
 
 [tool.poetry.group.dev.dependencies]
 Faker = "*"
