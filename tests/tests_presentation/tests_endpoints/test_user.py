@@ -13,7 +13,7 @@ def test_post_route_user_with_valid_data_return_200(fake, host: str):
 
     UserService.delete_user_by_username(username=json_data['username'])
 
-    assert response.status_code == status.HTTP_200_OK
+    assert response.status_code == status.HTTP_201_CREATED
 
 
 def test_delete_route_user_with_valid_username_return_200(fake, host: str, created_user: User):

@@ -39,13 +39,11 @@ def tracer_endpoint():
                 if isinstance(func_return, JSONResponse):
                     span.set_attribute("endpoint.response.body", func_return.body)
                     span.set_attribute("endpoint.response.status_code", func_return.status_code)
-
                 elif isinstance(func_return, HTTPException):
                     span.set_attribute("endpoint.response.body", str(func_return.detail))
                     span.set_attribute("endpoint.response.status_code", func_return.status_code)
-
                 else:
-                    raise ValueError("response must be a JSONResponse object")
+                    raise ValueError("Response must be [JSONResponse,HTTPException] object")
 
                 return func_return
 

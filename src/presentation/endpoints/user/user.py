@@ -26,7 +26,8 @@ async def validate_user(payload: FindUserInput):
     user, error = UserService.user_is_valid(username=payload.username, password=payload.password)
     if error:
         if error == UserError.user_not_found:
-            return JSONResponse(content={"message": "This user does't exist in our base"}, status_code=status.HTTP_404_NOT_FOUND)
+            return JSONResponse(content={"message": "This user does't exist in our base"},
+                                status_code=status.HTTP_404_NOT_FOUND)
         if error == UserError.incorrect_password:
             return JSONResponse(content={"message": "Incorrect password"}, status_code=status.HTTP_400_BAD_REQUEST)
 
@@ -51,7 +52,7 @@ async def create_user(payload: CreateUserInput):
             return JSONResponse(content={"message": "This user alredy exist in our base"},
                                 status_code=status.HTTP_400_BAD_REQUEST)
 
-    return CreateUserOutput(**user.dict())
+    return JSONResponse(content=CreateUserOutput(**user.dict()).dict(), status_code=status.HTTP_201_CREATED)
 
 
 @user_router.delete(
