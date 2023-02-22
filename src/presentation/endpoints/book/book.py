@@ -12,6 +12,7 @@ from src.presentation.schemas.book_schema import (
     UpdateBookOutput,
 )
 from src.presentation.schemas.message_schema import Message
+from src.tracing import tracer_endpoint
 
 book_router = APIRouter()
 
@@ -26,6 +27,7 @@ book_router = APIRouter()
     tags=["book"],
     description='Get one Book'
 )
+@tracer_endpoint()
 async def get_book(book_id: int):
     result, error = BookService.find_book_by_id(book_id=book_id)
     if result:
@@ -44,6 +46,7 @@ async def get_book(book_id: int):
     tags=["book"],
     description='Create a Book'
 )
+@tracer_endpoint()
 async def create_book(payload: CreateBookInput):
     book, error = BookService.insert_book(data=payload)
     if error:
@@ -63,6 +66,7 @@ async def create_book(payload: CreateBookInput):
     tags=["book"],
     description='Update a Book'
 )
+@tracer_endpoint()
 async def update_book(payload: UpdateBookInput):
     book, error = BookService.update_book(data=payload)
     if error:
@@ -82,6 +86,7 @@ async def update_book(payload: UpdateBookInput):
     tags=["book"],
     description='Delete a Book'
 )
+@tracer_endpoint()
 async def delete_book(book_id: int):
     error = BookService.delete_book(book_id=book_id)
     if error:

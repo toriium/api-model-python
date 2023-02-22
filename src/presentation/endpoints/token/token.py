@@ -5,6 +5,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from src.application.token.token_service import TokenService
 from src.application.user.user_error import UserError
 from src.application.user.user_service import UserService
+from src.tracing import tracer_endpoint
 
 token_router = APIRouter()
 
@@ -20,6 +21,7 @@ async def token_validation(token: str = Depends(oauth2_scheme)):
 
 
 @token_router.post("/token")
+@tracer_endpoint()
 async def create_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user, error = UserService.user_is_valid(username=form_data.username, password=form_data.password)
     if error:

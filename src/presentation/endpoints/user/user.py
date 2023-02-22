@@ -5,6 +5,7 @@ from src.application.user.user_error import UserError
 from src.application.user.user_service import UserService
 from src.presentation.schemas.message_schema import Message
 from src.presentation.schemas.user_schema import CreateUserInput, CreateUserOutput, FindUserInput
+from src.tracing import tracer_endpoint
 
 user_router = APIRouter()
 
@@ -20,6 +21,7 @@ user_router = APIRouter()
     tags=["user"],
     description='Validate your User'
 )
+@tracer_endpoint()
 def validate_user(payload: FindUserInput):
     user, error = UserService.user_is_valid(username=payload.username, password=payload.password)
     if error:
@@ -41,6 +43,7 @@ def validate_user(payload: FindUserInput):
     tags=["user"],
     description='Create an User'
 )
+@tracer_endpoint()
 async def create_user(payload: CreateUserInput):
     user, error = UserService.create_user(payload)
     if error:
@@ -60,6 +63,7 @@ async def create_user(payload: CreateUserInput):
     tags=["user"],
     description='Delete an User'
 )
+@tracer_endpoint()
 async def delete_user(username: str):
     error = UserService.delete_user_by_username(username=username)
     if error:

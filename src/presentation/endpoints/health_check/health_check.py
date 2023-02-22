@@ -1,5 +1,7 @@
 from fastapi import APIRouter
 
+from src.tracing import tracer_endpoint
+
 health_check_router = APIRouter()
 
 
@@ -8,5 +10,6 @@ health_check_router = APIRouter()
     status_code=200,
     tags=["health_check"],
     description='Health-check Endpoint')
+@tracer_endpoint()
 async def health_check():
     return True
