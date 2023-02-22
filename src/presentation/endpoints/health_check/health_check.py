@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status
+from fastapi.responses import JSONResponse
 
 from src.tracing import tracer_endpoint
 
@@ -12,4 +13,4 @@ health_check_router = APIRouter()
     description='Health-check Endpoint')
 @tracer_endpoint()
 async def health_check():
-    return True
+    return JSONResponse(content={'message': 'I still working'},status_code=status.HTTP_200_OK)

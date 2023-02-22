@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 from starlette.responses import JSONResponse
 
 from src.application.book.book_error import BookError
@@ -31,9 +31,9 @@ book_router = APIRouter()
 async def get_book(book_id: int):
     result, error = BookService.find_book_by_id(book_id=book_id)
     if result:
-        return JSONResponse(content=FindBookOutput(**result.dict()).dict())
-    else:
-        return JSONResponse(status_code=404, content={"message": "Not found book with this id"})
+        return JSONResponse(content=FindBookOutput(**result.dict()).dict(), status_code=status.HTTP_200_OK)
+
+    return JSONResponse(content={"message": "Not found book with this id"}, status_code=status.HTTP_404_NOT_FOUND)
 
 
 @book_router.post(
@@ -51,9 +51,10 @@ async def create_book(payload: CreateBookInput):
     book, error = BookService.insert_book(data=payload)
     if error:
         if error == BookError.duplicate_entry:
-            return JSONResponse(status_code=400, content={"message": "This book alredy exists in our base"})
+            return JSONResponse(content={"message": "This book alredy exists in our base"},
+                                status_code=status.HTTP_400_BAD_REQUEST)
 
-    return CreateBookOutput(**book.dict())
+    return JSONResponse(content=CreateBookOutput(**book.dict()).dict(), status_code=status.HTTP_201_CREATED)
 
 
 @book_router.put(
@@ -71,9 +72,9 @@ async def update_book(payload: UpdateBookInput):
     book, error = BookService.update_book(data=payload)
     if error:
         if error == BookError.not_found:
-            return JSONResponse(status_code=404, content={"message": "Book not found"})
+            return JSONResponse(content={"message": "Book not found"}, status_code=status.HTTP_404_NOT_FOUND)
 
-    return UpdateBookOutput(**book.dict())
+    return JSONResponse(UpdateBookOutput(**book.dict()).dict(), status_code=status.HTTP_200_OK)
 
 
 @book_router.delete(
@@ -91,6 +92,6 @@ async def delete_book(book_id: int):
     error = BookService.delete_book(book_id=book_id)
     if error:
         if error == BookError.not_found:
-            return JSONResponse(status_code=404, content={"message": "Book not found"})
+            return JSONResponse(content={"message": "Book not found"}, status_code=status.HTTP_404_NOT_FOUND)
 
-    return JSONResponse(status_code=200, content={"message": "Book deleted"})
+    return JSONResponse(content={"message": "Book deleted"}, status_code=status.HTTP_200_OK)
