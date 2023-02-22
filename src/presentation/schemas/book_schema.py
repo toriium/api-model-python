@@ -1,6 +1,6 @@
 from datetime import date
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 
 class FindBookOutput(BaseModel):
@@ -12,6 +12,10 @@ class FindBookOutput(BaseModel):
     release_date: date
     pages: int
     description: str
+
+    @validator('release_date')
+    def username_alphanumeric(cls, v:date):
+        return v.isoformat()
 
 
 class CreateBookInput(BaseModel):
@@ -32,6 +36,10 @@ class CreateBookOutput(BaseModel):
     release_date: date
     pages: int
     description: str
+
+    @validator('release_date')
+    def username_alphanumeric(cls, v:date):
+        return v.isoformat()
 
 
 class UpdateBookInput(BaseModel):
@@ -54,3 +62,7 @@ class UpdateBookOutput(BaseModel):
     release_date: date
     pages: int
     description: str
+
+    @validator('release_date')
+    def username_alphanumeric(cls, v:date):
+        return v.isoformat()

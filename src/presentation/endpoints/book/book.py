@@ -18,7 +18,7 @@ book_router = APIRouter()
 
 
 @book_router.get(
-    path='/book/{book_id}',
+    path='/book',
     response_model=FindBookOutput,
     status_code=200,
     dependencies=[Depends(token_validation)],
@@ -31,7 +31,7 @@ book_router = APIRouter()
 async def get_book(book_id: int):
     result, error = BookService.find_book_by_id(book_id=book_id)
     if result:
-        return FindBookOutput(**result.dict())
+        return JSONResponse(content=FindBookOutput(**result.dict()).dict())
     else:
         return JSONResponse(status_code=404, content={"message": "Not found book with this id"})
 

@@ -22,7 +22,7 @@ user_router = APIRouter()
     description='Validate your User'
 )
 @tracer_endpoint()
-def validate_user(payload: FindUserInput):
+async def validate_user(payload: FindUserInput):
     user, error = UserService.user_is_valid(username=payload.username, password=payload.password)
     if error:
         if error == UserError.user_not_found:
