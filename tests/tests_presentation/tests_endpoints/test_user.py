@@ -1,4 +1,5 @@
 import httpx
+from fastapi import status
 
 from src.application.user.user_service import UserService
 from src.domain.user import User
@@ -12,7 +13,7 @@ def test_post_route_user_with_valid_data_return_200(fake, host: str):
 
     UserService.delete_user_by_username(username=json_data['username'])
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
 
 
 def test_delete_route_user_with_valid_username_return_200(fake, host: str, created_user: User):
@@ -23,5 +24,5 @@ def test_delete_route_user_with_valid_username_return_200(fake, host: str, creat
 
     expected_response = {"message": "User deleted"}
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response.json() == expected_response

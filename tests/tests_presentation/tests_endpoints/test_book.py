@@ -2,19 +2,21 @@ import json
 
 import httpx
 from faker import Faker
+from fastapi import status
 
 from src.domain.book import Book
 from src.infrastructure.db_raw.db_utils import DBUtils
 
 
 def test_get_route_book_with_valid_book_return_book(host: str, valid_headers: dict, created_book: Book):
-    url = f'{host}/book/{created_book.id}'
+    url = f'{host}/book'
     headers = valid_headers
-    response = httpx.get(url=url, headers=headers)
+    params = {"book_id": created_book.id}
+    response = httpx.get(url=url, headers=headers,params=params)
 
     expected_response = json.loads(created_book.json())
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response.json() == expected_response
 
 
@@ -38,7 +40,7 @@ def test_post_route_book_with_valid_data_return_book(host: str, valid_headers: d
 
     DBUtils.execute(query=f"delete from tbl_books where isbn = '{json_data['isbn']}' ")
 
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
     assert response.json() == expected_response
 
 
@@ -61,7 +63,7 @@ def test_put_route_book_with_valid_data_return_200(host: str, valid_headers: dic
 
     expected_response = json_data
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response.json() == expected_response
 
 
@@ -74,5 +76,5 @@ def test_delete_route_book_with_valid_book_id_return_200(host: str, valid_header
 
     expected_response = {"message": "Book deleted"}
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response.json() == expected_response
