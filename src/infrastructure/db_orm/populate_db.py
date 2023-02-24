@@ -1,7 +1,7 @@
 from sqlalchemy import text
 
 from src.application.crypt.crypt_service import CryptService
-from src.infrastructure.db_orm.query_obj import create_session
+from src.infrastructure.db_orm.query_obj import create_writing_session
 
 
 def add_tbl_users() -> list:
@@ -12,10 +12,13 @@ def add_tbl_users() -> list:
 
 
 def populate_db():
-    with create_session() as session:
-        commands = []
-        commands.extend(add_tbl_users())
+    try:
+        with create_writing_session() as session:
+            commands = []
+            commands.extend(add_tbl_users())
 
-        for command in commands:
-            session.execute(command)
-        session.commit()
+            for command in commands:
+                session.execute(command)
+            session.commit()
+    except:
+        ...

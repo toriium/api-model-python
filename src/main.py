@@ -17,7 +17,7 @@ def create_db():
 
 
 if __name__ == '__main__':
-    # create_db()
+    create_db()
     app = get_fastapi_app()
     start_instrumentation(app=app)
     uvicorn.run(

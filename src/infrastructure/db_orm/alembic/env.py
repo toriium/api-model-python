@@ -3,7 +3,7 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import create_engine
 
-from src.infrastructure.db_orm.connection import get_db_url
+from src.infrastructure.db_orm.connection import get_writing_db_url
 from src.infrastructure.db_orm.tables.base import Base
 
 # this is the Alembic Config object, which provides
@@ -64,7 +64,7 @@ def run_migrations_online() -> None:
     #     poolclass=pool.NullPool,
     # )
 
-    connectable = create_engine(get_db_url())
+    connectable = create_engine(get_writing_db_url())
 
     with connectable.connect() as connection:
         context.configure(

@@ -5,12 +5,12 @@ from typing import Any
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from src.infrastructure.db_orm.connection import SessionLocal
+from src.infrastructure.db_orm.connection import ReadingSession, WritingSession
 from src.infrastructure.errors.sql_error import SQLError
 
 
 @contextmanager
-def create_session() -> Session:
+def create_reading_session() -> Session:
     """Way - 1
     with create_session() as session:
         var = session.query(User).filter_by(id=2).first()
@@ -22,7 +22,20 @@ def create_session() -> Session:
         for row in results:
             print(row.name).
     """
-    session = SessionLocal()
+    session = ReadingSession()
+    try:
+        yield session
+    finally:
+        session.close()
+
+@contextmanager
+def create_writing_session() -> Session:
+    """Way - 1
+        with create_writing_session() as session:
+            session.add(obj)
+            session.commit()
+    """
+    session = WritingSession()
     try:
         yield session
     finally:
@@ -34,7 +47,7 @@ def select_first_obj(obj_table, filter_by: dict):
     var = select_first_obj(obj=User, filter_by={"id": 1})
     print(var).
     """
-    with create_session() as session:
+    with create_reading_session() as session:
         query_result = session.query(obj_table).filter_by(**filter_by).first()
 
     return query_result if query_result else None
@@ -46,7 +59,7 @@ def select_all_obj(obj_table, filter_by: dict):
     for var in vars:
         print(var).
     """
-    with create_session() as session:
+    with create_reading_session() as session:
         query_result = session.query(obj_table).filter_by(**filter_by).all()
 
     return query_result if query_result else None
@@ -64,7 +77,7 @@ def insert_obj(obj) -> tuple[Any, SQLError | None]:
     insert_obj(obj=obj_user).
     """
     try:
-        with create_session() as session:
+        with create_writing_session() as session:
             session.add(obj)
             session.flush()
             updated_obj_data = copy(obj)
@@ -85,7 +98,7 @@ def insert_all_obj(objs: list):
     obj_user2 = User(name='diogenes', age=55)
     insert_all_obj(objs=[obj_user1, obj_user2]).
     """
-    with create_session() as session:
+    with create_writing_session() as session:
         session.add_all(objs)
         session.flush()
         updated_obj_data = copy(objs)
@@ -104,7 +117,7 @@ def update_obj(obj_table, filter_by: dict, obj_update) -> tuple[Any, SQLError | 
     update_dict[User.age] = 48
     update_obj(obj=User, filter_by={"id": 1}, obj_update=update_dict).
     """
-    with create_session() as session:
+    with create_writing_session() as session:
         qtd_rows = session.query(obj_table).filter_by(**filter_by).update(obj_update)
         session.flush()
         updated_obj_data = copy(obj_update)
@@ -120,7 +133,7 @@ def delete_obj(obj_table, filter_by: dict) -> SQLError | None:
     """Way - 1
     delete_obj(obj=User, filter_by={"id": 1}).
     """
-    with create_session() as session:
+    with create_writing_session() as session:
         qtd_rows = session.query(obj_table).filter_by(**filter_by).delete()
         session.commit()
 
