@@ -8,6 +8,7 @@
 - [SQLAlchemy](https://www.sqlalchemy.org/) - ORM
 - [Alembic](https://github.com/sqlalchemy/alembic) - Database Migrations
 - [MySQL](https://www.mysql.com/) - Database
+- [Redis](https://redis.io/) - Cache
 - [OpenTelemetry](https://opentelemetry.io/) - Telemetry
 - [Jaeger](https://www.jaegertracing.io/) - APM
 - [Ruff](https://github.com/charliermarsh/ruff) - Linter
