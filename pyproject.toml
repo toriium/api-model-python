@@ -20,6 +20,7 @@ opentelemetry-sdk = "*"
 opentelemetry-exporter-otlp-proto-grpc = "*"
 opentelemetry-instrumentation-fastapi = "*"
 opentelemetry-instrumentation-redis = "*"
+opentelemetry-instrumentation-sqlalchemy = "^0.37b0"
 
 
 [tool.poetry.group.dev.dependencies]
