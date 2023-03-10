@@ -14,7 +14,7 @@ run: ## Build and run the application
 
 run_dev: ## Build and run the application in dev mode
 	docker-compose --env-file ./env.env -f docker-compose.dev.yml up --build -d
-	poetry run python ./src/main.py
+	export PYTHONPATH="${PYTHONPATH}:$PWD" && poetry run python ./src/main.py
 
 run_local: ## Build and run the application in local mode !!you need run the application by yorself!!
 	docker-compose --env-file ./env.env -f docker-compose.dev.yml up --build -d
