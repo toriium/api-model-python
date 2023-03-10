@@ -1,4 +1,5 @@
 import uvicorn
+import gunicorn
 
 from src.fastapi_app import get_fastapi_app
 from src.infrastructure.db_orm.populate_db import populate_db
@@ -11,16 +12,17 @@ def create_db():
     populate_db()
 
 
-if __name__ == '__main__':
-    create_db()
-    app = get_fastapi_app()
-    start_instrumentation(app=app)
-    uvicorn.run(
-        app=app,
-        host=FastAPIEnv.APP_HOST,
-        port=FastAPIEnv.APP_PORT,
-        log_level='info',
-        access_log=True,
-        workers=FastAPIEnv.APP_WORKERS,
-        timeout_keep_alive=100
-    )
+
+
+create_db()
+app = get_fastapi_app()
+start_instrumentation(app=app)
+uvicorn.run(
+    app=app,
+    host=FastAPIEnv.APP_HOST,
+    port=FastAPIEnv.APP_PORT,
+    log_level='info',
+    access_log=True,
+    workers=FastAPIEnv.APP_WORKERS,
+    timeout_keep_alive=100
+)
