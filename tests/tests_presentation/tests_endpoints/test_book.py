@@ -1,18 +1,18 @@
 import json
 
-import httpx
 from faker import Faker
 from fastapi import status
+from fastapi.testclient import TestClient
 
 from src.domain.book import Book
 from src.infrastructure.db_raw.db_utils import DBUtils
 
 
-def test_get_route_book_with_valid_book_return_book(host: str, valid_headers: dict, created_book: Book):
-    url = f'{host}/book'
+def test_get_route_book_with_valid_book_return_book(test_client: TestClient, valid_headers: dict, created_book: Book):
+    url = f'/book'
     headers = valid_headers
     params = {"book_id": created_book.id}
-    response = httpx.get(url=url, headers=headers,params=params)
+    response = test_client.get(url=url, headers=headers,params=params)
 
     expected_response = json.loads(created_book.json())
 
@@ -20,8 +20,8 @@ def test_get_route_book_with_valid_book_return_book(host: str, valid_headers: di
     assert response.json() == expected_response
 
 
-def test_post_route_book_with_valid_data_return_book(host: str, valid_headers: dict):
-    url = f'{host}/book'
+def test_post_route_book_with_valid_data_return_book(test_client: TestClient, valid_headers: dict):
+    url = f'/book'
     headers = valid_headers
 
     fake = Faker()
@@ -34,7 +34,7 @@ def test_post_route_book_with_valid_data_return_book(host: str, valid_headers: d
         "pages": fake.random_int(),
         "description": fake.text(),
     }
-    response = httpx.post(url=url, headers=headers, json=json_data)
+    response = test_client.post(url=url, headers=headers, json=json_data)
 
     expected_response = json_data
 
@@ -44,8 +44,8 @@ def test_post_route_book_with_valid_data_return_book(host: str, valid_headers: d
     assert response.json() == expected_response
 
 
-def test_put_route_book_with_valid_data_return_200(host: str, valid_headers: dict, created_book: Book):
-    url = f'{host}/book'
+def test_put_route_book_with_valid_data_return_200(test_client: TestClient, valid_headers: dict, created_book: Book):
+    url = f'/book'
     headers = valid_headers
 
     fake = Faker()
@@ -59,7 +59,7 @@ def test_put_route_book_with_valid_data_return_200(host: str, valid_headers: dic
         "pages": fake.random_int(),
         "description": fake.text(),
     }
-    response = httpx.put(url=url, headers=headers, json=json_data)
+    response = test_client.put(url=url, headers=headers, json=json_data)
 
     expected_response = json_data
 
@@ -67,12 +67,12 @@ def test_put_route_book_with_valid_data_return_200(host: str, valid_headers: dic
     assert response.json() == expected_response
 
 
-def test_delete_route_book_with_valid_book_id_return_200(host: str, valid_headers: dict, created_book: Book):
-    url = f'{host}/book'
+def test_delete_route_book_with_valid_book_id_return_200(test_client: TestClient, valid_headers: dict, created_book: Book):
+    url = f'/book'
     headers = valid_headers
     params = {"book_id": created_book.id}
 
-    response = httpx.delete(url=url, headers=headers, params=params)
+    response = test_client.delete(url=url, headers=headers, params=params)
 
     expected_response = {"message": "Book deleted"}
 

@@ -1,6 +1,8 @@
 from faker import Faker
 from pytest import fixture
+from fastapi.testclient import TestClient
 
+from src.main import app
 from src.application.book.book_service import BookService
 from src.application.token.token_service import TokenService
 from src.application.user.user_service import UserService
@@ -10,9 +12,9 @@ from src.presentation.schemas.book_schema import CreateBookInput
 from src.presentation.schemas.user_schema import CreateUserInput
 
 
-@fixture
-def host() -> str:
-    return "http://localhost:8080"
+@fixture(scope="session")
+def test_client() -> TestClient:
+    return TestClient(app=app)
 
 
 @fixture(scope="session")
