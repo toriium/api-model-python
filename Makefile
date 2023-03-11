@@ -34,7 +34,7 @@ test: ## Run tests
 
 ## @ Utils Commands
 requirements: ## Update requirements.txt
-	poetry export --without-hashes -f requirements.txt >requirements.txt
+	poetry export --without  dev --output requirements.txt --without-hashes
 
 format: ## Run autoformatting and linting
 	poetry run ruff check ./ --fix
