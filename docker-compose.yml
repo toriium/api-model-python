@@ -7,6 +7,7 @@ services:
       dockerfile: Dockerfile
     image: fastapi_image
     container_name: container_fastapi
+    env_file: "./env.env"
     ports:
       - "8080:8080"
     depends_on:
@@ -20,5 +21,35 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
       MYSQL_DATABASE: ${DB_NAME}
+    restart: always
     ports:
       - "3306:3306"
+
+  redis_server:
+    image: redis
+    container_name: container_redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  redis-commander:
+    container_name: container_redis_commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=redis_server
+    ports:
+      - "8081:8081"
+
+  jaeger_service:
+    image: jaegertracing/all-in-one
+    container_name: container_jaeger
+    restart: always
+    environment:
+      COLLECTOR_ZIPKIN_HOST_PORT: ":9411"
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+
