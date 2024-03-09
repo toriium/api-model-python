@@ -1,9 +1,9 @@
-
 from src.domain.book import BookDomain
 from src.infrastructure.db_orm.query_obj import delete_obj, insert_obj, select_first_obj, update_obj
 from src.infrastructure.db_orm.tables.tbl_books import TblBooks
 from src.infrastructure.dtos.books_dto import BookDTO
 from src.infrastructure.errors.sql_error import SQLError
+from src.infrastructure.errors.repository_error import RepositoryError
 from src.infrastructure.redis.cache_expiration import CacheExpiration
 from src.infrastructure.redis.decorators import delete_cached_value, get_cached_value_2_returns
 
@@ -19,7 +19,7 @@ class BooksRepository:
             return None, None
 
     @staticmethod
-    def find_book_by_name(name: int) -> tuple[BookDTO | None, SQLError | None]:
+    def find_book_by_name(name: int) -> tuple[BookDTO | None, RepositoryError | None]:
         query_result = select_first_obj(obj_table=TblBooks, filter_by={"name": name})
         if query_result:
             return BookDTO.model_validate(query_result), None
@@ -27,7 +27,7 @@ class BooksRepository:
             return None, None
 
     @staticmethod
-    def insert_book(book: BookDomain) -> tuple[BookDTO | None, SQLError | None]:
+    def insert_book(book: BookDomain) -> tuple[BookDTO | None, RepositoryError | None]:
         new_book = TblBooks()
         new_book.isbn = book.isbn
         new_book.name = book.name
@@ -40,7 +40,7 @@ class BooksRepository:
         query_result, error = insert_obj(obj=new_book)
         if error:
             if error == SQLError.duplicate_entry:
-                return None, SQLError.duplicate_entry
+                return None, RepositoryError.duplicate_entry
 
         if query_result:
             return BookDTO.model_validate(query_result), None
@@ -48,12 +48,12 @@ class BooksRepository:
             return None, None
 
     @staticmethod
-    def update_book(book: BookDomain) -> tuple[BookDTO | None, SQLError | None]:
+    def update_book(book: BookDomain) -> tuple[BookDTO | None, RepositoryError | None]:
         obj_update = book.dict()
         query_result, error = update_obj(TblBooks, filter_by={"id": book.id}, obj_update=obj_update)
         if error:
             if error == SQLError.not_found:
-                return None, SQLError.not_found
+                return None, RepositoryError.not_found
 
         if query_result:
             return BookDTO(**book.dict()), None

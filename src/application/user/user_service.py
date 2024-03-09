@@ -4,7 +4,7 @@ from src.application.crypt.crypt_service import CryptService
 from src.application.user.user_error import UserError
 from src.domain.user import UserDomain
 from src.infrastructure.dtos.users_dto import CreateUserDTO
-from src.infrastructure.errors.sql_error import SQLError
+from src.infrastructure.errors.repository_error import RepositoryError
 from src.infrastructure.repository.users_repository import UsersRepository
 from src.presentation.schemas.user_schema import CreateUserInput
 
@@ -23,7 +23,7 @@ class UserService:
 
         result, error = UsersRepository.insert_user(user=new_user)
         if error:
-            if error == SQLError.duplicate_entry:
+            if error == RepositoryError.duplicate_entry:
                 return None, UserError.duplicate_entry
 
         created_user = UserDomain(**result.dict())
@@ -37,7 +37,7 @@ class UserService:
 
         found_user, error = UsersRepository.find_user_by_username(username=received_user.username)
         if error:
-            if error == SQLError.duplicate_entry:
+            if error == RepositoryError.duplicate_entry:
                 return False, None
 
         if not found_user:
@@ -52,6 +52,6 @@ class UserService:
     @staticmethod
     def delete_user_by_username(username: str) -> UserError | None:
         error = UsersRepository.delete_user_by_username(username=username)
-        if error == SQLError.not_found:
+        if error == RepositoryError.not_found:
             return UserError.not_found
         return None
