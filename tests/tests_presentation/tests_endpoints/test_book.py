@@ -10,7 +10,7 @@ from src.infrastructure.db_raw.db_utils import DBUtils
 
 def test_get_route_book_with_valid_book_return_book(test_client: TestClient, valid_headers: dict,
                                                     created_book: BookDomain):
-    url = f'/book'
+    url = '/book'
     headers = valid_headers
     params = {"book_id": created_book.id}
     response = test_client.get(url=url, headers=headers,params=params)
@@ -22,7 +22,7 @@ def test_get_route_book_with_valid_book_return_book(test_client: TestClient, val
 
 
 def test_post_route_book_with_valid_data_return_book(test_client: TestClient, valid_headers: dict):
-    url = f'/book'
+    url = '/book'
     headers = valid_headers
 
     fake = Faker()
@@ -47,7 +47,7 @@ def test_post_route_book_with_valid_data_return_book(test_client: TestClient, va
 
 def test_put_route_book_with_valid_data_return_200(test_client: TestClient, valid_headers: dict,
                                                    created_book: BookDomain):
-    url = f'/book'
+    url = '/book'
     headers = valid_headers
 
     fake = Faker()
@@ -71,7 +71,7 @@ def test_put_route_book_with_valid_data_return_200(test_client: TestClient, vali
 
 def test_delete_route_book_with_valid_book_id_return_200(test_client: TestClient, valid_headers: dict,
                                                          created_book: BookDomain):
-    url = f'/book'
+    url = '/book'
     headers = valid_headers
     params = {"book_id": created_book.id}
 

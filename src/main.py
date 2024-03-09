@@ -2,13 +2,13 @@ import uvicorn
 
 from src.fastapi_app import get_fastapi_app
 from src.infrastructure.db_orm.populate_db import populate_db
-from src.infrastructure.db_orm.init_database import init_database
+from src.infrastructure.db_orm.run_migration import run_migration
 from src.settings import FastAPIEnv
 from src.tracing import start_instrumentation
 
 
 def create_db():
-    init_database()
+    run_migration()
     populate_db()
 
 

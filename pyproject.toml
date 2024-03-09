@@ -61,7 +61,10 @@ select = [
     "YTT", # flake8-2020
 
 ]
-ignore = []
+ignore = [
+    "SIM102",
+    "RUF013"
+]
 
 fixable = ["A", "B", "C", "D", "E", "F", "I", "UP007"]
 unfixable = []

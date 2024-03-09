@@ -6,7 +6,7 @@ from src.domain.user import UserDomain
 
 
 def test_post_route_user_with_valid_data_return_200(test_client: TestClient, fake):
-    url = f'/user'
+    url = '/user'
     json_data = {"username": fake.name(), "name": fake.name(), "password": fake.random_int()}
 
     response = test_client.post(url=url, json=json_data)
@@ -17,7 +17,7 @@ def test_post_route_user_with_valid_data_return_200(test_client: TestClient, fak
 
 
 def test_delete_route_user_with_valid_username_return_200(test_client: TestClient, fake, created_user: UserDomain):
-    url = f'/user'
+    url = '/user'
     params = {"username": created_user.username}
 
     response = test_client.delete(url=url, params=params)
