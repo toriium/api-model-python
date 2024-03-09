@@ -2,7 +2,7 @@ from fastapi import status
 from starlette.testclient import TestClient
 
 from src.application.user.user_service import UserService
-from src.domain.user import User
+from src.domain.user import UserDomain
 
 
 def test_post_route_user_with_valid_data_return_200(test_client: TestClient, fake):
@@ -16,7 +16,7 @@ def test_post_route_user_with_valid_data_return_200(test_client: TestClient, fak
     assert response.status_code == status.HTTP_201_CREATED
 
 
-def test_delete_route_user_with_valid_username_return_200(test_client: TestClient, fake,  created_user: User):
+def test_delete_route_user_with_valid_username_return_200(test_client: TestClient, fake, created_user: UserDomain):
     url = f'/user'
     params = {"username": created_user.username}
 

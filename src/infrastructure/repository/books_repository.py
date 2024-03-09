@@ -1,5 +1,5 @@
 
-from src.domain.book import Book
+from src.domain.book import BookDomain
 from src.infrastructure.db_orm.query_obj import delete_obj, insert_obj, select_first_obj, update_obj
 from src.infrastructure.db_orm.tables.tbl_books import TblBooks
 from src.infrastructure.dtos.books_dto import BookDTO
@@ -27,7 +27,7 @@ class BooksRepository:
             return None, None
 
     @staticmethod
-    def insert_book(book: Book) -> tuple[BookDTO | None, SQLError | None]:
+    def insert_book(book: BookDomain) -> tuple[BookDTO | None, SQLError | None]:
         new_book = TblBooks()
         new_book.isbn = book.isbn
         new_book.name = book.name
@@ -48,7 +48,7 @@ class BooksRepository:
             return None, None
 
     @staticmethod
-    def update_book(book: Book) -> tuple[BookDTO | None, SQLError | None]:
+    def update_book(book: BookDomain) -> tuple[BookDTO | None, SQLError | None]:
         obj_update = book.dict()
         query_result, error = update_obj(TblBooks, filter_by={"id": book.id}, obj_update=obj_update)
         if error:

@@ -6,8 +6,8 @@ from src.main import app
 from src.application.book.book_service import BookService
 from src.application.token.token_service import TokenService
 from src.application.user.user_service import UserService
-from src.domain.book import Book
-from src.domain.user import User
+from src.domain.book import BookDomain
+from src.domain.user import UserDomain
 from src.presentation.schemas.book_schema import CreateBookInput
 from src.presentation.schemas.user_schema import CreateUserInput
 
@@ -29,7 +29,7 @@ def valid_headers() -> dict[str]:
 
 
 @fixture(scope="function")
-def created_user(fake) -> User:
+def created_user(fake) -> UserDomain:
     user_input = CreateUserInput(username=fake.name(), name=fake.name(), password=fake.random_int())
     new_user, error = UserService.create_user(received_user=user_input)
     yield new_user
@@ -37,7 +37,7 @@ def created_user(fake) -> User:
 
 
 @fixture(scope="function")
-def created_book(fake) -> Book:
+def created_book(fake) -> BookDomain:
     book = CreateBookInput(
         isbn=fake.isbn13(),
         name=fake.name(),

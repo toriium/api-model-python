@@ -2,7 +2,7 @@ from datetime import datetime
 
 from src.application.crypt.crypt_service import CryptService
 from src.application.user.user_error import UserError
-from src.domain.user import User
+from src.domain.user import UserDomain
 from src.infrastructure.dtos.users_dto import CreateUserDTO
 from src.infrastructure.errors.sql_error import SQLError
 from src.infrastructure.repository.users_repository import UsersRepository
@@ -11,7 +11,7 @@ from src.presentation.schemas.user_schema import CreateUserInput
 
 class UserService:
     @staticmethod
-    def create_user(received_user: CreateUserInput) -> tuple[User | None, UserError | None]:
+    def create_user(received_user: CreateUserInput) -> tuple[UserDomain | None, UserError | None]:
         encrypted_password = CryptService.encrypt(value=received_user.password)
 
         new_user = CreateUserDTO(
@@ -26,14 +26,14 @@ class UserService:
             if error == SQLError.duplicate_entry:
                 return None, UserError.duplicate_entry
 
-        created_user = User(**result.dict())
+        created_user = UserDomain(**result.dict())
         created_user.password = received_user.password
 
         return created_user, None
 
     @staticmethod
     def user_is_valid(username: str, password: str) -> tuple[bool, UserError | None]:
-        received_user = User(username=username, password=password)
+        received_user = UserDomain(username=username, password=password)
 
         found_user, error = UsersRepository.find_user_by_username(username=received_user.username)
         if error:
