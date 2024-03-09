@@ -2,10 +2,10 @@
 name = "api-library"
 version = "0.1.0"
 description = ""
-authors = ["Jorge Vasconcelos <jorge.r.p.v@hotmail.com>"]
+authors = ["Jorge Vasconcelos"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.12"
 fastapi = "*"
 uvicorn = "*"
 python-dotenv = "*"
@@ -21,7 +21,7 @@ opentelemetry-exporter-otlp-proto-grpc = "*"
 opentelemetry-instrumentation-fastapi = "*"
 opentelemetry-instrumentation-redis = "*"
 opentelemetry-instrumentation-sqlalchemy = "^0.37b0"
-gunicorn = "^20.1.0"
+gunicorn = "*"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -33,7 +33,7 @@ ruff = "*"
 
 [tool.ruff]
 line-length = 120
-target-version = "py311"
+target-version = "py312"
 
 select = [
     "B", # flake8-bugbear

@@ -10,7 +10,7 @@ class UsersRepository:
     def find_user_by_username(username: str) -> tuple[UserDTO | None, SQLError | None]:
         query_result = select_first_obj(obj_table=TblUsers, filter_by={"username": username})
         if query_result:
-            return UserDTO.from_orm(query_result), None
+            return UserDTO.model_validate(query_result), None
         else:
             return None, None
 
@@ -28,7 +28,7 @@ class UsersRepository:
                 return None, SQLError.duplicate_entry
 
         if query_result:
-            return UserDTO.from_orm(query_result), None
+            return UserDTO.model_validate(query_result), None
         else:
             return None, None
 

@@ -14,7 +14,7 @@ class BooksRepository:
     def find_book_by_id(book_id: int) -> tuple[BookDTO | None, SQLError | None]:
         query_result = select_first_obj(obj_table=TblBooks, filter_by={"id": book_id})
         if query_result:
-            return BookDTO.from_orm(query_result), None
+            return BookDTO.model_validate(query_result), None
         else:
             return None, None
 
@@ -22,7 +22,7 @@ class BooksRepository:
     def find_book_by_name(name: int) -> tuple[BookDTO | None, SQLError | None]:
         query_result = select_first_obj(obj_table=TblBooks, filter_by={"name": name})
         if query_result:
-            return BookDTO.from_orm(query_result), None
+            return BookDTO.model_validate(query_result), None
         else:
             return None, None
 
@@ -43,7 +43,7 @@ class BooksRepository:
                 return None, SQLError.duplicate_entry
 
         if query_result:
-            return BookDTO.from_orm(query_result), None
+            return BookDTO.model_validate(query_result), None
         else:
             return None, None
 
