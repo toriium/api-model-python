@@ -1,13 +1,12 @@
-from contextlib import contextmanager
 from collections import OrderedDict
+from contextlib import contextmanager
 
 import mysql.connector
 from mysql.connector import MySQLConnection
 from mysql.connector.cursor import MySQLCursorDict
+from pypika import Field, Query, Schema, Table
 
 from src.settings import DatabaseEnv
-from pypika import Query, Table, Field, Schema
-
 
 
 @contextmanager

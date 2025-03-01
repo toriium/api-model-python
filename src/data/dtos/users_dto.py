@@ -12,10 +12,3 @@ class UserDTO(BaseModel):
 
     class Config:
         from_attributes = True
-
-
-class CreateUserDTO(BaseModel):
-    username: str
-    name: str
-    password: str
-    creation_date: datetime

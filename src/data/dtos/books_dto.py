@@ -15,13 +15,3 @@ class BookDTO(BaseModel):
 
     class Config:
         from_attributes = True
-
-
-class CreateUserDTO(BaseModel):
-    isbn: str
-    name: str
-    author: str
-    publisher: str
-    release_date: date
-    pages: int
-    description: str

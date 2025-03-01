@@ -2,10 +2,10 @@ from datetime import datetime
 
 from src.application.crypt.crypt_service import CryptService
 from src.application.user.user_error import UserError
-from src.domain.user import UserDomain
 from src.data.dtos.users_dto import CreateUserDTO
 from src.data.errors.repository_error import RepositoryError
 from src.data.repository.users_repository import UsersRepository
+from src.domain.user import UserDomain
 from src.presentation.schemas.user_schema import CreateUserInput
 
 
@@ -26,7 +26,7 @@ class UserService:
             if error == RepositoryError.duplicate_entry:
                 return None, UserError.duplicate_entry
 
-        created_user = UserDomain(**result.dict())
+        created_user = UserDomain(**result.model_dump())
         created_user.password = received_user.password
 
         return created_user, None

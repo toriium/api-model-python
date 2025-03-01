@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class BookDomain(BaseModel):
-    id: int = None
+    id: int | None = None
     isbn: str
     name: str
     author: str

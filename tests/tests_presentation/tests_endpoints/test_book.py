@@ -4,8 +4,8 @@ from faker import Faker
 from fastapi import status
 from fastapi.testclient import TestClient
 
-from src.domain.book import BookDomain
 from src.data.db_raw.db_utils import DBUtils
+from src.domain.book import BookDomain
 
 
 def test_get_route_book_with_valid_book_return_book(test_client: TestClient, valid_headers: dict,
