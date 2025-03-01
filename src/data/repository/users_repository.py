@@ -1,9 +1,9 @@
 
-from src.infrastructure.db_orm.query_obj import delete_obj, insert_obj, select_first_obj
-from src.infrastructure.db_orm.tables import TblUsers
-from src.infrastructure.dtos.users_dto import CreateUserDTO, UserDTO
-from src.infrastructure.errors.repository_error import RepositoryError
-from src.infrastructure.errors.sql_error import SQLError
+from src.data.db_orm.query_obj import delete_obj, insert_obj, select_first_obj
+from src.data.db_orm.tables import TblUsers
+from src.data.dtos.users_dto import CreateUserDTO, UserDTO
+from src.data.errors.repository_error import RepositoryError
+from src.data.errors.sql_error import SQLError
 
 
 class UsersRepository:

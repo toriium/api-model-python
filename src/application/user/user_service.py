@@ -3,9 +3,9 @@ from datetime import datetime
 from src.application.crypt.crypt_service import CryptService
 from src.application.user.user_error import UserError
 from src.domain.user import UserDomain
-from src.infrastructure.dtos.users_dto import CreateUserDTO
-from src.infrastructure.errors.repository_error import RepositoryError
-from src.infrastructure.repository.users_repository import UsersRepository
+from src.data.dtos.users_dto import CreateUserDTO
+from src.data.errors.repository_error import RepositoryError
+from src.data.repository.users_repository import UsersRepository
 from src.presentation.schemas.user_schema import CreateUserInput
 
 

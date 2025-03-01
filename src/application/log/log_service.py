@@ -1,4 +1,4 @@
-from src.infrastructure.repository.logs_repository import LogsRepository
+from src.data.repository.logs_repository import LogsRepository
 
 
 class LogService:

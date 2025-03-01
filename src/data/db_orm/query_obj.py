@@ -5,8 +5,8 @@ from typing import Any
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from src.infrastructure.db_orm.connection import ReadingSession, WritingSession
-from src.infrastructure.errors.sql_error import SQLError
+from src.data.db_orm.connection import ReadingSession, WritingSession
+from src.data.errors.sql_error import SQLError
 
 
 @contextmanager

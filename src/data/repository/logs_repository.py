@@ -1,5 +1,5 @@
-from src.infrastructure.db_orm.query_obj import insert_obj
-from src.infrastructure.db_orm.tables import TblLogs
+from src.data.db_orm.query_obj import insert_obj
+from src.data.db_orm.tables import TblLogs
 
 
 class LogsRepository:

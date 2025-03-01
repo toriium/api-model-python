@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from datetime import timedelta
 
-from src.infrastructure.errors.redis_error import RedisError
-from src.infrastructure.redis.client import get_client
+from src.data.errors.redis_error import RedisError
+from src.data.redis.client import get_client
 
 
 class RedisUtils:

@@ -1,8 +1,8 @@
 import pickle
 from functools import wraps
 
-from src.infrastructure.redis.cache_expiration import CacheExpiration
-from src.infrastructure.redis.redis_utils import RedisUtils
+from src.data.redis.cache_expiration import CacheExpiration
+from src.data.redis.redis_utils import RedisUtils
 
 
 def verify_kwargs(kwargs):

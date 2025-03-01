@@ -11,7 +11,7 @@ from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
-from src.infrastructure.db_orm.connection import reading_engine
+from src.data.db_orm.connection import reading_engine
 from src.settings import JaegerEnv
 
 

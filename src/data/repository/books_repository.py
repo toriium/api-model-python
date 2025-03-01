@@ -1,11 +1,11 @@
 from src.domain.book import BookDomain
-from src.infrastructure.db_orm.query_obj import delete_obj, insert_obj, select_first_obj, update_obj
-from src.infrastructure.db_orm.tables.tbl_books import TblBooks
-from src.infrastructure.dtos.books_dto import BookDTO
-from src.infrastructure.errors.sql_error import SQLError
-from src.infrastructure.errors.repository_error import RepositoryError
-from src.infrastructure.redis.cache_expiration import CacheExpiration
-from src.infrastructure.redis.decorators import delete_cached_value, get_cached_value_2_returns
+from src.data.db_orm.query_obj import delete_obj, insert_obj, select_first_obj, update_obj
+from src.data.db_orm.tables.tbl_books import TblBooks
+from src.data.dtos.books_dto import BookDTO
+from src.data.errors.sql_error import SQLError
+from src.data.errors.repository_error import RepositoryError
+from src.data.redis.cache_expiration import CacheExpiration
+from src.data.redis.decorators import delete_cached_value, get_cached_value_2_returns
 
 
 class BooksRepository:

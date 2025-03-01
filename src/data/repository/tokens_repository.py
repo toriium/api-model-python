@@ -1,4 +1,4 @@
-from src.infrastructure.redis.redis_utils import RedisUtils
+from src.data.redis.redis_utils import RedisUtils
 
 
 class TokensRepository:

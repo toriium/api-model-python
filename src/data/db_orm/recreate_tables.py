@@ -1,7 +1,7 @@
 from time import sleep
 
-from src.infrastructure.db_orm.connection import writing_engine
-from src.infrastructure.db_orm.tables.base import Base
+from src.data.db_orm.connection import writing_engine
+from src.data.db_orm.tables.base import Base
 
 
 def recreate_tables():

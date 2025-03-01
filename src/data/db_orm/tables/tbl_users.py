@@ -2,7 +2,7 @@ from sqlalchemy import TIMESTAMP, Column, Integer, String, Text
 from sqlalchemy.sql import func
 from sqlalchemy_serializer import SerializerMixin
 
-from src.infrastructure.db_orm.tables.base import Base
+from src.data.db_orm.tables.base import Base
 
 
 class TblUsers(Base, SerializerMixin):

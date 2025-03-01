@@ -1,7 +1,7 @@
 from sqlalchemy import text
 
 from src.application.crypt.crypt_service import CryptService
-from src.infrastructure.db_orm.query_obj import create_writing_session
+from src.data.db_orm.query_obj import create_writing_session
 
 
 def add_tbl_users() -> list:

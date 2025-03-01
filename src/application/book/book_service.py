@@ -1,8 +1,8 @@
 
 from src.application.book.book_error import BookError
 from src.domain.book import BookDomain
-from src.infrastructure.errors.repository_error import RepositoryError
-from src.infrastructure.repository.books_repository import BooksRepository
+from src.data.errors.repository_error import RepositoryError
+from src.data.repository.books_repository import BooksRepository
 from src.presentation.schemas.book_schema import CreateBookInput, UpdateBookInput
 
 
