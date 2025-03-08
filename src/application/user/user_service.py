@@ -36,8 +36,7 @@ class UserService:
 
         found_user, error = UsersRepository.find_user_by_username(username=received_user.username)
         if error:
-            if error == RepositoryError.duplicate_entry:
-                return False, None
+            raise error
 
         if not found_user:
             return False, UserError.user_not_found

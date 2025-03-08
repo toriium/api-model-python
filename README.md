@@ -5,12 +5,13 @@
 - [Python](https://www.python.org/) - Programming language
 - [FastAPI](https://fastapi.tiangolo.com/) - Web Framework
 - [Pytest](https://docs.pytest.org/en/7.1.x/) - Test Framework
+- [Allure](https://allurereport.org/) - Test Report UI
 - [SQLAlchemy](https://www.sqlalchemy.org/) - ORM
 - [Alembic](https://github.com/sqlalchemy/alembic) - Database Migrations
-- [MySQL](https://www.mysql.com/) - Database
+- [PostgresSQL](https://www.postgresql.org/) - Database
 - [Redis](https://redis.io/) - Cache
 - [OpenTelemetry](https://opentelemetry.io/) - Telemetry
-- [Jaeger](https://www.jaegertracing.io/) - APM
+- [Jaeger](https://www.jaegertracing.io/) - Tracing
 - [Ruff](https://github.com/charliermarsh/ruff) - Linter
 
 ## System Requirements
@@ -26,6 +27,17 @@
 
 ## How to run tests
 
+### Install test tools
+```shell
+  sudo apt install inotify-tools
+```
+
+### Install Allure
+```shell
+  wget https://github.com/allure-framework/allure2/releases/download/2.33.0/allure_2.33.0-1_all.deb
+  sudo dpkg -i allure_2.33.0-1_all.deb
+```
+### Test Commands
     1 - make run_dev
     2 - make test
 

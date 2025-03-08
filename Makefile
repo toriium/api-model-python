@@ -1,3 +1,5 @@
+ALLURE_DIR=./allure-results
+
 ## @ Docker Commands
 .PHONY: build up down run restart
 build: ## Create the image of dockerfile
@@ -30,10 +32,13 @@ revision:
 
 ## @ Tests Commands
 test: ## Run tests
-	poetry run pytest -v --alluredir allure-results
+	poetry run pytest -v --alluredir $(ALLURE_DIR)
 
 test_report:
-	allure serve allure-results -p 7000
+	@while inotifywait -e create $(ALLURE_DIR); do \
+		allure serve allure-results -p 7000; \
+	done
+
 
 ## @ Utils Commands
 requirements: ## Update requirements.txt
