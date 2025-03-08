@@ -1,23 +1,23 @@
 ## @ Docker Commands
 .PHONY: build up down run restart
 build: ## Create the image of dockerfile
-	docker-compose build
+	docker compose build
 
 up: ## Start the application
-	docker-compose up -d
+	docker compose up -d
 
 down: ## Remove the docker images and containers
-	docker-compose down
+	docker compose down
 
 run: ## Build and run the application
-	docker-compose --env-file ./env.env -f docker-compose.yml up --build -d
+	docker compose --env-file ./env.env -f docker-compose.yml up --build -d
 
 run_dev: ## Build and run the application in dev mode
-	docker-compose --env-file ./env.env -f docker-compose.dev.yml up --build -d
+	docker compose --env-file ./env.env -f docker-compose.dev.yml up --build -d
 	export PYTHONPATH="${PYTHONPATH}:$PWD" && poetry run python ./src/main.py
 
 run_local: ## Build and run the application in local mode !!you need run the application by yorself!!
-	docker-compose --env-file ./env.env -f docker-compose.dev.yml up --build -d
+	docker compose --env-file ./env.env -f docker-compose.dev.yml up --build -d
 
 restart: down run ## Rebuild all application
 
@@ -30,7 +30,10 @@ revision:
 
 ## @ Tests Commands
 test: ## Run tests
-	poetry run pytest -v
+	poetry run pytest -v --alluredir allure-results
+
+test_report:
+	allure serve allure-results -p 7000
 
 ## @ Utils Commands
 requirements: ## Update requirements.txt

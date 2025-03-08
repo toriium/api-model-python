@@ -24,6 +24,7 @@ opentelemetry-instrumentation-sqlalchemy = "^0.37b0"
 gunicorn = "*"
 pydantic = "^2.10.6"
 pypika = "^0.48.9"
+psycopg2-binary = "^2.9.10"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -31,6 +32,7 @@ Faker = "*"
 pytest = "*"
 httpx = "*"
 ruff = "*"
+allure-pytest = "*"
 
 
 [tool.ruff]
