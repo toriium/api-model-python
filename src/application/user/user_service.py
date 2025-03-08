@@ -2,7 +2,6 @@ from datetime import datetime
 
 from src.application.crypt.crypt_service import CryptService
 from src.application.user.user_error import UserError
-from src.data.dtos.users_dto import CreateUserDTO
 from src.data.errors.repository_error import RepositoryError
 from src.data.repository.users_repository import UsersRepository
 from src.domain.user import UserDomain
@@ -14,7 +13,7 @@ class UserService:
     def create_user(received_user: CreateUserInput) -> tuple[UserDomain | None, UserError | None]:
         encrypted_password = CryptService.encrypt(value=received_user.password)
 
-        new_user = CreateUserDTO(
+        new_user = UserDomain(
             username=received_user.username,
             name=received_user.name,
             password=encrypted_password,

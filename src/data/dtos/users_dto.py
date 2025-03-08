@@ -2,13 +2,13 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
+from src.data.dtos.tbl_base import TblBase
 
-class UserDTO(BaseModel):
-    id: int
+
+class UserDTO(TblBase):
     username: str
     name: str
     password: str
-    creation_date: datetime
 
     class Config:
         from_attributes = True

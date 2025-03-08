@@ -7,7 +7,6 @@ from src.data.db_orm.tables.base import Base
 class TblBooks(Base, SerializerMixin):
     __tablename__ = 'tbl_books'
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
     isbn = Column(String(20), nullable=False, unique=True)
     name = Column(String(500), nullable=False, unique=True)
     author = Column(String(200), nullable=False)

@@ -30,7 +30,7 @@ def valid_headers() -> dict[str]:
 
 @fixture(scope="function")
 def created_user(fake) -> UserDomain:
-    user_input = CreateUserInput(username=fake.name(), name=fake.name(), password=fake.random_int())
+    user_input = CreateUserInput(username=fake.name(), name=fake.name(), password=fake.text())
     new_user, error = UserService.create_user(received_user=user_input)
     yield new_user
     UserService.delete_user_by_username(username=user_input.username)

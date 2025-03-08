@@ -52,7 +52,7 @@ async def create_user(payload: CreateUserInput):
             return JSONResponse(content={"message": "This user alredy exist in our base"},
                                 status_code=status.HTTP_400_BAD_REQUEST)
 
-    return JSONResponse(content=CreateUserOutput(**user.dict()).dict(), status_code=status.HTTP_201_CREATED)
+    return JSONResponse(content=CreateUserOutput(**user.model_dump()).model_dump(), status_code=status.HTTP_201_CREATED)
 
 
 @user_router.delete(

@@ -22,7 +22,6 @@ class UsersRepository:
         user_obj.username = user.username
         user_obj.name = user.name
         user_obj.password = user.password
-        user_obj.creation_date = user.creation_date
 
         query_result, error = insert_obj(obj=user_obj)
         if error:

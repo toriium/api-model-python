@@ -13,4 +13,4 @@ health_check_router = APIRouter()
     description='Health-check Endpoint')
 @tracer_endpoint()
 async def health_check():
-    return JSONResponse(content={'message': 'I still working'},status_code=status.HTTP_200_OK)
+    return JSONResponse(content={'message': 'I am still working'},status_code=status.HTTP_200_OK)

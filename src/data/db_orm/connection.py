@@ -30,7 +30,7 @@ def get_reading_db_url():
     #            port=DatabaseEnv.DB_PORT,
     #            database=DatabaseEnv.DB_NAME)
 
-    return url
+    return url.render_as_string(hide_password=False)
 
 def get_writing_db_url():
     # ------------- SQLITE -------------
@@ -49,6 +49,7 @@ def get_writing_db_url():
                port=DatabaseEnv.DB_PORT,
                database=DatabaseEnv.DB_NAME)
 
+
     # ------------- MYSQL -------------
     # url = f"mysql+mysqlconnector://{DatabaseEnv.DB_USER}:{DatabaseEnv.DB_PASSWORD}@{DatabaseEnv.DB_HOST}:{DatabaseEnv.DB_PORT}/{DatabaseEnv.DB_NAME}"
     # url = URL.create(drivername="mysql+mysqlconnector",
@@ -58,7 +59,7 @@ def get_writing_db_url():
     #            port=DatabaseEnv.DB_PORT,
     #            database=DatabaseEnv.DB_NAME)
 
-    return url
+    return url.render_as_string(hide_password=False)
 
 reading_engine = create_engine(get_reading_db_url(), echo=False)
 writing_engine = create_engine(get_writing_db_url(), echo=False)

@@ -31,7 +31,7 @@ book_router = APIRouter()
 async def get_book(book_id: int):
     result, error = BookService.find_book_by_id(book_id=book_id)
     if result:
-        return JSONResponse(content=FindBookOutput(**result.dict()).dict(), status_code=status.HTTP_200_OK)
+        return JSONResponse(content=FindBookOutput(**result.model_dump()).model_dump(), status_code=status.HTTP_200_OK)
 
     return JSONResponse(content={"message": "Not found book with this id"}, status_code=status.HTTP_404_NOT_FOUND)
 
@@ -54,7 +54,7 @@ async def create_book(payload: CreateBookInput):
             return JSONResponse(content={"message": "This book alredy exists in our base"},
                                 status_code=status.HTTP_400_BAD_REQUEST)
 
-    return JSONResponse(content=CreateBookOutput(**book.dict()).dict(), status_code=status.HTTP_201_CREATED)
+    return JSONResponse(content=CreateBookOutput(**book.model_dump()).model_dump(), status_code=status.HTTP_201_CREATED)
 
 
 @book_router.put(
@@ -74,7 +74,7 @@ async def update_book(payload: UpdateBookInput):
         if error == BookError.not_found:
             return JSONResponse(content={"message": "Book not found"}, status_code=status.HTTP_404_NOT_FOUND)
 
-    return JSONResponse(UpdateBookOutput(**book.dict()).dict(), status_code=status.HTTP_200_OK)
+    return JSONResponse(UpdateBookOutput(**book.model_dump()).model_dump(), status_code=status.HTTP_200_OK)
 
 
 @book_router.delete(

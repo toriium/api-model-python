@@ -17,5 +17,7 @@ def run_migration() -> None:
             alembic_cfg.set_main_option("sqlalchemy.url", get_writing_db_url())
             command.upgrade(alembic_cfg, "head")
             break
-        except:
-            ...
+        except Exception as e:
+            print(e)
+    else:
+        raise RuntimeError("Could not run migration")
