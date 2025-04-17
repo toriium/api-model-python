@@ -1,0 +1,7 @@
+*.pytest_cache/
+poetry.lock
+**/allure-results
+__pycache__
+.idea
+.venv
+.ruff_cache
