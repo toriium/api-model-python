@@ -24,6 +24,10 @@
 - docker
 - poetry
 
+## URLS
+https://localhost/health_check API  
+https://grafana.localhost Grafana
+
 ## How to run the app (Production)
 ```shell
   make run

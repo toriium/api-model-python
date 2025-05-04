@@ -1,14 +1,14 @@
 name: api-prd
 services:
-  # caddy:
-  #   container_name: caddy
-  #   image: caddy:latest
-  #   restart: always
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   volumes:
-  #     - ./config/caddy/Caddyfile:/etc/caddy/Caddyfile
+  caddy:
+    container_name: caddy
+    image: caddy:latest
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/caddy/Caddyfile:/etc/caddy/Caddyfile
   fastapi_service:
     build:
       context: .
@@ -16,8 +16,8 @@ services:
     image: fastapi_image
     container_name: container_fastapi
     env_file: "./env.env"
-    ports:
-      - "8080:8080"
+    # ports:
+      # - "8080:8080"
     depends_on:
       - postgres_server
 
@@ -29,15 +29,15 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     restart: always
-    ports:
-      - "5432:5432"
+    # ports:
+    #   - "5432:5432"
 
   redis_server:
     image: redis
     container_name: container_redis
     restart: always
-    ports:
-      - "6379:6379"
+    # ports:
+    #   - "6379:6379"
 
   redis-commander:
     container_name: container_redis_commander
@@ -46,48 +46,50 @@ services:
     restart: always
     environment:
       - REDIS_HOSTS=redis_server
-    ports:
-      - "8081:8081"
+    # ports:
+    #   - "8081:8081"
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib
     volumes:
       - ./config/otel.yaml:/etc/otelcol-contrib/config.yaml
-    ports:
-      - "4317:4317"   # OTLP gRPC
-      - "4318:4318"   # OTLP HTTP
+    # ports:
+    #   - "4317:4317"   # OTLP gRPC
+    #   - "4318:4318"   # OTLP HTTP
 
   tempo:
     image: grafana/tempo:latest
     command: ["-config.file=/etc/tempo.yaml" ]
     volumes:
       - ./config/tempo/tempo.yaml:/etc/tempo.yaml
-    ports:
-      - "3200:3200"
+    # ports:
+    #   - "3200:3200"
 
   loki:
     image: grafana/loki:latest
-    ports:
-      - "3100:3100"
+    # ports:
+    #   - "3100:3100"
 
   prometheus:
     image: prom/prometheus:latest
     volumes:
       - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
+    # ports:
+    #   - "9090:9090"
     depends_on:
       - loki
 
   grafana:
     image: grafana/grafana:latest
-    ports:
-      - "3000:3000"
+    # ports:
+    #   - "3000:3000"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - GF_AUTH_DISABLE_LOGIN_FORM=true
+      # - GF_SERVER_ROOT_URL=/grafana/ # Uncomment if using subpath
+      # - GF_SERVER_SERVE_FROM_SUB_PATH=true # Uncomment if using subpath
     volumes:
       - ./config/grafana/dashboards:/etc/grafana/dashboards # Your dashboards directory
       - ./config/grafana/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml # Configure PATH to dashboards
