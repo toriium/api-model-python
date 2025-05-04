@@ -11,8 +11,12 @@
 - [PostgresSQL](https://www.postgresql.org/) - Database
 - [Redis](https://redis.io/) - Cache
 - [OpenTelemetry](https://opentelemetry.io/) - Telemetry
-- [Jaeger](https://www.jaegertracing.io/) - Tracing
+- [Grafana](https://grafana.com/) - Observaiblty
+- [Tempo](https://grafana.com/oss/tempo/) - Traces
+- [Prometheus](https://prometheus.io/) - Metrics
+- [Loki](https://grafana.com/oss/loki/) - Logs
 - [Ruff](https://github.com/charliermarsh/ruff) - Linter
+- [Caddy](https://caddyserver.com/docs/) - Reverse Proxy Server
 
 ## System Requirements
 
@@ -20,10 +24,16 @@
 - docker
 - poetry
 
-## How to run the application
+## How to run the app (Production)
+```shell
+  make run
+```
 
-    make run_local
-    poetry run ./src/main.py
+## How to debug app
+```shell
+  make run_local
+  python src/main.py
+```
 
 ## How to run tests
 
@@ -46,3 +56,6 @@
 - application: All business logic
 - data: All parts that interact with data, API, Cache, SQL, etc...
 - presentation: How the system will be available, API, CLI, message-broker, etc...
+
+# Notes
+- It is using gunicorn because automatic instrumentations does not work with multi workers on uvicorn
