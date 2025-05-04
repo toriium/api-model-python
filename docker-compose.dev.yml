@@ -1,5 +1,15 @@
 name: api-dev
 services:
+  # caddy:
+  #   container_name: caddy
+  #   image: caddy:latest
+  #   restart: always
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./config/caddy/Caddyfile:/etc/caddy/Caddyfile
+
   postgres_server:
     image: postgres:latest
     container_name: container_postgres
@@ -10,8 +20,6 @@ services:
     restart: always
     ports:
       - "5432:5432"
-#    volumes:
-#      - pg_data:/var/lib/postgresql/data
 
   redis_server:
     image: redis:latest
@@ -30,13 +38,47 @@ services:
     ports:
       - "8081:8081"
 
-#  jaeger_service:
-#    image: jaegertracing/all-in-one:latest
-#    container_name: container_jaeger
-#    restart: always
-#    environment:
-#      COLLECTOR_ZIPKIN_HOST_PORT: ":9411"
-#      COLLECTOR_OTLP_ENABLED: "true"
-#    ports:
-#      - "16686:16686"
-#      - "4317:4317"
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib
+    volumes:
+      - ./config/otel.yaml:/etc/otelcol-contrib/config.yaml
+    ports:
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+
+  tempo:
+    image: grafana/tempo:latest
+    command: ["-config.file=/etc/tempo.yaml" ]
+    volumes:
+      - ./config/tempo/tempo.yaml:/etc/tempo.yaml
+    ports:
+      - "3200:3200"
+
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - loki
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+    volumes:
+      - ./config/grafana/dashboards:/etc/grafana/dashboards # Your dashboards directory
+      - ./config/grafana/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml # Configure PATH to dashboards
+      - ./config/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml # Configure datasource before starting
+

@@ -1,66 +1,106 @@
-from functools import wraps
+import logging
+from time import time
 
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
-from opentelemetry import trace
-from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
-from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
-from opentelemetry.instrumentation.redis import RedisInstrumentor
-from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
-from opentelemetry.sdk.resources import Resource
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from fastapi.concurrency import iterate_in_threadpool
+from opentelemetry.metrics import get_meter
+from opentelemetry.trace import get_tracer
+from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
+from starlette.requests import Request
+from starlette.responses import Response
+from starlette.routing import Match
+from starlette.status import HTTP_500_INTERNAL_SERVER_ERROR
+from starlette.types import ASGIApp
 
-from src.data.db_orm.connection import reading_engine
-from src.settings import JaegerEnv
-
-
-class OTLPProvider:
-    def __init__(self):
-        # set the service name to show in traces
-        resource = Resource(attributes={"service.name": JaegerEnv.JAEGER_SERVICE_NAME})
-
-        # set the tracer provider
-        self.__tracer_provider = TracerProvider(resource=resource)
-        trace.set_tracer_provider(tracer_provider=self.__tracer_provider)
-
-        # set the processor
-        otlp_exporter = OTLPSpanExporter(endpoint=f"http://{JaegerEnv.JAEGER_HOST}:{JaegerEnv.JAEGER_PORT}", insecure=True)
-        span_processor = BatchSpanProcessor(otlp_exporter)
-        self.__tracer_provider.add_span_processor(span_processor=span_processor)
-
-    @property
-    def tracer_provider(self) -> TracerProvider:
-        return self.__tracer_provider
+meter = get_meter("my.meter")
 
 
-def tracer_endpoint():
-    def handler_func(function):
-        @wraps(function)
-        async def wrapper(*args, **kwargs):
-            with tracer.start_as_current_span(name='endpoint_tracer') as span:
-                func_return = await function(*args, **kwargs)
-                if isinstance(func_return, JSONResponse):
-                    span.set_attribute("endpoint.response.body", func_return.body)
-                    span.set_attribute("endpoint.response.status_code", func_return.status_code)
-                elif isinstance(func_return, HTTPException):
-                    span.set_attribute("endpoint.response.body", str(func_return.detail))
-                    span.set_attribute("endpoint.response.status_code", func_return.status_code)
-                else:
-                    raise ValueError("Response must be [JSONResponse,HTTPException] object")
+req_count = meter.create_counter(
+    name="request_counter_total",
+    description="qtd total requests",
+)
 
-                return func_return
+err_count = meter.create_counter(
+    name="error_counter_total",
+    description="qtd errors total",
+)
 
-        return wrapper
+active_count = meter.create_up_down_counter(
+    name="active_requests",
+    description="qtd active requests.",
+)
 
-    return handler_func
+total_time = meter.create_histogram(name="total_request_time", description="time to response a request.")
 
 
-def start_instrumentation(app: FastAPI):
-    FastAPIInstrumentor.instrument_app(app, tracer_provider=tracer_provider)
-    RedisInstrumentor().instrument()
-    SQLAlchemyInstrumentor().instrument(engine=reading_engine)
+class TempoMiddleware(BaseHTTPMiddleware):
+    def __init__(self, app: ASGIApp) -> None:
+        super().__init__(app)
+        self.app_name = "great app"
+
+    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
+        method = request.method
+        path, is_handled_path = self.get_path(request)
+
+        base_attributes = {"method": method, "path": path}
+
+        if not is_handled_path or path == "/metrics":
+            return await call_next(request)
+
+        active_count.add(1, attributes=base_attributes)
+        start_time = time()
+
+        tracer = get_tracer(__name__)
+        with tracer.start_as_current_span(name="endpoint_tracer") as span:
+            try:
+                body = await request.body()
+                request_body = body.decode("utf-8")
+                span.set_attribute("endpoint.request.path", path)
+                span.set_attribute("endpoint.request.body", request_body)
+                span.set_attribute("endpoint.request.method", method)
+
+                logging.warning(f"request.path {path}")
 
 
-tracer_provider = OTLPProvider().tracer_provider
-tracer = tracer_provider.get_tracer(__name__)
+                response = await call_next(request)
+
+                status_code = response.status_code
+                response_body = b""
+                async for chunk in response.body_iterator:
+                    response_body += chunk
+                response.body_iterator = iterate_in_threadpool([response_body])  # Needs to be async
+
+                span.set_attribute("endpoint.response.body", response_body.decode())
+                span.set_attribute("endpoint.response.status_code", status_code)
+                attributes = base_attributes | {
+                    "status_code": status_code,
+                }
+                req_count.add(1, attributes=attributes)
+
+            except BaseException as e:
+                attributes = base_attributes | {
+                    "exception_type": type(e).__name__,
+                    "status_code": 500,
+                }
+                req_count.add(1, attributes=attributes)
+                err_count.add(1)
+
+                span.set_attribute("endpoint.response.exception", str(e))
+                span.set_attribute("endpoint.response.status_code", HTTP_500_INTERNAL_SERVER_ERROR)
+
+                logging.error(f"Error in request: {e}")
+
+                raise e from None
+
+            active_count.add(-1, attributes=base_attributes)
+            total_time.record(time() - start_time, attributes=base_attributes)
+
+            return response
+
+    @staticmethod
+    def get_path(request: Request) -> tuple[str, bool]:
+        for route in request.app.routes:
+            match, child_scope = route.matches(request.scope)
+            if match == Match.FULL:
+                return route.path, True
+
+        return request.url.path, False

@@ -1,0 +1,4 @@
+localhost {
+    reverse_proxy fastapi_service:8080
+}
+

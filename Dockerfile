@@ -13,4 +13,4 @@ RUN pip install -r requirements.txt
 ENV PYTHONPATH "${PYTHONPATH}:/var/www/app"
 
 # RUN
-CMD [ "python", "src/main.py" ]
+CMD ["opentelemetry-instrument", "python", "src/main.py" ]

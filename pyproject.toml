@@ -3,6 +3,7 @@ name = "api-library"
 version = "0.1.0"
 description = ""
 authors = ["Jorge Vasconcelos"]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -16,15 +17,13 @@ python-multipart = "*"
 pycryptodome = "*"
 redis = "*"
 alembic = "*"
-opentelemetry-sdk = "*"
-opentelemetry-exporter-otlp-proto-grpc = "*"
-opentelemetry-instrumentation-fastapi = "*"
-opentelemetry-instrumentation-redis = "*"
-opentelemetry-instrumentation-sqlalchemy = "^0.37b0"
+opentelemetry-distro = "*"
+opentelemetry-exporter-otlp = "*"
+opentelemetry-instrumentation-logging = "*"
 gunicorn = "*"
-pydantic = "^2.10.6"
-pypika = "^0.48.9"
-psycopg2-binary = "^2.9.10"
+pydantic = "*"
+pypika = "*"
+psycopg2-binary = "*"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -70,7 +69,7 @@ ignore = [
     "RUF013"
 ]
 
-fixable = ["A", "B", "C", "D", "E", "F", "I", "UP007"]
+fixable = ["A", "B", "C", "D", "E", "F", "I", "F401", "UP007"]
 unfixable = []
 
 [tool.ruff.per-file-ignores]

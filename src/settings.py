@@ -25,9 +25,3 @@ class DatabaseEnv:
 class RedisEnv:
     RE_HOST: str = os.getenv('RE_HOST')
     RE_PORT: int = int(os.getenv('RE_PORT'))
-
-
-class JaegerEnv:
-    JAEGER_SERVICE_NAME: str = os.getenv('JAEGER_SERVICE_NAME')
-    JAEGER_HOST: str = os.getenv('JAEGER_HOST')
-    JAEGER_PORT: int = int(os.getenv('JAEGER_PORT'))

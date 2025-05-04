@@ -6,6 +6,7 @@ from src.presentation.endpoints.books.books import books_router
 from src.presentation.endpoints.health_check.health_check import health_check_router
 from src.presentation.endpoints.token.token import token_router
 from src.presentation.endpoints.user.user import user_router
+from src.tracing import TempoMiddleware
 
 
 def create_fastapi_app() -> FastAPI:
@@ -40,6 +41,7 @@ def add_exception_handler(app: FastAPI):
 
 
 def add_middleware(app: FastAPI):
+    app.add_middleware(TempoMiddleware)
     origins = ["*"]
     app.add_middleware(CORSMiddleware,
                        allow_origins=origins,
