@@ -1,4 +1,4 @@
-from sqlalchemy import TIMESTAMP, Column, Integer, Text
+from sqlalchemy import TIMESTAMP, Column, Text
 from sqlalchemy.sql import func
 from sqlalchemy_serializer import SerializerMixin
 

@@ -6,7 +6,6 @@ from fastapi.testclient import TestClient
 
 from src.data.db_orm.query_obj import delete_obj
 from src.data.db_orm.tables import TblBooks
-from src.data.db_raw.db_utils import DBUtils
 from src.domain.book import BookDomain
 
 

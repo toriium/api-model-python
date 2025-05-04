@@ -1,6 +1,4 @@
-from datetime import datetime
 
-from pydantic import BaseModel
 
 from src.data.dtos.tbl_base import TblBase
 

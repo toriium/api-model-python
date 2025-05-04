@@ -1,5 +1,4 @@
-from sqlalchemy import TIMESTAMP, Column, Integer, String, Text
-from sqlalchemy.sql import func
+from sqlalchemy import Column, String, Text
 from sqlalchemy_serializer import SerializerMixin
 
 from src.data.db_orm.tables.base import Base

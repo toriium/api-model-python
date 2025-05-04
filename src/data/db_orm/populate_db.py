@@ -1,6 +1,6 @@
 from src.application.crypt.crypt_service import CryptService
+from src.data.db_orm.query_obj import insert_obj
 from src.data.db_orm.tables.tbl_users import TblUsers
-from src.data.db_orm.query_obj import insert_all_obj, insert_obj
 from src.data.errors.sql_error import SQLError
 
 

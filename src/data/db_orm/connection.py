@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, URL
+from sqlalchemy import URL, create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
 from src.settings import DatabaseEnv
