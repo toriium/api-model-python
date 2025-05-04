@@ -1,4 +1,4 @@
-FROM python:3.11-slim-buster
+FROM python:3.13.1-alpine3.21
 
 # Creates a new patth called app
 WORKDIR /var/www/app
@@ -13,4 +13,5 @@ RUN pip install -r requirements.txt
 ENV PYTHONPATH "${PYTHONPATH}:/var/www/app"
 
 # RUN
-CMD ["opentelemetry-instrument", "python", "src/main.py" ]
+# ENTRYPOINT ["opentelemetry-instrument", "python", "src/main.py"] 
+ENTRYPOINT ["opentelemetry-instrument", "gunicorn", "src.main:app", "-c", "./src/gunicorn.conf.py"] 

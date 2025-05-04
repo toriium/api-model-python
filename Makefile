@@ -11,7 +11,7 @@ up: ## Start the application
 down: ## Remove the docker images and containers
 	docker compose down
 
-run: ## Build and run the application
+run: requirements ## Build and run the application
 	docker compose --env-file ./env.env -f docker-compose.yml up --build -d
 
 run_dev: ## Build and run the application in dev mode

@@ -7,12 +7,11 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"
-fastapi = "*"
+fastapi = {version = "*", extras = ["standard"]}
 uvicorn = "*"
 python-dotenv = "*"
 SQLAlchemy = "*"
 SQLAlchemy-serializer = "*"
-mysql-connector-python = "*"
 python-multipart = "*"
 pycryptodome = "*"
 redis = "*"
@@ -20,10 +19,10 @@ alembic = "*"
 opentelemetry-distro = "*"
 opentelemetry-exporter-otlp = "*"
 opentelemetry-instrumentation-logging = "*"
-gunicorn = "*"
 pydantic = "*"
 pypika = "*"
 psycopg2-binary = "*"
+gunicorn = "*"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -75,6 +74,8 @@ unfixable = []
 [tool.ruff.per-file-ignores]
 "__init__.py" = ["F401"]
 
+[tool.poetry.requires-plugins]
+poetry-plugin-export = ">=1.8"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
