@@ -21,7 +21,7 @@ opentelemetry-exporter-otlp = "*"
 opentelemetry-instrumentation-logging = "*"
 pydantic = "*"
 pypika = "*"
-psycopg2-binary = "*"
+psycopg2-binary = "2.9.10"
 gunicorn = "*"
 
 

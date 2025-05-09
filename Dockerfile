@@ -1,4 +1,4 @@
-FROM python:3.13.1-alpine3.21
+FROM python:3.12.10-alpine3.21
 
 # Creates a new patth called app
 WORKDIR /var/www/app
