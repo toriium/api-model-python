@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from src.presentation.endpoints.token.token import token_validation
+from src.application.token.token_service import token_validation
 from src.presentation.schemas.book_schema import FindBookOutput
 from src.presentation.schemas.message_schema import Message
 

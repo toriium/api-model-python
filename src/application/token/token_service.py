@@ -1,31 +1,60 @@
-import uuid
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
-from src.data.repository.tokens_repository import TokensRepository
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+from jwt import DecodeError, ExpiredSignatureError, decode, encode
+from pwdlib import PasswordHash
+
+from src.application.user.user_service import UserService
+from src.domain.user import UserDomain
+from src.settings import TokenEnv
+
+pwd_context = PasswordHash.recommended()
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 
 
-class CacheTime:
-    ONE_HOUR = 60 * 60
+def create_access_token(data: dict):
+    to_encode = data.copy()
+    expire = datetime.now(tz=ZoneInfo("UTC")) + timedelta(minutes=TokenEnv.ACCESS_TOKEN_EXPIRE_MINUTES)
+    to_encode.update({"exp": expire})
+    encoded_jwt = encode(to_encode, TokenEnv.SECRET_KEY, algorithm=TokenEnv.ALGORITHM)
+    return encoded_jwt
 
 
-class TokenService:
-    @staticmethod
-    def token_is_valid(token: str) -> bool:
-        return TokensRepository.token_is_valid(token=token)
+async def token_is_valid(token: str) -> str:
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
 
-    @staticmethod
-    def create_token() -> str:
-        new_token = f"token-{uuid.uuid4()}"
-        expiration = CacheTime.ONE_HOUR
+    try:
+        payload = decode(jwt=token, key=TokenEnv.SECRET_KEY, algorithms=[TokenEnv.ALGORITHM])
+        subject = payload.get("sub")
 
-        TokensRepository.create_token(new_token=new_token, expiration=expiration)
+        if not subject:
+            raise credentials_exception
 
-        return new_token
+    except DecodeError:
+        raise credentials_exception
 
-    @staticmethod
-    def delete_token(token: str) -> None:
-        TokensRepository.delete_token(token=token)
+    except ExpiredSignatureError:
+        raise credentials_exception
 
-    @staticmethod
-    def update_token_expiration(token: str) -> None:
-        expiration = CacheTime.ONE_HOUR
-        TokensRepository.update_token_expiration(token=token, expiration=expiration)
+    return subject
+
+
+async def token_validation(token: str = Depends(oauth2_scheme)):
+    await token_is_valid(token)
+
+
+async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserDomain:
+    subject = await token_is_valid(token)
+
+    user, err = UserService.get_user_by_username(username=subject)
+
+    if not user:
+        raise err
+
+    return user

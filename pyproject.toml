@@ -23,6 +23,8 @@ pydantic = "*"
 pypika = "*"
 psycopg2-binary = "2.9.10"
 gunicorn = "*"
+pwdlib = {extras = ["argon2"], version = "*"}
+pyjwt = "*"
 
 
 [tool.poetry.group.dev.dependencies]

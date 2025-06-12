@@ -3,7 +3,7 @@ from starlette.responses import JSONResponse
 
 from src.application.book.book_error import BookError
 from src.application.book.book_service import BookService
-from src.presentation.endpoints.token.token import token_validation
+from src.application.token.token_service import token_validation
 from src.presentation.schemas.book_schema import (
     CreateBookInput,
     CreateBookOutput,
