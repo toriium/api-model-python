@@ -4,6 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 from src.presentation.endpoints.book.book import book_router
 from src.presentation.endpoints.books.books import books_router
 from src.presentation.endpoints.health_check.health_check import health_check_router
+from src.presentation.endpoints.home import home_router
 from src.presentation.endpoints.token.token import token_router
 from src.presentation.endpoints.user.user import user_router
 from src.tracing import TempoMiddleware
@@ -28,6 +29,7 @@ def create_fastapi_app() -> FastAPI:
 
 
 def add_router(app: FastAPI):
+    app.include_router(home_router)
     app.include_router(health_check_router)
     app.include_router(user_router)
     app.include_router(token_router)
