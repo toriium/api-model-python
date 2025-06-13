@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 
 from src.presentation.endpoints.book.book import book_router
 from src.presentation.endpoints.books.books import books_router
@@ -43,7 +44,9 @@ def add_exception_handler(app: FastAPI):
 
 
 def add_middleware(app: FastAPI):
+    app.add_middleware(SessionMiddleware, secret_key="sua_chave_super_secreta")
     app.add_middleware(TempoMiddleware)
+
     origins = ["*"]
     app.add_middleware(CORSMiddleware,
                        allow_origins=origins,

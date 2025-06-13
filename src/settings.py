@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 from dotenv import find_dotenv, load_dotenv
 
@@ -8,6 +9,9 @@ if not os.getenv("PRD_ENV"):
     load_dotenv(env_path)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TEMPLATES_DIR = str(Path(f"{BASE_DIR}/src/templates"))
+
+
 
 
 class FastAPIEnv:

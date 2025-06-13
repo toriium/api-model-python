@@ -24,7 +24,7 @@ async def create_token(form_data: OAuth2PasswordRequestForm = Depends()):
             return HTTPException(detail={"message": "Incorrect password"},
                                  status_code=status.HTTP_400_BAD_REQUEST)
 
-    access_token = create_access_token(data={'sub': user.username})
+    access_token = create_access_token(username=user.username)
 
     return JSONResponse(content={"access_token": access_token, "token_type": "bearer"},
                         status_code=status.HTTP_201_CREATED)
@@ -32,7 +32,7 @@ async def create_token(form_data: OAuth2PasswordRequestForm = Depends()):
 
 @token_router.post('/refresh_token', response_model=Token)
 async def refresh_access_token(user: UserDomain = Depends(get_current_user)):
-    new_access_token = create_access_token(data={'sub': user.username})
+    new_access_token = create_access_token(username=user.username)
 
     return JSONResponse(content={"access_token": new_access_token, "token_type": "bearer"},
                         status_code=status.HTTP_201_CREATED)
