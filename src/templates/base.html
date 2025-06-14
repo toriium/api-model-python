@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Minha App{% endblock %}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+    header {
+      background-color: #333;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .auth-status {
+      font-size: 0.9rem;
+    }
+    main {
+      padding: 2rem;
+    }
+    a, button {
+      color: blue;
+      text-decoration: none;
+      margin-left: 1rem;
+    }
+    .btn-logout {
+      background: none;
+      border: none;
+      color: red;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo"><strong>API LIB</strong></div>
+    <div class="auth-status">
+      {% if user %}
+        Hello, {{ user }} |
+        <form method="get" action="/logout" style="display: inline;">
+          <button class="btn-logout" type="submit">Logout</button>
+        </form>
+      {% else %}
+        <a href="/login">Login</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+</html>

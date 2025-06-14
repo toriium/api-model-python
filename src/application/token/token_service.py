@@ -51,6 +51,7 @@ async def token_is_valid(token: str) -> str:
         raise credentials_exception
 
     except ExpiredSignatureError:
+        print("Token expired")
         raise credentials_exception
 
     return subject

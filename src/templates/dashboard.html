@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head><title>Dashboard</title></head>
-<body>
-  <h2>Bem-vindo, {{ user }}!</h2>
-  <a href="/logout">Sair</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block content %}
+<h2>Welcome to the dashboard, {{ user }}!</h2>
+{% endblock %}

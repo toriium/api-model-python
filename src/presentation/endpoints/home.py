@@ -22,8 +22,11 @@ async def home(request: Request):
     user = request.session.get("user")
     logged_in = bool(user)
 
+    base_context = {"request": request, "user": user}
+    context = base_context | {"logged_in": logged_in}
+
     return templates.TemplateResponse(request=request, name="home.html",
-                                      context={"logged_in": logged_in})
+                                      context=context)
 
 @home_router.get("/login")
 async def get_login(request: Request):
@@ -32,7 +35,9 @@ async def get_login(request: Request):
     if user and token:
         return RedirectResponse(url="/dashboard", status_code=status.HTTP_302_FOUND)
 
-    return templates.TemplateResponse("login.html", {"request": request, "error": None})
+    base_context = {"request": request, "user": user}
+    context = base_context | {"error": None}
+    return templates.TemplateResponse("login.html", context=context)
 
 @home_router.post("/login")
 async def post_login(request: Request, username: str = Form(...), password: str = Form(...)):
@@ -44,7 +49,10 @@ async def post_login(request: Request, username: str = Form(...), password: str 
             error_message = "Incorrect password"
         else:
             error_message = "An unexpected error occurred"
-        return templates.TemplateResponse("login.html", {"request": request, "error": error_message})
+
+        base_context = {"request": request, "user": user}
+        context = base_context | {"error": error_message}
+        return templates.TemplateResponse("login.html", context=context)
 
     # Add user to cookie "session"
     request.session["user"] = user.username
@@ -69,7 +77,10 @@ async def dashboard(request: Request):
     user = request.session.get("user")
     if not user:
         return RedirectResponse(url="/", status_code=status.HTTP_302_FOUND)
-    return templates.TemplateResponse("dashboard.html", {"request": request, "user": user})
+
+    base_context = {"request": request, "user": user}
+    context = base_context | {}
+    return templates.TemplateResponse("dashboard.html", context=context)
 
 
 @home_router.get("/logout")

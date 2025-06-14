@@ -1,21 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Home</title>
-</head>
+{% block title %} Home {% endblock %}
 
-<body>
-    <h2>Home Page!</h2>
-    {% if logged_in %}
-    <p>You are logged!</p>
-    {% else %}
-    <p>You are not logged!</p>
-    {% endif %}
-    <li><a href="/dashboard">dashboard</a></li>
-    <li> <a href="/login">login</a>
-    <li><a href="/logout">logout</a></li>
-
-</body>
-
-</html>
+{% block content %}
+{% if logged_in %}
+<p>You are logged!</p>
+{% else %}
+<p>You are not logged!</p>
+{% endif %}
+<li><a href="/dashboard">dashboard</a></li>
+<li><a href="/login">login</a>
+<li><a href="/logout">logout</a></li>
+{% endblock %}
