@@ -3,7 +3,7 @@ from starlette.responses import JSONResponse
 
 from src.application.book.book_error import BookError
 from src.application.book.book_service import BookService
-from src.application.token.token_service import token_validation
+from src.application.token.token_service import bearer_token_validation
 from src.presentation.schemas.book_schema import (
     CreateBookInput,
     CreateBookOutput,
@@ -20,7 +20,7 @@ book_router = APIRouter()
     path="/book",
     response_model=FindBookOutput,
     status_code=200,
-    dependencies=[Depends(token_validation)],
+    dependencies=[Depends(bearer_token_validation)],
     responses={404: {"model": Message}, 500: {"model": Message}},
     tags=["book"],
     description="Get one Book",
@@ -37,7 +37,7 @@ async def get_book(book_id: int):
     path="/book",
     response_model=CreateBookOutput,
     status_code=201,
-    dependencies=[Depends(token_validation)],
+    dependencies=[Depends(bearer_token_validation)],
     responses={404: {"model": Message}, 500: {"model": Message}},
     tags=["book"],
     description="Create a Book",
@@ -57,7 +57,7 @@ async def create_book(payload: CreateBookInput):
     path="/book",
     response_model=UpdateBookOutput,
     status_code=200,
-    dependencies=[Depends(token_validation)],
+    dependencies=[Depends(bearer_token_validation)],
     responses={404: {"model": Message}, 500: {"model": Message}},
     tags=["book"],
     description="Update a Book",
@@ -75,7 +75,7 @@ async def update_book(payload: UpdateBookInput):
     path="/book",
     response_model=Message,
     status_code=200,
-    dependencies=[Depends(token_validation)],
+    dependencies=[Depends(bearer_token_validation)],
     responses={404: {"model": Message}, 500: {"model": Message}},
     tags=["book"],
     description="Delete a Book",

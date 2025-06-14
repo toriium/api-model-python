@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Form, Request, status
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
-from src.application.token.token_service import cookie_token_validation, create_access_token, token_validation
+from src.application.token.token_service import cookie_token_validation, create_access_token
 from src.application.user.user_error import UserError
 from src.application.user.user_service import UserService
 from src.settings import TEMPLATES_DIR
@@ -25,8 +25,8 @@ async def home(request: Request):
     base_context = {"request": request, "user": user}
     context = base_context | {"logged_in": logged_in}
 
-    return templates.TemplateResponse(request=request, name="home.html",
-                                      context=context)
+    return templates.TemplateResponse(request=request, name="home.html", context=context)
+
 
 @home_router.get("/login")
 async def get_login(request: Request):
@@ -38,6 +38,7 @@ async def get_login(request: Request):
     base_context = {"request": request, "user": user}
     context = base_context | {"error": None}
     return templates.TemplateResponse("login.html", context=context)
+
 
 @home_router.post("/login")
 async def post_login(request: Request, username: str = Form(...), password: str = Form(...)):
@@ -57,12 +58,10 @@ async def post_login(request: Request, username: str = Form(...), password: str 
     # Add user to cookie "session"
     request.session["user"] = user.username
 
-    token = create_access_token(username=user.username)
+    access_token, jwt_data = create_access_token(username=user.username)
 
-    response = RedirectResponse(
-        url="/dashboard",
-        status_code=status.HTTP_302_FOUND)
-    response.set_cookie(key="token", value=token, httponly=True)
+    response = RedirectResponse(url="/dashboard", status_code=status.HTTP_302_FOUND)
+    response.set_cookie(key="token", value=access_token, httponly=True)
     return response
 
 
@@ -71,7 +70,7 @@ async def post_login(request: Request, username: str = Form(...), password: str 
     response_class=HTMLResponse,
     status_code=200,
     tags=["dashboard"],
-    dependencies=[Depends(cookie_token_validation)]
+    dependencies=[Depends(cookie_token_validation)],
 )
 async def dashboard(request: Request):
     user = request.session.get("user")

@@ -5,6 +5,7 @@ from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordBearer
 from jwt import DecodeError, ExpiredSignatureError, decode, encode
 from pwdlib import PasswordHash
+from pydantic import BaseModel
 
 from src.application.user.user_service import UserService
 from src.domain.user import UserDomain
@@ -14,24 +15,28 @@ pwd_context = PasswordHash.recommended()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 
 
-def create_access_token(username: str, data: dict | None = None) -> str:
+class JWTData(BaseModel):
+    sub: str
+    iat: datetime
+    exp: datetime
+
+
+def create_access_token(username: str, data: dict | None = None) -> tuple[str, JWTData]:
     expire = datetime.now(tz=ZoneInfo("UTC")) + timedelta(minutes=TokenEnv.ACCESS_TOKEN_EXPIRE_MINUTES)
 
-    payload = {
-        "sub": username,
-        "iat": datetime.now(tz=ZoneInfo("UTC")),
-        "exp": expire,
-        # "iss": TokenEnv.ISSUER,
-        # "aud": TokenEnv.AUDIENCE,
-        # "nbf": datetime.now(tz=ZoneInfo("UTC")),
-        # "jti": pwd_context.hash(f"{username}{datetime.now(tz=ZoneInfo('UTC')).timestamp()}"),
-        # "scope": "read write",  # Example scopes, adjust as needed
-        # "data": data if data else {}
-    }
+    jwt_data = JWTData(sub=username, iat=datetime.now(tz=ZoneInfo("UTC")), exp=expire)
 
-    encoded_jwt = encode(payload=payload, key=TokenEnv.SECRET_KEY, algorithm=TokenEnv.ALGORITHM)
+    encoded_jwt = encode(payload=jwt_data.model_dump(), key=TokenEnv.SECRET_KEY, algorithm=TokenEnv.ALGORITHM)
+    return encoded_jwt, jwt_data
+
+
+def create_refresh_token(username: str) -> str:
+    expire = datetime.now(tz=ZoneInfo("UTC")) + timedelta(minutes=TokenEnv.REFRESH_TOKEN_EXPIRE_MINUTES)
+
+    jwt_data = JWTData(sub=username, iat=datetime.now(tz=ZoneInfo("UTC")), exp=expire)
+
+    encoded_jwt = encode(payload=jwt_data.model_dump(), key=TokenEnv.SECRET_KEY, algorithm=TokenEnv.ALGORITHM)
     return encoded_jwt
-
 
 async def token_is_valid(token: str) -> str:
     credentials_exception = HTTPException(
@@ -57,8 +62,9 @@ async def token_is_valid(token: str) -> str:
     return subject
 
 
-async def token_validation(token: str = Depends(oauth2_scheme)):
+async def bearer_token_validation(token: str = Depends(oauth2_scheme)):
     await token_is_valid(token)
+
 
 async def cookie_token_validation(request: Request):
     token = request.cookies.get("token")
