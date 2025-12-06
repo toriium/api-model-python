@@ -1,3 +1,5 @@
+from datetime import date
+
 from src.application.crypt.crypt_service import CryptService
 from src.data.db_orm.query_obj import insert_obj
 from src.data.db_orm.tables.tbl_books import TblBooks
@@ -15,7 +17,7 @@ def add_tbl_users() -> list:
         name='Also sprach Zarathustra',
         author='Friedrich Nietzsche ',
         publisher='Penguin TB Verlag',
-        release_date='13 octubre 2022',
+        release_date=date(2022, 10, 13),
         pages=432,
         description='This guy is crazy.'
     )

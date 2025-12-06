@@ -8,6 +8,8 @@ if not os.getenv("PRD_ENV"):
     env_path = find_dotenv("../local.env")
     load_dotenv(env_path)
 
+
+APP_NAME = "API LIBRARY"
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = str(Path(f"{BASE_DIR}/src/templates"))
 
