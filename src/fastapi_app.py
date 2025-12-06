@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
+from src.admin import STARLETTE_ADMIN
 from src.presentation.endpoints.book.book import book_router
 from src.presentation.endpoints.books.books import books_router
 from src.presentation.endpoints.health_check.health_check import health_check_router
@@ -37,6 +38,9 @@ def add_router(app: FastAPI):
 
     app.include_router(book_router)
     app.include_router(books_router)
+
+    STARLETTE_ADMIN.mount_to(app)
+
 
 
 def add_exception_handler(app: FastAPI):

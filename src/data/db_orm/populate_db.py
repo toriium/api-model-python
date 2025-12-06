@@ -1,5 +1,6 @@
 from src.application.crypt.crypt_service import CryptService
 from src.data.db_orm.query_obj import insert_obj
+from src.data.db_orm.tables.tbl_books import TblBooks
 from src.data.db_orm.tables.tbl_users import TblUsers
 from src.data.errors.sql_error import SQLError
 
@@ -9,6 +10,15 @@ def add_tbl_users() -> list:
                      name='john doe',
                      password=CryptService.encrypt('123'),
                      )
+    book1 = TblBooks(
+        isbn='978-3-16-148410-0',
+        name='Example Book',
+        author='Author Name',
+        publisher='Publisher Name',
+        release_date='2023-01-01',
+        pages=350,
+        description='This is an example book description.'
+    )
 
     commands = [
         user1,
