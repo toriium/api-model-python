@@ -1,5 +1,5 @@
-from sqlalchemy import Column, DateTime, Integer, func
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import DateTime, Integer, func
+from sqlalchemy.orm import Mapped, declarative_base, mapped_column
 
 BaseDeclarative = declarative_base()
 
@@ -7,9 +7,9 @@ BaseDeclarative = declarative_base()
 class Base(BaseDeclarative):
     __abstract__ = True
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    created_at = Column(DateTime, server_default=func.now(), nullable=False)
-    updated_at = Column(DateTime, server_default=func.now(), server_onupdate=func.now(), nullable=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    created_at: Mapped[DateTime] = mapped_column(DateTime, server_default=func.now(), nullable=False)
+    updated_at: Mapped[DateTime] = mapped_column(DateTime, server_default=func.now(), server_onupdate=func.now(), nullable=False)
 
     def model_to_dict(self) -> dict:
         # Convert the model instance to a dictionary, excluding internal attributes

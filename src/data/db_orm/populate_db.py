@@ -11,17 +11,18 @@ def add_tbl_users() -> list:
                      password=CryptService.encrypt('123'),
                      )
     book1 = TblBooks(
-        isbn='978-3-16-148410-0',
-        name='Example Book',
-        author='Author Name',
-        publisher='Publisher Name',
-        release_date='2023-01-01',
-        pages=350,
-        description='This is an example book description.'
+        isbn='978-3328109211',
+        name='Also sprach Zarathustra',
+        author='Friedrich Nietzsche ',
+        publisher='Penguin TB Verlag',
+        release_date='13 octubre 2022',
+        pages=432,
+        description='This guy is crazy.'
     )
 
     commands = [
         user1,
+        book1
     ]
     return commands
 

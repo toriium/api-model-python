@@ -1,12 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
-from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordRequestFormStrict
+from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import BaseModel
 
-from src.application.token.token_service import create_access_token, create_refresh_token, get_current_user, token_is_valid
+from src.application.token.token_service import (
+    create_access_token,
+    create_refresh_token,
+    token_is_valid,
+)
 from src.application.user.user_error import UserError
 from src.application.user.user_service import UserService
-from src.domain.user import UserDomain
 from src.presentation.schemas.token import TokenOutput
 
 token_router = APIRouter(prefix='/auth', tags=['auth'])

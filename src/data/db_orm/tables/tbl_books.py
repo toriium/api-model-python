@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Date, Integer, String, Text
+from sqlalchemy import Date, Integer, String, Text
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy_serializer import SerializerMixin
 
 from src.data.db_orm.tables.base import Base
@@ -7,13 +8,13 @@ from src.data.db_orm.tables.base import Base
 class TblBooks(Base, SerializerMixin):
     __tablename__ = 'tbl_books'
 
-    isbn = Column(String(20), nullable=False, unique=True)
-    name = Column(String(500), nullable=False, unique=True)
-    author = Column(String(200), nullable=False)
-    publisher = Column(String(500), nullable=False)
-    release_date = Column(Date(), nullable=False)
-    pages = Column(Integer(), nullable=False)
-    description = Column(Text(), nullable=False)
+    isbn: Mapped[str] = mapped_column(String(20), nullable=False, unique=True)
+    name: Mapped[str] = mapped_column(String(500), nullable=False, unique=True)
+    author: Mapped[str] = mapped_column(String(200), nullable=False)
+    publisher: Mapped[str] = mapped_column(String(500), nullable=False)
+    release_date: Mapped[Date] = mapped_column(Date(), nullable=False)
+    pages: Mapped[int] = mapped_column(Integer(), nullable=False)
+    description: Mapped[str] = mapped_column(Text(), nullable=False)
 
     def __repr__(self):
-        return str(self.to_dict())
+        return str(self.model_to_dict())
