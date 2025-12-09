@@ -8,7 +8,6 @@ from src.data.db_orm.connection import writing_engine
 from src.data.db_orm.tables.tbl_books import TblBooks
 from src.settings import APP_NAME, TEMPLATES_DIR
 
-# Create admin
 STARLETTE_ADMIN = Admin(writing_engine, title=APP_NAME)
 
 
@@ -23,5 +22,5 @@ STARLETTE_ADMIN = Admin(writing_engine, title=APP_NAME)
 
 # STARLETTE_ADMIN.add_view(HomeView(label="Home", icon="fa fa-home", path="/"))
 
-# Add view
-STARLETTE_ADMIN.add_view(ModelView(TblBooks))
+STARLETTE_ADMIN.add_view(ModelView(TblBooks, icon="fa fa-home"))
+

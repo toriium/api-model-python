@@ -26,6 +26,8 @@ def create_fastapi_app() -> FastAPI:
         docs_url='/docs',
         redoc_url='/redoc'
     )
+    # Apparently needs to be mounted rigth after the app creation, otherwise lose icons
+    STARLETTE_ADMIN.mount_to(app)
 
     return app
 
@@ -38,10 +40,6 @@ def add_router(app: FastAPI):
 
     app.include_router(book_router)
     app.include_router(books_router)
-
-    STARLETTE_ADMIN.mount_to(app)
-
-
 
 def add_exception_handler(app: FastAPI):
     ...
