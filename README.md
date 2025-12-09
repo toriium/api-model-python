@@ -9,6 +9,7 @@
 - [SQLAlchemy](https://www.sqlalchemy.org/) - ORM
 - [Alembic](https://github.com/sqlalchemy/alembic) - Database Migrations
 - [PostgresSQL](https://www.postgresql.org/) - Database
+- [Starlette-Admin](https://jowilf.github.io/starlette-admin/) - Database Admin Panel
 - [Redis](https://redis.io/) - Cache
 - [OpenTelemetry](https://opentelemetry.io/) - Telemetry
 - [Grafana](https://grafana.com/) - Observaiblty
