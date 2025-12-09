@@ -1,14 +1,14 @@
 name: api-dev
 services:
-  # caddy:
-  #   container_name: caddy
-  #   image: caddy:latest
-  #   restart: always
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   volumes:
-  #     - ./config/caddy/Caddyfile:/etc/caddy/Caddyfile
+  caddy:
+    container_name: caddy
+    image: caddy:latest
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/caddy/Caddyfile:/etc/caddy/Caddyfile
 
   postgres_server:
     image: postgres:latest
