@@ -58,16 +58,26 @@ class TempoMiddleware(BaseHTTPMiddleware):
                 span.set_attribute("endpoint.request.body", request_body)
                 span.set_attribute("endpoint.request.method", method)
 
+                # Comment this in production
                 logging.warning(f"request.path {path}")
 
 
                 response = await call_next(request)
 
                 status_code = response.status_code
-                response_body = b""
-                async for chunk in response.body_iterator:
-                    response_body += chunk
-                response.body_iterator = iterate_in_threadpool([response_body])  # Needs to be async
+
+                # Captures the body response if necessary
+                # Reading streaming body response was corrupint file data like CSS and fonts for starlette_admin
+                is_static_file = path.endswith((".css", ".js", ".ico", ".png", ".jpg"))
+                is_admin = path.startswith("/admin")
+                # is_json_or_text = response.headers.get("content-type", "").startswith(("application/json", "text"))
+                if is_admin or is_static_file:
+                    response_body = b""
+                else:
+                    response_body = b""
+                    async for chunk in response.body_iterator:
+                        response_body += chunk
+                    response.body_iterator = iterate_in_threadpool([response_body])  # Needs to be async
 
                 span.set_attribute("endpoint.response.body", response_body.decode())
                 span.set_attribute("endpoint.response.status_code", status_code)
