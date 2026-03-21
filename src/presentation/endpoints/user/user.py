@@ -10,60 +10,60 @@ user_router = APIRouter()
 
 
 @user_router.get(
-    path="/user",
-    response_model=Message,
-    status_code=200,
-    dependencies=[],
-    responses={404: {"model": Message}, 400: {"model": Message}, 500: {"model": Message}},
-    tags=["user"],
-    description="Validate your User",
+	path="/user",
+	response_model=Message,
+	status_code=200,
+	dependencies=[],
+	responses={404: {"model": Message}, 400: {"model": Message}, 500: {"model": Message}},
+	tags=["user"],
+	description="Validate your User",
 )
 async def validate_user(payload: FindUserInput):
-    user, error = UserService.user_is_valid(username=payload.username, password=payload.password)
-    if error:
-        if error == UserError.user_not_found:
-            return JSONResponse(
-                content={"message": "This user does't exist in our base"}, status_code=status.HTTP_404_NOT_FOUND
-            )
-        if error == UserError.incorrect_password:
-            return JSONResponse(content={"message": "Incorrect password"}, status_code=status.HTTP_400_BAD_REQUEST)
+	user, error = UserService.user_is_valid(username=payload.username, password=payload.password)
+	if error:
+		if error == UserError.user_not_found:
+			return JSONResponse(
+				content={"message": "This user does't exist in our base"}, status_code=status.HTTP_404_NOT_FOUND
+			)
+		if error == UserError.incorrect_password:
+			return JSONResponse(content={"message": "Incorrect password"}, status_code=status.HTTP_400_BAD_REQUEST)
 
-    return JSONResponse(content={"message": "This user is valid"}, status_code=status.HTTP_200_OK)
+	return JSONResponse(content={"message": "This user is valid"}, status_code=status.HTTP_200_OK)
 
 
 @user_router.post(
-    path="/user",
-    response_model=CreateUserInput,
-    status_code=200,
-    dependencies=[],
-    responses={404: {"model": Message}, 500: {"model": Message}},
-    tags=["user"],
-    description="Create an User",
+	path="/user",
+	response_model=CreateUserInput,
+	status_code=200,
+	dependencies=[],
+	responses={404: {"model": Message}, 500: {"model": Message}},
+	tags=["user"],
+	description="Create an User",
 )
 async def create_user(payload: CreateUserInput):
-    user, error = UserService.create_user(payload)
-    if error:
-        if error == UserError.duplicate_entry:
-            return JSONResponse(
-                content={"message": "This user alredy exist in our base"}, status_code=status.HTTP_400_BAD_REQUEST
-            )
+	user, error = UserService.create_user(payload)
+	if error:
+		if error == UserError.duplicate_entry:
+			return JSONResponse(
+				content={"message": "This user alredy exist in our base"}, status_code=status.HTTP_400_BAD_REQUEST
+			)
 
-    return JSONResponse(content=CreateUserOutput(**user.model_dump()).model_dump(), status_code=status.HTTP_201_CREATED)
+	return JSONResponse(content=CreateUserOutput(**user.model_dump()).model_dump(), status_code=status.HTTP_201_CREATED)
 
 
 @user_router.delete(
-    path="/user",
-    response_model=Message,
-    status_code=200,
-    dependencies=[],
-    responses={404: {"model": Message}, 500: {"model": Message}},
-    tags=["user"],
-    description="Delete an User",
+	path="/user",
+	response_model=Message,
+	status_code=200,
+	dependencies=[],
+	responses={404: {"model": Message}, 500: {"model": Message}},
+	tags=["user"],
+	description="Delete an User",
 )
 async def delete_user(username: str):
-    error = UserService.delete_user_by_username(username=username)
-    if error:
-        if error == UserError.not_found:
-            return JSONResponse(content={"message": "User not found"}, status_code=status.HTTP_400_BAD_REQUEST)
+	error = UserService.delete_user_by_username(username=username)
+	if error:
+		if error == UserError.not_found:
+			return JSONResponse(content={"message": "User not found"}, status_code=status.HTTP_400_BAD_REQUEST)
 
-    return JSONResponse(content={"message": "User deleted"}, status_code=status.HTTP_200_OK)
+	return JSONResponse(content={"message": "User deleted"}, status_code=status.HTTP_200_OK)

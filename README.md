@@ -40,6 +40,12 @@ https://grafana.localhost Grafana
   python src/main.py
 ```
 
+## How to run pre-commit
+```shell
+pre-commit install 
+pre-commit autoupdate
+```
+
 ## How to run tests
 
 ### Install test tools

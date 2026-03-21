@@ -13,55 +13,53 @@ from src.tracing import TempoMiddleware
 
 
 def create_fastapi_app() -> FastAPI:
-    description = """
+	description = """
         # Library API
 
         ## Awsome Description
         - .... .. ... / .. ... / -. --- - / .- / -.. . ... -.-. .-. .. .--. - .. --- -. / .. -. / -- --- .-. ... . / -.-. --- -.. .
             """
-    app = FastAPI(
-        title="Library API",
-        description=description,
-        version="1.0",
-        docs_url='/docs',
-        redoc_url='/redoc'
-    )
+	app = FastAPI(title="Library API", description=description, version="1.0", docs_url="/docs", redoc_url="/redoc")
 
-    return app
+	return app
 
 
 def add_router(app: FastAPI):
-    app.include_router(home_router)
-    app.include_router(health_check_router)
-    app.include_router(user_router)
-    app.include_router(token_router)
+	app.include_router(home_router)
+	app.include_router(health_check_router)
+	app.include_router(user_router)
+	app.include_router(token_router)
 
-    app.include_router(book_router)
-    app.include_router(books_router)
+	app.include_router(book_router)
+	app.include_router(books_router)
 
-def add_exception_handler(app: FastAPI):
-    ...
+
+def add_exception_handler(app: FastAPI): ...
 
 
 def add_middleware(app: FastAPI):
-    app.add_middleware(SessionMiddleware, secret_key="sua_chave_super_secreta")
-    app.add_middleware(TempoMiddleware)
+	app.add_middleware(SessionMiddleware, secret_key="sua_chave_super_secreta")
+	app.add_middleware(TempoMiddleware)
 
-    origins = ["*"]
-    app.add_middleware(CORSMiddleware,
-                       allow_origins=origins,
-                       allow_credentials=True,
-                       allow_methods=["*"],
-                       allow_headers=["*"], )
+	origins = ["*"]
+	app.add_middleware(
+		CORSMiddleware,
+		allow_origins=origins,
+		allow_credentials=True,
+		allow_methods=["*"],
+		allow_headers=["*"],
+	)
+
 
 def add_starlette_admin(app: FastAPI):
-    STARLETTE_ADMIN.mount_to(app)
+	STARLETTE_ADMIN.mount_to(app)
+
 
 def get_fastapi_app() -> FastAPI:
-    app = create_fastapi_app()
-    add_middleware(app=app)
-    add_exception_handler(app=app)
-    add_router(app=app)
-    add_starlette_admin(app=app)
+	app = create_fastapi_app()
+	add_middleware(app=app)
+	add_exception_handler(app=app)
+	add_router(app=app)
+	add_starlette_admin(app=app)
 
-    return app
+	return app

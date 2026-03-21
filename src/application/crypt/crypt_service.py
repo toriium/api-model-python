@@ -7,22 +7,22 @@ from Crypto.PublicKey import RSA
 
 
 class CryptService:
-    __current_path = os.path.dirname(__file__)
-    PUBLIC_KEY_PATH = Path(f'{__current_path}/keys/public_key.pem')
-    PRIVATE_KEY_PATH = Path(f'{__current_path}/keys/private_key.pem')
+	__current_path = os.path.dirname(__file__)
+	PUBLIC_KEY_PATH = Path(f"{__current_path}/keys/public_key.pem")
+	PRIVATE_KEY_PATH = Path(f"{__current_path}/keys/private_key.pem")
 
-    @classmethod
-    def encrypt(cls, value: str) -> str:
-        with open(cls.PUBLIC_KEY_PATH, "rb") as file:
-            public_key = RSA.importKey(file.read())
+	@classmethod
+	def encrypt(cls, value: str) -> str:
+		with open(cls.PUBLIC_KEY_PATH, "rb") as file:
+			public_key = RSA.importKey(file.read())
 
-        encryptor = PKCS1_OAEP.new(public_key)
-        return b64encode(encryptor.encrypt(value.encode())).decode()
+		encryptor = PKCS1_OAEP.new(public_key)
+		return b64encode(encryptor.encrypt(value.encode())).decode()
 
-    @classmethod
-    def decrypt(cls, value: str) -> str:
-        with open(cls.PRIVATE_KEY_PATH, "rb") as file:
-            private_key = RSA.importKey(file.read())
+	@classmethod
+	def decrypt(cls, value: str) -> str:
+		with open(cls.PRIVATE_KEY_PATH, "rb") as file:
+			private_key = RSA.importKey(file.read())
 
-        decryptor = PKCS1_OAEP.new(private_key)
-        return decryptor.decrypt(b64decode(value)).decode()
+		decryptor = PKCS1_OAEP.new(private_key)
+		return decryptor.decrypt(b64decode(value)).decode()

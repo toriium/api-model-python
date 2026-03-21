@@ -1,4 +1,3 @@
-
 from src.data.db_orm.query_obj import delete_obj, insert_obj, select_first_obj
 from src.data.db_orm.tables import TblUsers
 from src.data.dtos.users_dto import UserDTO
@@ -8,32 +7,32 @@ from src.domain.user import UserDomain
 
 
 class UsersRepository:
-    @staticmethod
-    def find_user_by_username(username: str) -> tuple[UserDTO | None, RepositoryError | None]:
-        query_result = select_first_obj(obj_table=TblUsers,  where_clauses=[TblUsers.username==username])
-        if query_result:
-            return UserDTO.model_validate(query_result), None
-        else:
-            return None, None
+	@staticmethod
+	def find_user_by_username(username: str) -> tuple[UserDTO | None, RepositoryError | None]:
+		query_result = select_first_obj(obj_table=TblUsers, where_clauses=[TblUsers.username == username])
+		if query_result:
+			return UserDTO.model_validate(query_result), None
+		else:
+			return None, None
 
-    @staticmethod
-    def insert_user(user: UserDomain) -> tuple[UserDTO | None, RepositoryError | None]:
-        user_obj = TblUsers()
-        user_obj.username = user.username
-        user_obj.name = user.name
-        user_obj.password = user.password
+	@staticmethod
+	def insert_user(user: UserDomain) -> tuple[UserDTO | None, RepositoryError | None]:
+		user_obj = TblUsers()
+		user_obj.username = user.username
+		user_obj.name = user.name
+		user_obj.password = user.password
 
-        query_result, error = insert_obj(obj=user_obj)
-        if error:
-            if error == SQLError.duplicate_entry:
-                return None, RepositoryError.duplicate_entry
+		query_result, error = insert_obj(obj=user_obj)
+		if error:
+			if error == SQLError.duplicate_entry:
+				return None, RepositoryError.duplicate_entry
 
-        if query_result:
-            return UserDTO.model_validate(query_result), None
-        else:
-            return None, None
+		if query_result:
+			return UserDTO.model_validate(query_result), None
+		else:
+			return None, None
 
-    @staticmethod
-    def delete_user_by_username(username: str) -> RepositoryError | None:
-        error = delete_obj(obj_table=TblUsers,where_clauses=[TblUsers.username==username])
-        return error if error else None
+	@staticmethod
+	def delete_user_by_username(username: str) -> RepositoryError | None:
+		error = delete_obj(obj_table=TblUsers, where_clauses=[TblUsers.username == username])
+		return error if error else None

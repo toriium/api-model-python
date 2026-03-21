@@ -46,3 +46,4 @@ requirements: ## Update requirements.txt
 
 format: ## Run autoformatting and linting
 	poetry run ruff check ./ --fix
+	poetry run ruff format ./

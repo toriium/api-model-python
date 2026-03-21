@@ -7,19 +7,19 @@ from src.settings import FastAPIEnv
 
 
 def create_db():
-    run_migration()
-    populate_db()
+	run_migration()
+	populate_db()
 
 
 create_db()
 app = get_fastapi_app()
 
-if __name__ == '__main__':
-    uvicorn.run(
-        app="main:app",
-        host=FastAPIEnv.APP_HOST,
-        port=FastAPIEnv.APP_PORT,
-        log_level='info',
-        access_log=True,
-        workers=FastAPIEnv.APP_WORKERS,
-    )
+if __name__ == "__main__":
+	uvicorn.run(
+		app="main:app",
+		host=FastAPIEnv.APP_HOST,
+		port=FastAPIEnv.APP_PORT,
+		log_level="info",
+		access_log=True,
+		workers=FastAPIEnv.APP_WORKERS,
+	)
