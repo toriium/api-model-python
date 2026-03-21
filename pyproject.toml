@@ -1,40 +1,41 @@
-[tool.poetry]
-name = "api-library"
+[project]
+name = "api-model-python"
 version = "0.1.0"
-description = ""
-authors = ["Jorge Vasconcelos"]
-package-mode = false
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "alembic>=1.18.4",
+    "fastapi[standard]>=0.135.1",
+    "gunicorn>=25.1.0",
+    "opentelemetry-distro>=0.61b0",
+    "opentelemetry-exporter-otlp>=1.40.0",
+    "opentelemetry-instrumentation-logging>=0.61b0",
+    "psycopg2-binary==2.9.10",
+    "pwdlib[argon2]>=0.3.0",
+    "pycryptodome>=3.23.0",
+    "pydantic>=2.12.5",
+    "pyjwt>=2.12.1",
+    "pypika>=0.51.1",
+    "python-dotenv>=1.2.2",
+    "python-multipart>=0.0.22",
+    "redis>=7.3.0",
+    "ruff>=0.15.7",
+    "sqlalchemy>=2.0.48",
+    "sqlalchemy-serializer>=1.4.12",
+    "starlette-admin>=0.16.0",
+    "uvicorn>=0.42.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.12"
-fastapi = {version = "*", extras = ["standard"]}
-uvicorn = "*"
-python-dotenv = "*"
-SQLAlchemy = "*"
-SQLAlchemy-serializer = "*"
-python-multipart = "*"
-pycryptodome = "*"
-redis = "*"
-alembic = "*"
-opentelemetry-distro = "*"
-opentelemetry-exporter-otlp = "*"
-opentelemetry-instrumentation-logging = "*"
-pydantic = "*"
-pypika = "*"
-psycopg2-binary = "2.9.10"
-gunicorn = "*"
-pwdlib = {extras = ["argon2"], version = "*"}
-pyjwt = "*"
-starlette-admin = "*"
-
-
-[tool.poetry.group.dev.dependencies]
-Faker = "*"
-pytest = "*"
-httpx = "*"
-ruff = "*"
-allure-pytest = "*"
-locust = "*"
+[dependency-groups]
+dev = [
+    "allure-pytest>=2.15.3",
+    "faker>=40.11.0",
+    "httpx>=0.28.1",
+    "locust>=2.43.3",
+    "pytest>=9.0.2",
+    "ruff>=0.15.7",
+]
 
 [tool.ruff]
 line-length = 120
@@ -49,15 +50,12 @@ select = [
     "E",
     "F",
     "I", # isort
-
-
 ]
+
 ignore = [
-    "SIM102",
-    "RUF013"
 ]
 
-fixable = ["A", "B", "C", "D", "E", "F", "I", "F401", "UP007"]
+fixable = ["A", "B", "C", "D", "E", "F", "I"]
 unfixable = []
 
 # Allow unused variables when underscore-prefixed.
@@ -70,10 +68,3 @@ indent-style = "tab"
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
-
-[tool.poetry.requires-plugins]
-poetry-plugin-export = ">=1.8"
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"

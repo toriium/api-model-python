@@ -9,6 +9,6 @@ repos:
 
       - id: ruff-format
         name: ruff format
-        entry: poetry run ruff format
+        entry: uv run ruff format
         language: system
         types: [python]
