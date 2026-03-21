@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 from pytest import fixture
 
 from src.application.book.book_service import BookService
-from src.application.token.token_service import TokenService
+from src.application.token.token_service import create_access_token
 from src.application.user.user_service import UserService
 from src.domain.book import BookDomain
 from src.domain.user import UserDomain
@@ -24,7 +24,8 @@ def fake() -> Faker:
 
 @fixture(scope="session")
 def valid_headers() -> dict[str]:
-	token = TokenService.create_token()
+	access_token, jwt_data = create_access_token(username="test_user")
+	token = access_token
 	return {"Authorization": f"Bearer {token}"}
 
 

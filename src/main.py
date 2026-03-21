@@ -11,10 +11,10 @@ def create_db():
 	populate_db()
 
 
-create_db()
 app = get_fastapi_app()
 
 if __name__ == "__main__":
+	create_db()
 	uvicorn.run(
 		app="main:app",
 		host=FastAPIEnv.APP_HOST,
