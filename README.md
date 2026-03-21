@@ -18,6 +18,7 @@
 - [Loki](https://grafana.com/oss/loki/) - Logs
 - [Ruff](https://github.com/charliermarsh/ruff) - Linter
 - [Caddy](https://caddyserver.com/docs/) - Reverse Proxy Server
+- [pre-commit](https://pre-commit.com/) - Git hooks manager
 
 ## System Requirements
 
