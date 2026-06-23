@@ -16,8 +16,9 @@
 - [Tempo](https://grafana.com/oss/tempo/) - Traces
 - [Prometheus](https://prometheus.io/) - Metrics
 - [Loki](https://grafana.com/oss/loki/) - Logs
-- [Ruff](https://github.com/charliermarsh/ruff) - Linter
 - [Caddy](https://caddyserver.com/docs/) - Reverse Proxy Server
+- [Ruff](https://github.com/charliermarsh/ruff) - Python Linter & Formatter
+- [Hadolint](https://github.com/hadolint/hadolint) - Dockerfile Linter
 - [pre-commit](https://pre-commit.com/) - Git hooks manager
 
 ## System Requirements

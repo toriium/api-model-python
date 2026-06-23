@@ -11,7 +11,13 @@ repos:
         name: ruff format
         entry: uv run ruff format
         language: system
-        types: [python]
+        types: [ python ]
+
+      - id: hadolint-check
+        name: hadolint-check
+        entry: hadolint Dockerfile
+        language: system
+        pass_filenames: false
       
       # - id: test
       #   name: pytest

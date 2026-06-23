@@ -7,7 +7,7 @@ WORKDIR /var/www/app
 COPY . .
 
 # Install python requirements
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Add current path to PYTHONPATH
 ENV PYTHONPATH "${PYTHONPATH}:/var/www/app"
