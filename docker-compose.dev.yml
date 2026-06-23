@@ -9,7 +9,6 @@ services:
       - "443:443"
     volumes:
       - ./config/caddy/Caddyfile:/etc/caddy/Caddyfile
-
   postgres_server:
     image: postgres:latest
     container_name: container_postgres
@@ -20,14 +19,12 @@ services:
     restart: always
     ports:
       - "5432:5432"
-
   redis_server:
     image: redis:latest
     container_name: container_redis
     restart: always
     ports:
       - "6379:6379"
-
   redis-commander:
     image: rediscommander/redis-commander:latest
     container_name: container_redis_commander
@@ -37,28 +34,24 @@ services:
       - REDIS_HOSTS=redis_server
     ports:
       - "8081:8081"
-
   otel-collector:
     image: otel/opentelemetry-collector-contrib
     volumes:
       - ./config/otel.yaml:/etc/otelcol-contrib/config.yaml
     ports:
-      - "4317:4317"   # OTLP gRPC
-      - "4318:4318"   # OTLP HTTP
-
+      - "4317:4317" # OTLP gRPC
+      - "4318:4318" # OTLP HTTP
   tempo:
     image: grafana/tempo:latest
-    command: ["-config.file=/etc/tempo.yaml" ]
+    command: ["-config.file=/etc/tempo.yaml"]
     volumes:
       - ./config/tempo/tempo.yaml:/etc/tempo.yaml
     ports:
       - "3200:3200"
-
   loki:
     image: grafana/loki:latest
     ports:
       - "3100:3100"
-
   prometheus:
     image: prom/prometheus:latest
     volumes:
@@ -67,7 +60,6 @@ services:
       - "9090:9090"
     depends_on:
       - loki
-
   grafana:
     image: grafana/grafana:latest
     ports:
@@ -81,4 +73,3 @@ services:
       - ./config/grafana/dashboards:/etc/grafana/dashboards # Your dashboards directory
       - ./config/grafana/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml # Configure PATH to dashboards
       - ./config/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml # Configure datasource before starting
-

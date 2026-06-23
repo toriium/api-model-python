@@ -6,22 +6,24 @@ repos:
       #   entry: poetry run ruff check --fix
       #   language: system
       #   types: [python]
-
       - id: ruff-format
         name: ruff format
         entry: uv run ruff format
         language: system
-        types: [ python ]
-
+        types: [python]
       - id: hadolint-check
         name: hadolint-check
         entry: hadolint Dockerfile
         language: system
         pass_filenames: false
-      
-      # - id: test
-      #   name: pytest
-      #   entry: uv run pytest -v
-      #   language: system
-      #   types: [python]
+      - id: yamlfmt
+        name: yamlfmt
+        entry: yamlfmt .
+        language: system
+        pass_filenames: false
 
+# - id: test
+#   name: pytest
+#   entry: uv run pytest -v
+#   language: system
+#   types: [python]

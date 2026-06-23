@@ -19,6 +19,7 @@
 - [Caddy](https://caddyserver.com/docs/) - Reverse Proxy Server
 - [Ruff](https://github.com/charliermarsh/ruff) - Python Linter & Formatter
 - [Hadolint](https://github.com/hadolint/hadolint) - Dockerfile Linter
+- [yamlfmt](https://github.com/google/yamlfmt) - YAML Formatter
 - [pre-commit](https://pre-commit.com/) - Git hooks manager
 
 ## System Requirements
