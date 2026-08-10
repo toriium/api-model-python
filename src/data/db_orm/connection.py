@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from src.settings import DatabaseEnv
 
 
-def get_reading_db_url():
+def get_reading_db_url() -> str:
 	# ------------- SQLITE -------------
 	# url = 'sqlite:///teste.db'
 	# url = URL.create(
@@ -35,7 +35,7 @@ def get_reading_db_url():
 	return url.render_as_string(hide_password=False)
 
 
-def get_writing_db_url():
+def get_writing_db_url() -> str:
 	# ------------- SQLITE -------------
 	# url = 'sqlite:///teste.db'
 	# url = URL.create(
@@ -66,23 +66,50 @@ def get_writing_db_url():
 	return url.render_as_string(hide_password=False)
 
 
-reading_engine = create_engine(get_reading_db_url(), echo=False)
-writing_engine = create_engine(get_writing_db_url(), echo=False)
+# echo: logs every SQL statement issued through the engine, useful for debugging, keep False in production
+# pool_size: number of persistent connections kept open per engine
+# max_overflow: extra connections allowed on top of pool_size during load spikes
+# pool_timeout: seconds to wait for a free connection before raising TimeoutError
+# pool_recycle: recycle connections older than this (seconds), avoids using connections killed by the DB/network side
+# pool_pre_ping: check connection liveness (SELECT 1) before handing it out, avoids "server closed the connection unexpectedly"
+reading_engine = create_engine(
+	url=get_reading_db_url(),
+	echo=False,
+	pool_size=5,
+	max_overflow=10,
+	pool_timeout=30,
+	pool_recycle=1800,
+	pool_pre_ping=True,
+)
+writing_engine = create_engine(
+	url=get_writing_db_url(),
+	echo=False,
+	pool_size=5,
+	max_overflow=10,
+	pool_timeout=30,
+	pool_recycle=1800,
+	pool_pre_ping=True,
+)
 
+# class_: session class to instantiate (Session)
+# autoflush: flush pending changes before each query (True)
+# autocommit: legacy 1.x flag, keep False for explicit commit()/rollback()
+# expire_on_commit: expire attributes after commit, forces fresh read next access (True)
+# info: free-form dict on the session
 ReadingSession = sessionmaker(
 	bind=reading_engine,
 	class_=Session,
-	autoflush=True,  # Takes updated object data from database
+	autoflush=True,
 	autocommit=False,
-	expire_on_commit=True,  # Remove object instance info
+	expire_on_commit=True,
 	info=None,
 )
 
 WritingSession = sessionmaker(
 	bind=writing_engine,
 	class_=Session,
-	autoflush=True,  # Takes updated object data from database
+	autoflush=True,
 	autocommit=False,
-	expire_on_commit=True,  # Remove object instance info
+	expire_on_commit=True,
 	info=None,
 )
